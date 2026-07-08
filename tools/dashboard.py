@@ -205,7 +205,7 @@ def render_lines(model: DashboardModel, width: int = 100, height: int = 32) -> l
     lines.append(
         _fit(
             f"{running:<8} t={_format_seconds(t_ms)}  dt={_format_ms(dt_ms)}  "
-            f"rev={rev}  state_age={age}  {paused}  {mode}  {step_mode}  last={last}  [Space pause] [s STOP]",
+            f"rev={rev}  state_age={age}  {paused}  {mode}  {step_mode}  last={last}  [Space pause] [r reset] [s STOP]",
             width,
         )
     )
@@ -232,7 +232,7 @@ def render_lines(model: DashboardModel, width: int = 100, height: int = 32) -> l
 
     lines.append(sep)
     lines.append(_fit(_format_actions(model.actions), width))
-    lines.append(_fit("keys: [Space] pause/resume  [.] repeat  [a] auto-rerun  [c] coarse/fine  [g] refresh  [S] save  [R] rollback  [q] quit", width))
+    lines.append(_fit("keys: [Space] pause/resume  [r] reset  [.] repeat  [a] auto-rerun  [c] coarse/fine  [g] refresh  [S] save  [R] rollback  [q] quit", width))
     if model.pending_confirm:
         lines.append(_fit(f"confirm {model.pending_confirm}: press y to run, n/Esc to cancel", width))
     elif model.status:
@@ -267,7 +267,12 @@ def handle_key(
 
     if session.pending_confirm:
         if key in (ord("y"), ord("Y")):
-            session.status = _send_and_describe({"cmd": session.pending_confirm}, host, port, timeout)
+            if session.pending_confirm == "reset":
+                # reset 은 plain cmd 가 아니라 스테이지 액션(do)이다.
+                request = {"cmd": "do", "action": "reset", "args": {"source": "dashboard"}}
+            else:
+                request = {"cmd": session.pending_confirm}
+            session.status = _send_and_describe(request, host, port, timeout)
             session.pending_confirm = ""
         elif key in (27, ord("n"), ord("N")):
             session.status = f"{session.pending_confirm} canceled"
@@ -302,6 +307,10 @@ def handle_key(
     elif key in (ord("c"), ord("C")):
         session.coarse_step = not session.coarse_step
         session.status = "step mode {}".format("coarse" if session.coarse_step else "fine")
+    elif key == ord("r"):
+        # 세션 리셋(출발 대기 복귀) — 탐색 상태를 통째로 버리므로 confirm 을 거친다.
+        session.pending_confirm = "reset"
+        session.status = "confirm reset"
     elif key == ord("S"):
         session.pending_confirm = "save"
         session.status = "confirm save"
