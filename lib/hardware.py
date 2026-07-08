@@ -37,9 +37,16 @@ run_maze_v12 추가(2026-07-07): 그리퍼(outC MediumMotor) + 초음파(in4) + 
   - read_distance_cm()         : in4 초음파 거리(cm).
   - tone()                     : 주파수/길이 지정 tone(best-effort, beep_ok 와 동급).
 
+final_run4 추가(2026-07-08): 브릭 가운데 버튼 시작 + wav 음성 + LCD 기록 표시.
+  - wait_center_button()        : 가운데/enter 버튼 press→release 대기(timeout 지원).
+  - play_wav()/tone()/beep_ok() : 백그라운드 큐 재생(비블로킹) — 주행을 막지 않고
+                                  넣은 순서대로 재생. Sound 볼륨은 __init__ 에서 100%.
+  - show_final4_display()       : OUT/BACK 시간과 하단 랜덤 숫자 표시(best-effort, 락).
+
 규약: 브릭 코드는 Python 3.5 안전 — f-string 금지, .format() 사용.
 """
 
+import threading
 import time
 
 # --- 파일 맨 위 상수 (live param 아님; STAGES.md "좌/우 트림은 상수로 시작") ---
@@ -88,8 +95,21 @@ class Ev3Hardware(object):
         try:
             from ev3dev2.sound import Sound
             self._sound = Sound()
+            try:
+                self._sound.set_volume(100)   # final_run4: 항상 최대 볼륨
+            except Exception:
+                pass
         except Exception:
             self._sound = None
+
+        # final_run4: 소리는 백그라운드 큐에서 순서대로 재생한다 — 주행 루프가
+        # 재생 완료를 기다리지 않고 '움직이면서' 소리가 난다. 지연 시작(_ensure_audio).
+        self._audio_queue = []
+        self._audio_cv = threading.Condition()
+        self._audio_thread = None
+        # final_run4: LCD 를 백그라운드 갱신 스레드와 이벤트 핸들러가 함께 그리므로
+        # PIL 이미지 동시 접근을 직렬화한다.
+        self._display_lock = threading.Lock()
 
     def read_center_reflect(self):
         """in2 반사광(0~100). 속성 접근이 모드를 COL-REFLECT 로 맞춘다(Stage 0 과 동일)."""
@@ -127,13 +147,8 @@ class Ev3Hardware(object):
         return self._left.position, self._right.position
 
     def beep_ok(self):
-        """회전 완료 신호음(best-effort). Sound 가 없으면 조용히 통과."""
-        if self._sound is None:
-            return
-        try:
-            self._sound.beep()
-        except Exception:
-            pass
+        """회전 완료 신호음(best-effort, 비블로킹). Sound 가 없으면 조용히 통과."""
+        self._audio_enqueue(("beep",))
 
     # --- Stage 3 추가(좌/중/우 반사광 + 거리 환산용 엔코더 평균). __init__ 불변. ---
 
@@ -260,10 +275,153 @@ class Ev3Hardware(object):
         return self._ultrasonic.distance_centimeters
 
     def tone(self, freq_hz, dur_ms):
-        """단일 tone(대기 재생, best-effort). Sound 가 없거나 실패하면 조용히 통과."""
+        """단일 tone(비블로킹 큐 재생, best-effort). Sound 가 없으면 조용히 통과."""
+        self._audio_enqueue(("tone", freq_hz, dur_ms / 1000.0))
+
+    # --- final_run4: 소리 백그라운드 큐(주행을 막지 않는다) ---
+
+    def _ensure_audio(self):
+        """오디오 워커 스레드를 첫 재생 시에만 띄운다(daemon)."""
+        if self._audio_thread is not None:
+            return
+        t = threading.Thread(target=self._audio_worker, name="audio")
+        t.daemon = True
+        self._audio_thread = t
+        t.start()
+
+    def _audio_enqueue(self, item):
+        """재생 항목을 큐에 넣는다. 워커가 순서대로(직렬) 재생하므로 red→number
+        같은 연속 재생의 순서는 보장되고, 호출자(주행 루프)는 막히지 않는다."""
         if self._sound is None:
             return
+        self._ensure_audio()
+        with self._audio_cv:
+            self._audio_queue.append(item)
+            self._audio_cv.notify()
+
+    def _audio_worker(self):
+        while True:
+            with self._audio_cv:
+                while not self._audio_queue:
+                    self._audio_cv.wait()
+                item = self._audio_queue.pop(0)
+            kind = item[0]
+            try:
+                if kind == "wav":
+                    self._sound.play_file(item[1])       # 기본 = 완료까지(워커 안에서만)
+                elif kind == "tone":
+                    self._sound.play_tone(item[1], item[2])
+                elif kind == "beep":
+                    self._sound.beep()
+            except Exception:
+                pass
+
+    # --- final_run4 추가(버튼 시작 + wav 음성 + LCD 표시). 위 메서드 불변. ---
+
+    def _ensure_button(self):
+        """브릭 버튼 객체를 첫 사용 시에만 연다."""
+        if getattr(self, "_button", None) is None:
+            from ev3dev2.button import Button
+            self._button = Button()
+
+    def _center_button_pressed(self):
+        """ev3dev2 버전 차이를 흡수해 가운데/enter 버튼 눌림 여부를 읽는다."""
+        self._ensure_button()
+        for name in ("enter", "enter_button"):
+            if hasattr(self._button, name):
+                value = getattr(self._button, name)
+                try:
+                    return bool(value() if callable(value) else value)
+                except Exception:
+                    pass
         try:
-            self._sound.play_tone(freq_hz, dur_ms / 1000.0)
+            pressed = self._button.buttons_pressed
+            if callable(pressed):
+                pressed = pressed()
+            return "enter" in pressed or "center" in pressed
         except Exception:
-            pass
+            return False
+
+    def wait_center_button(self, stop_cb=None, reset_cb=None, poll_s=0.05,
+                           timeout=None):
+        """가운데 버튼 press→release 를 기다린다.
+
+        반환: True=눌렀다 뗌 / False=중단·리셋 / None=timeout(그 안에 안 눌림).
+        timeout 을 주면 블로킹하지 않아 호출자가 그 사이 대시보드 액션
+        (calibrate 등)을 처리할 수 있다(final_run4 시작 대기)."""
+        try:
+            self._ensure_button()
+        except Exception:
+            return False
+        deadline = None if timeout is None else time.monotonic() + timeout
+        while True:
+            if stop_cb is not None and stop_cb():
+                return False
+            if reset_cb is not None and reset_cb():
+                return False
+            if self._center_button_pressed():
+                break
+            if deadline is not None and time.monotonic() >= deadline:
+                return None
+            time.sleep(poll_s)
+        while self._center_button_pressed():
+            if stop_cb is not None and stop_cb():
+                return False
+            if reset_cb is not None and reset_cb():
+                return False
+            time.sleep(poll_s)
+        return True
+
+    def play_wav(self, path):
+        """wav 파일 재생(비블로킹 큐, best-effort). 주행 루프는 막지 않고,
+        큐에 넣은 순서대로(워커 스레드 안에서 완료까지) 재생돼 순서는 보장된다."""
+        self._audio_enqueue(("wav", path))
+
+    def show_final4_display(self, out_elapsed=None, return_elapsed=None,
+                            bottom_number=None):
+        """final_run4 기록 표시(best-effort): 위 OUT, 그 아래 BACK, 맨 아래 숫자."""
+        try:
+            from ev3dev2.display import Display
+            from PIL import ImageDraw, ImageFont
+        except Exception:
+            return
+        # 백그라운드 갱신 스레드와 이벤트 핸들러가 함께 호출하므로 직렬화한다.
+        with self._display_lock:
+            try:
+                self._draw_final4_display(Display, ImageDraw, ImageFont,
+                                          out_elapsed, return_elapsed, bottom_number)
+            except Exception:
+                pass
+
+    def _draw_final4_display(self, Display, ImageDraw, ImageFont,
+                             out_elapsed, return_elapsed, bottom_number):
+        if getattr(self, "_display", None) is None:
+            self._display = Display()
+        display = self._display
+        display.clear()
+        draw = ImageDraw.Draw(display.image)
+        # 폰트는 한 번만 로드해 캐시한다 — 유지 스레드가 초당 여러 번 그리므로
+        # 매번 디스크에서 truetype 을 읽으면 EV3 CPU 가 버벅인다.
+        if getattr(self, "_fonts", None) is None:
+            try:
+                path = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+                self._fonts = (ImageFont.truetype(path, 22),
+                               ImageFont.truetype(path, 42))
+            except Exception:
+                self._fonts = (ImageFont.load_default(), ImageFont.load_default())
+        font_big, font_num = self._fonts
+        if out_elapsed is not None:
+            draw.text((0, 0), "OUT {:.1f}s".format(out_elapsed),
+                      font=font_big, fill=0)
+        if return_elapsed is not None:
+            draw.text((0, 30), "BACK {:.1f}s".format(return_elapsed),
+                      font=font_big, fill=0)
+        if bottom_number is not None:
+            text = str(bottom_number)
+            try:
+                width, height = draw.textsize(text, font=font_num)
+            except Exception:
+                width, height = (24, 24)
+            draw.text(((178 - width) // 2, max(62, 128 - height - 2)),
+                      text, font=font_num, fill=0)
+        display.update()
