@@ -1,0 +1,327 @@
+{
+  "changes": [
+    {
+      "name": "base_speed",
+      "new": 10,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "cal_l_black",
+      "new": 13,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "cal_l_white",
+      "new": 78,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "cal_r_black",
+      "new": 1,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "cal_r_white",
+      "new": 79,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "deadband",
+      "new": 3.0,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 100,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.0,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "grip_speed",
+      "new": 50,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "ki",
+      "new": 0.06,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "kp",
+      "new": 0.16,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "left_th_node",
+      "new": 18,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "left_th_steer",
+      "new": 66,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "lost_max_recover",
+      "new": 3,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 200,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 60,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 40,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "right_th_node",
+      "new": 14,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "right_th_steer",
+      "new": 63,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.71,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.66,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "turn_speed",
+      "new": 10,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 49816
+    },
+    {
+      "name": "cal_l_black",
+      "new": 15,
+      "old": 13,
+      "rev": 9,
+      "source": "watcher:get",
+      "t_ms": 55742
+    },
+    {
+      "name": "cal_l_white",
+      "new": 79,
+      "old": 78,
+      "rev": 9,
+      "source": "watcher:get",
+      "t_ms": 55742
+    },
+    {
+      "name": "cal_r_black",
+      "new": 26,
+      "old": 1,
+      "rev": 9,
+      "source": "watcher:get",
+      "t_ms": 55742
+    },
+    {
+      "name": "cal_r_white",
+      "new": 78,
+      "old": 79,
+      "rev": 9,
+      "source": "watcher:get",
+      "t_ms": 55742
+    },
+    {
+      "name": "cal_l_black",
+      "new": 8,
+      "old": 15,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 74155
+    },
+    {
+      "name": "cal_l_white",
+      "new": 77,
+      "old": 79,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 74155
+    },
+    {
+      "name": "cal_r_black",
+      "new": 9,
+      "old": 26,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 74155
+    },
+    {
+      "name": "cal_r_white",
+      "new": 79,
+      "old": 78,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 74155
+    },
+    {
+      "name": "deadband",
+      "new": 3.5,
+      "old": 3.0,
+      "rev": 14,
+      "source": "watcher:get",
+      "t_ms": 77991
+    },
+    {
+      "name": "cal_l_white",
+      "new": 78,
+      "old": 77,
+      "rev": 24,
+      "source": "watcher:get",
+      "t_ms": 174563
+    },
+    {
+      "name": "cal_r_white",
+      "new": 78,
+      "old": 79,
+      "rev": 24,
+      "source": "watcher:get",
+      "t_ms": 174563
+    },
+    {
+      "name": "cal_r_black",
+      "new": 8,
+      "old": 9,
+      "rev": 28,
+      "source": "watcher:get",
+      "t_ms": 181693
+    },
+    {
+      "name": "cal_l_white",
+      "new": 79,
+      "old": 78,
+      "rev": 40,
+      "source": "watcher:get",
+      "t_ms": 204933
+    },
+    {
+      "name": "cal_r_black",
+      "new": 9,
+      "old": 8,
+      "rev": 40,
+      "source": "watcher:get",
+      "t_ms": 204933
+    },
+    {
+      "name": "deadband",
+      "new": 3.0,
+      "old": 3.5,
+      "rev": 41,
+      "source": "watcher:get",
+      "t_ms": 295541
+    },
+    {
+      "name": "ki",
+      "new": 0.05,
+      "old": 0.06,
+      "rev": 42,
+      "source": "watcher:get",
+      "t_ms": 374632
+    },
+    {
+      "name": "kp",
+      "new": 0.15,
+      "old": 0.16,
+      "rev": 43,
+      "source": "watcher:get",
+      "t_ms": 377086
+    },
+    {
+      "name": "kp",
+      "new": 0.14,
+      "old": 0.15,
+      "rev": 44,
+      "source": "watcher:get",
+      "t_ms": 377998
+    }
+  ],
+  "initial": {},
+  "stage": "final_run1",
+  "started": "2026-07-08T17-09-17"
+}

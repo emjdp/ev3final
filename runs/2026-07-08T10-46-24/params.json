@@ -1,0 +1,151 @@
+{
+  "changes": [
+    {
+      "name": "base_speed",
+      "new": 9,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 100,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "grip_speed",
+      "new": 50,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "kp",
+      "new": 0.17,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "left_th_node",
+      "new": 18,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "left_th_steer",
+      "new": 66,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "lost_max_recover",
+      "new": 3,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 200,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 60,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 40,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "right_th_node",
+      "new": 14,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "right_th_steer",
+      "new": 63,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.71,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.66,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "turn_speed",
+      "new": 10,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 77571
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 30,
+      "old": 40,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 509825
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 20,
+      "old": 30,
+      "rev": 4,
+      "source": "watcher:get",
+      "t_ms": 512759
+    }
+  ],
+  "initial": {},
+  "stage": "run_maze_v13",
+  "started": "2026-07-08T10-46-24"
+}

@@ -1,0 +1,127 @@
+{
+  "changes": [
+    {
+      "name": "base_speed",
+      "new": 8,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 20,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.0,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "grip_speed",
+      "new": 50,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "kp",
+      "new": 0.18,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "left_th_node",
+      "new": 18,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "left_th_steer",
+      "new": 66,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 60,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 40,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "right_th_node",
+      "new": 14,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "right_th_steer",
+      "new": 63,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.71,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.66,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "turn_speed",
+      "new": 6,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 108333
+    },
+    {
+      "name": "base_speed",
+      "new": 9,
+      "old": 8,
+      "rev": 3,
+      "source": "watcher:get",
+      "t_ms": 241519
+    }
+  ],
+  "initial": {},
+  "stage": "run_maze_v12",
+  "started": "2026-07-08T09-34-29"
+}

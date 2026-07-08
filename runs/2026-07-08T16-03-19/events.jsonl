@@ -1,0 +1,329 @@
+{"event": "SESSION_READY", "last_reason": "START", "param_rev": 1, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 8469}
+{"event": "START", "last_reason": "START", "param_rev": 1, "reason": "COLOR_YELLOW", "running": true, "t_ms": 9862}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 12379, "turn": -0.18}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 79, "running": true, "t_ms": 12963, "turn": 0.59}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 16749, "turn": 0.18}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 17869, "turn": -0.07}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 18124, "turn": 0.0}
+{"bits": "010", "error": -2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 76, "running": true, "t_ms": 18399, "turn": -0.36}
+{"bits": "010", "error": -2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 75, "running": true, "t_ms": 19373, "turn": -0.53}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 19671, "turn": 0.12}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 19896, "turn": 0.6}
+{"bits": "010", "error": 3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 79, "running": true, "t_ms": 25392, "turn": 0.78}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 25639, "turn": 0.04}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 79, "running": true, "t_ms": 25971, "turn": 0.42}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 76, "running": true, "t_ms": 26910, "turn": 0.17}
+{"bits": "110", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 27795}
+{"event": "NODE_NEW", "id": 0, "last_reason": "PROBE", "param_rev": 1, "reason": "FIRST", "running": true, "t_ms": 29673}
+{"arm": "N", "event": "PROBE", "last_reason": "PROBE", "move": "L", "param_rev": 1, "reason": "PRIORITY_L_R_S", "running": true, "t_ms": 29674, "work": 0}
+{"enc_avg": 129.5, "error_deg": 2.1, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 32712, "target_deg": 127.4}
+{"color": 2, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "L", "param_rev": 1, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 32718}
+{"deg": 10.0, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "SCAN_L", "running": true, "t_ms": 33170}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 33208, "turn": -0.17}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 72, "reflect_r": 71, "running": true, "t_ms": 35863, "turn": 0.16}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 74, "reflect_r": 76, "running": true, "t_ms": 41184, "turn": 0.5}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 75, "reflect_r": 77, "running": true, "t_ms": 41472, "turn": 0.1}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 42652, "turn": 0.42}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 49911, "turn": -0.16}
+{"bits": "011", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 50119}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 55279, "turn": -0.1}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 79, "reflect_r": 78, "running": true, "t_ms": 55561, "turn": -0.35}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 76, "running": true, "t_ms": 56890, "turn": 0.07}
+{"bits": "010", "error": 28.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 47, "reflect_r": 75, "running": true, "t_ms": 57203, "turn": 8.86}
+{"enc_avg": 130.0, "error_deg": 2.6, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 62123, "target_deg": 127.4}
+{"color": 6, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "L", "param_rev": 1, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 62131}
+{"deg": 7.5, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "SCAN_L", "running": true, "t_ms": 62459}
+{"bits": "010", "error": 10.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 65, "reflect_r": 75, "running": true, "t_ms": 62515, "turn": 1.7}
+{"bits": "010", "error": 3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 75, "reflect_r": 78, "running": true, "t_ms": 63072, "turn": -0.06}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 74, "reflect_r": 74, "running": true, "t_ms": 65309, "turn": -0.0}
+{"bits": "111", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 65493}
+{"enc_avg": 131.5, "error_deg": 4.1, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 70025, "target_deg": 127.4}
+{"color": 2, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "L", "param_rev": 1, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 70038}
+{"deg": 12.0, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "SCAN_L", "running": true, "t_ms": 70533}
+{"bits": "010", "error": -5.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 71, "running": true, "t_ms": 70604, "turn": -0.85}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 71, "reflect_r": 73, "running": true, "t_ms": 71139, "turn": 0.83}
+{"bits": "010", "error": 7.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 68, "reflect_r": 75, "running": true, "t_ms": 71396, "turn": 1.92}
+{"bits": "010", "error": 3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 69, "reflect_r": 72, "running": true, "t_ms": 71789, "turn": 0.12}
+{"bits": "000", "error": -11.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 71, "reflect_r": 60, "running": true, "t_ms": 73319, "turn": -2.41}
+{"bits": "010", "error": -30.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 70, "reflect_r": 40, "running": true, "t_ms": 73598, "turn": -9.01}
+{"bits": "011", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 73676}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 77992, "turn": -0.2}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 78273, "turn": 0.27}
+{"bits": "010", "error": -6.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 72, "running": true, "t_ms": 79777, "turn": -0.92}
+{"enc_avg": 276.0, "error_deg": 1.9, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 85796, "target_deg": 274.1}
+{"arm": "N", "event": "PROBE_END", "kind": "red", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "ARM_DONE", "running": true, "t_ms": 85805, "work": 1}
+{"bits": "010", "error": 4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 72, "reflect_r": 76, "running": true, "t_ms": 85878, "turn": 0.68}
+{"bits": "010", "error": 4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 72, "reflect_r": 76, "running": true, "t_ms": 86151, "turn": 0.8}
+{"bits": "010", "error": 3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 72, "reflect_r": 75, "running": true, "t_ms": 87364, "turn": 0.27}
+{"bits": "110", "color": 1, "creep_mm": 3.4, "event": "NODE_CONFIRMED", "first_bits": "110", "last_reason": "NODE_CONFIRMED", "param_rev": 1, "reason": "SLOW_STRAIGHT_STOP", "reflect_l": 8, "reflect_r": 75, "running": true, "t_ms": 87609}
+{"bits": "010", "error": 7.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 70, "reflect_r": 77, "running": true, "t_ms": 93798, "turn": 0.89}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 73, "reflect_r": 75, "running": true, "t_ms": 94142, "turn": -0.71}
+{"bits": "011", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 94987}
+{"enc_avg": 133.5, "error_deg": 6.1, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 99012, "target_deg": 127.4}
+{"bits": "010", "error": 3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 79, "running": true, "t_ms": 99081, "turn": 0.51}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 99385, "turn": -0.13}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 79, "running": true, "t_ms": 99994, "turn": 0.07}
+{"event": "LOST_SUSPECT", "last_reason": "LINE_FOLLOW", "param_rev": 1, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 101181}
+{"event": "LINE_LOST", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 101288}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 0, "t_ms": 101291}
+{"deg": 5.5, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "SCAN_L", "running": true, "t_ms": 101742}
+{"dist_mm": 0.7, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 101745}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 68, "reflect_r": 69, "running": true, "t_ms": 101809, "turn": 0.17}
+{"bits": "010", "error": 4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 66, "reflect_r": 70, "running": true, "t_ms": 102131, "turn": 1.37}
+{"bits": "010", "error": 5.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 65, "reflect_r": 70, "running": true, "t_ms": 103786, "turn": 0.63}
+{"event": "LOST_SUSPECT", "last_reason": "LINE_LOST", "param_rev": 1, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 113965}
+{"event": "LINE_LOST", "last_reason": "LINE_LOST", "param_rev": 1, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 114118}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "LINE_LOST", "param_rev": 1, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 0, "t_ms": 114121}
+{"event": "REALIGN", "last_reason": "DEAD_END", "param_rev": 1, "reason": "NOT_FOUND", "running": true, "scan_deg": 218.0, "t_ms": 119329}
+{"dist_mm": 4.2, "event": "DEAD_END", "last_reason": "DEAD_END", "param_rev": 1, "reason": "REALIGN_NO_LINE", "running": true, "t_ms": 119331}
+{"event": "LOST_SUSPECT", "last_reason": "LINE_FOLLOW", "param_rev": 1, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 124302}
+{"event": "LINE_LOST", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 124457}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 0, "t_ms": 124460}
+{"deg": 12.5, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "SCAN_L", "running": true, "t_ms": 124993}
+{"dist_mm": 1.5, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 124995}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 125036, "turn": 0.17}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 125311, "turn": -0.24}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 79, "running": true, "t_ms": 125592, "turn": 0.75}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 125883, "turn": 0.37}
+{"bits": "010", "error": 6.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 72, "reflect_r": 78, "running": true, "t_ms": 126841, "turn": 1.26}
+{"bits": "110", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 127533}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 133797, "turn": -0.25}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 134125, "turn": 0.59}
+{"enc_avg": 279.0, "error_deg": 4.9, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 139775, "target_deg": 274.1}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 139811, "turn": -0.17}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 141056, "turn": -0.05}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 146902, "turn": -0.16}
+{"bits": "010", "error": -2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 76, "running": true, "t_ms": 147129, "turn": -0.53}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 75, "reflect_r": 76, "running": true, "t_ms": 148033, "turn": 0.63}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 74, "reflect_r": 75, "running": true, "t_ms": 153548, "turn": 0.03}
+{"bits": "010", "error": -2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 74, "reflect_r": 72, "running": true, "t_ms": 153860, "turn": -1.02}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 74, "reflect_r": 73, "running": true, "t_ms": 154113, "turn": -0.29}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 72, "reflect_r": 73, "running": true, "t_ms": 155355, "turn": 0.06}
+{"bits": "010", "error": 11.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 63, "reflect_r": 74, "running": true, "t_ms": 156031, "turn": 3.45}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 79, "running": true, "t_ms": 160792, "turn": 0.13}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 161106, "turn": -0.38}
+{"bits": "010", "error": 3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 74, "reflect_r": 77, "running": true, "t_ms": 163553, "turn": 0.5}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 163882, "turn": -0.68}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 164133, "turn": 0.23}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 75, "reflect_r": 77, "running": true, "t_ms": 165302, "turn": 0.03}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 165546, "turn": 0.02}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 165796, "turn": 0.22}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 166060, "turn": 0.13}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 166370, "turn": -0.07}
+{"enc_avg": 282.0, "error_deg": 7.9, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 174044, "target_deg": 274.1}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 174114, "turn": 0.17}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 79, "running": true, "t_ms": 174341, "turn": 0.88}
+{"bits": "010", "error": -2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 76, "running": true, "t_ms": 175855, "turn": -0.62}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 176134, "turn": -0.4}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 176572, "turn": 0.32}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 176833, "turn": 0.03}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 177154, "turn": 0.01}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 75, "reflect_r": 75, "running": true, "t_ms": 178847, "turn": -0.22}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 180340, "turn": 0.25}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 180644, "turn": -0.28}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 186873, "turn": -0.08}
+{"bits": "000", "error": 9.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 66, "reflect_r": 75, "running": true, "t_ms": 188002, "turn": 2.65}
+{"bits": "100", "error": 64.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 9, "reflect_r": 73, "running": true, "t_ms": 189408, "turn": 15.4}
+{"bits": "110", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 189484}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 197928, "turn": 0.37}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 75, "reflect_r": 75, "running": true, "t_ms": 199447, "turn": -0.53}
+{"bits": "110", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 200114}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 79, "running": true, "t_ms": 205664, "turn": 0.06}
+{"bits": "010", "error": -2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 79, "reflect_r": 77, "running": true, "t_ms": 206843, "turn": -0.45}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 207195, "turn": 0.26}
+{"bits": "010", "error": 3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 75, "reflect_r": 78, "running": true, "t_ms": 209265, "turn": 0.8}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 209952, "turn": 0.33}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 210232, "turn": 0.24}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 212735, "turn": -0.27}
+{"color": 4, "context": "follow", "event": "MARKER", "ex_mode": "HOME", "last_reason": "HOME_REACHED", "param_rev": 1, "reason": "COLOR_YELLOW_IMMEDIATE", "running": true, "session": 1, "t_ms": 214490}
+{"event": "HOME_REACHED", "last_reason": "HOME_REACHED", "param_rev": 1, "plan_left": 0, "reason": "COLOR_YELLOW", "running": true, "t_ms": 214492}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 249767, "turn": 0.0}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 250079, "turn": 0.52}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 250366, "turn": 0.31}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 251922, "turn": 0.15}
+{"bits": "011", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 253174}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 76, "reflect_r": 76, "running": true, "t_ms": 256768, "turn": 0.17}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 78, "reflect_r": 79, "running": true, "t_ms": 257023, "turn": 0.31}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 257292, "turn": 0.36}
+{"bits": "010", "error": -4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 76, "reflect_r": 72, "running": true, "t_ms": 257571, "turn": -1.87}
+{"bits": "110", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 257739}
+{"bits": "110", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 262926}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 75, "reflect_r": 75, "running": true, "t_ms": 266380, "turn": 0.05}
+{"enc_avg": 287.5, "error_deg": 13.4, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 271012, "target_deg": 274.1}
+{"color": 6, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "U", "param_rev": 65, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 271022}
+{"deg": 5.0, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "SCAN_L", "running": true, "t_ms": 271282}
+{"bits": "000", "error": 5.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 70, "reflect_r": 75, "running": true, "t_ms": 271321, "turn": 0.85}
+{"event": "LOST_SUSPECT", "last_reason": "LINE_LOST", "param_rev": 65, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 271695}
+{"event": "LINE_LOST", "last_reason": "LINE_LOST", "param_rev": 65, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 271836}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "LINE_LOST", "param_rev": 65, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 0, "t_ms": 271842}
+{"deg": 6.0, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "SCAN_L", "running": true, "t_ms": 272312}
+{"dist_mm": 2.2, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 272313}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 75, "reflect_r": 75, "running": true, "t_ms": 272380, "turn": 0.0}
+{"bits": "011", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 273041}
+{"bits": "001", "color": 2, "event": "NODE_CANDIDATE", "first_bits": "011", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "CANCELLED_AT_STOP", "reflect_l": 64, "reflect_r": 11, "running": true, "t_ms": 273249}
+{"bits": "011", "error": -46.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 56, "reflect_r": 10, "running": true, "t_ms": 273296, "turn": -7.82}
+{"bits": "010", "error": 7.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 65, "reflect_r": 72, "running": true, "t_ms": 287743, "turn": 0.91}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 75, "reflect_r": 74, "running": true, "t_ms": 288575, "turn": -0.77}
+{"bits": "000", "error": -31.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 75, "reflect_r": 44, "running": true, "t_ms": 288843, "turn": -9.69}
+{"bits": "010", "error": 18.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 53, "reflect_r": 71, "running": true, "t_ms": 289729, "turn": 6.28}
+{"enc_avg": 279.0, "error_deg": 4.9, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 301601, "target_deg": 274.1}
+{"color": 6, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "U", "param_rev": 65, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 301619}
+{"event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "NOT_FOUND", "running": true, "scan_deg": 217.0, "t_ms": 307039}
+{"arm": "S", "event": "PROBE_END", "kind": "dead_end", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "ARM_DONE", "running": true, "t_ms": 307046, "work": 0}
+{"bits": "000", "error": 4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 65, "reason": "PD", "reflect_l": 72, "reflect_r": 76, "running": true, "t_ms": 307115, "turn": 0.68}
+{"event": "LOST_SUSPECT", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 307450}
+{"event": "LINE_LOST", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 307603}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 0, "t_ms": 307607}
+{"event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "ALREADY_ON_LINE", "running": true, "t_ms": 307748}
+{"dist_mm": 13.9, "event": "LINE_RECOVER", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 307751}
+{"bits": "111", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 307803}
+{"event": "RESUME", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "NETWORK", "running": true, "source": "dashboard", "t_ms": 313016}
+{"bits": "101", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 65, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 313088}
+{"enc_avg": 291.5, "error_deg": 17.4, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 91, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 330794, "target_deg": 274.1}
+{"bits": "000", "error": -12.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 91, "reason": "PD", "reflect_l": 47, "reflect_r": 35, "running": true, "t_ms": 331010, "turn": -2.04}
+{"enc_avg": 291.5, "error_deg": 17.4, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 103, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 345223, "target_deg": 274.1}
+{"bits": "000", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 103, "reason": "PD", "reflect_l": 41, "reflect_r": 40, "running": true, "t_ms": 345279, "turn": -0.17}
+{"enc_avg": 280.5, "error_deg": 6.4, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 108, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 358212, "target_deg": 274.1}
+{"color": 0, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "U", "param_rev": 108, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 358222}
+{"event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 108, "reason": "NOT_FOUND", "running": true, "scan_deg": 219.0, "t_ms": 363224}
+{"bits": "101", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 108, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 363282}
+{"enc_avg": 134.5, "error_deg": 7.1, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 112, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 367541, "target_deg": 127.4}
+{"color": 0, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "R", "param_rev": 112, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 367547}
+{"event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 112, "reason": "NOT_FOUND", "running": true, "scan_deg": 217.0, "t_ms": 372659}
+{"bits": "101", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 112, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 372761}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 387524, "turn": 0.21}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 387778, "turn": -0.12}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 391338, "turn": 0.17}
+{"event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "ALREADY_ON_LINE", "running": true, "t_ms": 392958}
+{"dist_mm": 37.1, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 3, "t_ms": 392960}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 392998, "turn": 0.17}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 393290, "turn": -0.28}
+{"bits": "000", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 393590, "turn": -0.55}
+{"enc_avg": 278.5, "error_deg": 4.4, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 396641, "target_deg": 274.1}
+{"color": 7, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "U", "param_rev": 114, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 396660}
+{"event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "ALREADY_ON_LINE", "running": true, "t_ms": 396673}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 396785, "turn": -0.17}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 78, "reflect_r": 79, "running": true, "t_ms": 397059, "turn": 0.43}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 397317, "turn": 0.03}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 397581, "turn": -0.41}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 397829, "turn": -0.11}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 114, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 398102, "turn": -0.33}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 445560, "turn": 0.13}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 78, "reflect_r": 79, "running": true, "t_ms": 445869, "turn": -0.04}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 446822, "turn": -0.33}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 447063, "turn": 0.24}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 447313, "turn": -0.11}
+{"bits": "010", "error": 4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 75, "reflect_r": 79, "running": true, "t_ms": 448586, "turn": 0.86}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 449821, "turn": -0.25}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 450075, "turn": -0.34}
+{"enc_avg": 129.5, "error_deg": 2.1, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 454897, "target_deg": 127.4}
+{"bits": "010", "error": -8.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 39, "reflect_r": 31, "running": true, "t_ms": 454982, "turn": -1.36}
+{"bits": "010", "error": 5.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 71, "reflect_r": 76, "running": true, "t_ms": 460903, "turn": 1.1}
+{"bits": "000", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 465546, "turn": 0.27}
+{"event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "ALREADY_ON_LINE", "running": true, "t_ms": 466515}
+{"dist_mm": 23.0, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 466517}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 466558, "turn": 0.17}
+{"bits": "000", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 75, "reflect_r": 76, "running": true, "t_ms": 466903, "turn": 0.17}
+{"event": "LOST_SUSPECT", "last_reason": "LINE_LOST", "param_rev": 175, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 467167}
+{"event": "LINE_LOST", "last_reason": "LINE_LOST", "param_rev": 175, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 467299}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "LINE_LOST", "param_rev": 175, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 1, "t_ms": 467302}
+{"bits": "000", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 74, "reflect_r": 76, "running": true, "t_ms": 468317, "turn": 0.6}
+{"event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "ALREADY_ON_LINE", "running": true, "t_ms": 469286}
+{"dist_mm": 23.5, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 3, "t_ms": 469288}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 469329, "turn": 0.17}
+{"bits": "000", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 74, "reflect_r": 74, "running": true, "t_ms": 469620, "turn": -0.06}
+{"bits": "010", "error": -4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 72, "reflect_r": 68, "running": true, "t_ms": 470171, "turn": -2.94}
+{"bits": "000", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 74, "reflect_r": 76, "running": true, "t_ms": 471043, "turn": 0.8}
+{"bits": "010", "error": -6.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 77, "reflect_r": 71, "running": true, "t_ms": 476560, "turn": -1.87}
+{"bits": "010", "error": -3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 75, "reflect_r": 72, "running": true, "t_ms": 476929, "turn": -0.5}
+{"bits": "000", "error": 37.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 38, "reflect_r": 75, "running": true, "t_ms": 481912, "turn": 10.51}
+{"bits": "010", "error": 3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 73, "reflect_r": 76, "running": true, "t_ms": 482952, "turn": 0.77}
+{"enc_avg": 132.5, "error_deg": 5.1, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 487309, "target_deg": 127.4}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 70, "reflect_r": 71, "running": true, "t_ms": 487356, "turn": 0.17}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 62, "reflect_r": 64, "running": true, "t_ms": 489321, "turn": 0.32}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 73, "reflect_r": 75, "running": true, "t_ms": 496793, "turn": -0.05}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 497076, "turn": 0.07}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 497343, "turn": -0.15}
+{"bits": "000", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 66, "reflect_r": 68, "running": true, "t_ms": 498449, "turn": 1.3}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 68, "reflect_r": 68, "running": true, "t_ms": 503319, "turn": -1.19}
+{"bits": "010", "error": -3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 71, "reflect_r": 68, "running": true, "t_ms": 503794, "turn": -1.37}
+{"bits": "010", "error": 4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 69, "reflect_r": 73, "running": true, "t_ms": 511121, "turn": 1.4}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 71, "reflect_r": 73, "running": true, "t_ms": 511452, "turn": 0.59}
+{"color": 5, "context": "follow", "event": "MARKER", "ex_mode": "RETURN_TO_WORK", "last_reason": "MARKER", "param_rev": 175, "reason": "COLOR_RED_IMMEDIATE", "running": true, "session": 5, "t_ms": 513125}
+{"bits": "010", "error": -3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 77, "reflect_r": 74, "running": true, "t_ms": 518064, "turn": -0.86}
+{"bits": "000", "error": -5.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 74, "reflect_r": 69, "running": true, "t_ms": 518632, "turn": -0.56}
+{"enc_avg": 136.5, "error_deg": 9.1, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 522559, "target_deg": 127.4}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 75, "reflect_r": 74, "running": true, "t_ms": 522604, "turn": -0.17}
+{"bits": "010", "error": -4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 75, "reflect_r": 71, "running": true, "t_ms": 522905, "turn": -1.24}
+{"bits": "010", "error": -5.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 78, "reflect_r": 73, "running": true, "t_ms": 523127, "turn": -1.14}
+{"bits": "000", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 76, "reflect_r": 75, "running": true, "t_ms": 523756, "turn": -0.21}
+{"event": "LOST_SUSPECT", "last_reason": "LINE_LOST", "param_rev": 175, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 523902}
+{"event": "LINE_LOST", "last_reason": "LINE_LOST", "param_rev": 175, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 524056}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "LINE_LOST", "param_rev": 175, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 0, "t_ms": 524059}
+{"event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "ALREADY_ON_LINE", "running": true, "t_ms": 524549}
+{"dist_mm": 21.5, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 524552}
+{"bits": "010", "error": -2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 78, "reflect_r": 76, "running": true, "t_ms": 524594, "turn": -0.34}
+{"bits": "000", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 73, "reflect_r": 75, "running": true, "t_ms": 524853, "turn": 0.92}
+{"event": "LOST_SUSPECT", "last_reason": "LINE_FOLLOW", "param_rev": 175, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 525126}
+{"event": "LINE_LOST", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 525279}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 1, "t_ms": 525287}
+{"deg": 13.5, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "SCAN_L", "running": true, "t_ms": 525839}
+{"dist_mm": 1.2, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 2, "t_ms": 525841}
+{"bits": "010", "error": -7.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 76, "reflect_r": 69, "running": true, "t_ms": 525877, "turn": -1.19}
+{"bits": "010", "error": -6.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 74, "reflect_r": 68, "running": true, "t_ms": 526160, "turn": -0.87}
+{"bits": "010", "error": -3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 75, "reflect_r": 72, "running": true, "t_ms": 526396, "turn": -0.01}
+{"bits": "111", "confirm_ms": 10, "event": "NODE_CANDIDATE", "last_reason": "NODE_CONFIRMED", "param_rev": 175, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 526728}
+{"bits": "111", "color": 1, "creep_mm": 5.6, "event": "NODE_CONFIRMED", "first_bits": "111", "last_reason": "NODE_CONFIRMED", "param_rev": 175, "reason": "SLOW_STRAIGHT_STOP", "reflect_l": 9, "reflect_r": 10, "running": true, "t_ms": 526932}
+{"bits": "010", "error": -2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 78, "reflect_r": 76, "running": true, "t_ms": 537629, "turn": -0.98}
+{"bits": "010", "error": -3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 78, "reflect_r": 75, "running": true, "t_ms": 537905, "turn": -0.75}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 73, "reflect_r": 74, "running": true, "t_ms": 553898, "turn": -0.13}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 73, "reflect_r": 75, "running": true, "t_ms": 554609, "turn": 0.31}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 71, "reflect_r": 73, "running": true, "t_ms": 554902, "turn": 0.33}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 72, "reflect_r": 74, "running": true, "t_ms": 555390, "turn": -0.24}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 71, "reflect_r": 72, "running": true, "t_ms": 560336, "turn": 0.73}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 74, "reflect_r": 74, "running": true, "t_ms": 560606, "turn": 0.03}
+{"bits": "010", "error": -4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 77, "reflect_r": 73, "running": true, "t_ms": 560888, "turn": -1.56}
+{"event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "ALREADY_ON_LINE", "running": true, "t_ms": 562532}
+{"dist_mm": 23.5, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 562534}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 71, "reflect_r": 71, "running": true, "t_ms": 562602, "turn": 0.0}
+{"bits": "000", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 71, "reflect_r": 73, "running": true, "t_ms": 562865, "turn": 0.93}
+{"bits": "001", "error": -53.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 60, "reflect_r": 7, "running": true, "t_ms": 563845, "turn": -13.54}
+{"bits": "001", "error": -29.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 33, "reflect_r": 4, "running": true, "t_ms": 564094, "turn": -3.95}
+{"bits": "001", "error": -43.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 53, "reflect_r": 10, "running": true, "t_ms": 564684, "turn": -7.64}
+{"bits": "100", "error": 4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 13, "reflect_r": 17, "running": true, "t_ms": 564983, "turn": 2.25}
+{"bits": "000", "error": -31.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 75, "reflect_r": 44, "running": true, "t_ms": 566117, "turn": -9.65}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 73, "reflect_r": 75, "running": true, "t_ms": 566460, "turn": -0.02}
+{"bits": "010", "error": -3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 70, "reflect_r": 67, "running": true, "t_ms": 571901, "turn": 0.58}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 75, "reflect_r": 77, "running": true, "t_ms": 572739, "turn": 0.45}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 572884, "turn": 0.16}
+{"event": "BACK_TO_WORK", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PROBE_END", "running": true, "t_ms": 574971, "work": 2}
+{"arm": "E", "event": "GOTO_PENDING", "last_reason": "LINE_FOLLOW", "move": "S", "param_rev": 175, "pending_left": 0, "reason": "LIFO", "running": true, "t_ms": 574972, "work": 2}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 576212, "turn": 0.34}
+{"bits": "010", "error": 5.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 72, "reflect_r": 77, "running": true, "t_ms": 576916, "turn": 1.16}
+{"bits": "010", "error": 6.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 71, "reflect_r": 77, "running": true, "t_ms": 577853, "turn": 1.02}
+{"bits": "010", "error": 6.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 71, "reflect_r": 77, "running": true, "t_ms": 578112, "turn": 1.02}
+{"bits": "010", "error": 29.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 48, "reflect_r": 77, "running": true, "t_ms": 578474, "turn": 8.23}
+{"bits": "010", "error": 51.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 26, "reflect_r": 77, "running": true, "t_ms": 578843, "turn": 11.21}
+{"bits": "010", "error": 58.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 19, "reflect_r": 77, "running": true, "t_ms": 579376, "turn": 10.99}
+{"bits": "010", "error": 6.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 70, "reflect_r": 76, "running": true, "t_ms": 581208, "turn": 0.91}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 581475, "turn": -0.19}
+{"bits": "100", "error": 3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 16, "reflect_r": 19, "running": true, "t_ms": 582604, "turn": 1.26}
+{"bits": "100", "error": 7.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 15, "reflect_r": 22, "running": true, "t_ms": 583139, "turn": 1.57}
+{"bits": "100", "error": 8.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 14, "reflect_r": 22, "running": true, "t_ms": 583526, "turn": 1.6}
+{"bits": "100", "error": 11.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 13, "reflect_r": 24, "running": true, "t_ms": 583694, "turn": 2.22}
+{"bits": "100", "error": 12.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 14, "reflect_r": 26, "running": true, "t_ms": 583973, "turn": 2.19}
+{"bits": "100", "error": 12.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 14, "reflect_r": 26, "running": true, "t_ms": 584281, "turn": 2.08}
+{"bits": "000", "error": -8.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 54, "reflect_r": 46, "running": true, "t_ms": 585413, "turn": -1.49}
+{"event": "LOST_SUSPECT", "last_reason": "LINE_FOLLOW", "param_rev": 175, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 585576}
+{"event": "LINE_LOST", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 585703}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 1, "t_ms": 585715}
+{"deg": 35.0, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "SCAN_L", "running": true, "t_ms": 586617}
+{"dist_mm": 4.4, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 2, "t_ms": 586633}
+{"bits": "010", "error": 3.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 35, "reflect_r": 38, "running": true, "t_ms": 586709, "turn": 0.51}
+{"bits": "010", "error": -2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 47, "reflect_r": 45, "running": true, "t_ms": 587244, "turn": -0.66}
+{"bits": "000", "error": -5.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 175, "reason": "PD", "reflect_l": 52, "reflect_r": 47, "running": true, "t_ms": 587545, "turn": -1.2}
+{"enc_avg": 135.0, "error_deg": 7.6, "event": "TURN", "last_reason": "NODE_CONFIRMED", "param_rev": 175, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 644198, "target_deg": 127.4}
+{"color": 0, "event": "TURN_ACQUIRE", "last_reason": "NODE_CONFIRMED", "move": "L", "param_rev": 175, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 644204}
+{"event": "REALIGN", "last_reason": "NODE_CONFIRMED", "param_rev": 175, "reason": "NOT_FOUND", "running": true, "scan_deg": 215.5, "t_ms": 649125}
+{"bits": "101", "confirm_ms": 10, "event": "NODE_CANDIDATE", "last_reason": "NODE_CONFIRMED", "param_rev": 175, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 649148}
+{"bits": "101", "color": 0, "creep_mm": 0.7, "event": "NODE_CONFIRMED", "first_bits": "101", "last_reason": "NODE_CONFIRMED", "param_rev": 175, "reason": "SLOW_STRAIGHT_STOP", "reflect_l": 0, "reflect_r": 0, "running": true, "t_ms": 649268}

@@ -1,0 +1,23 @@
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 18502, "turn": 0.19}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 75, "running": true, "t_ms": 19267, "turn": 0.08}
+{"bits": "010", "error": -1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 77, "running": true, "t_ms": 19863, "turn": -0.26}
+{"bits": "010", "error": -2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 76, "running": true, "t_ms": 21293, "turn": -0.16}
+{"bits": "010", "error": -6.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 77, "reflect_r": 71, "running": true, "t_ms": 22763, "turn": -1.17}
+{"bits": "010", "error": -4.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 72, "running": true, "t_ms": 23037, "turn": -0.46}
+{"bits": "000", "error": 10.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 62, "reflect_r": 72, "running": true, "t_ms": 23288, "turn": 4.41}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 75, "reflect_r": 77, "running": true, "t_ms": 24765, "turn": 0.2}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 75, "reflect_r": 77, "running": true, "t_ms": 25024, "turn": 0.3}
+{"bits": "010", "error": 2.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 25291, "turn": 0.53}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 76, "reflect_r": 76, "running": true, "t_ms": 26267, "turn": 0.06}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 75, "reflect_r": 76, "running": true, "t_ms": 26540, "turn": 0.32}
+{"bits": "011", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 26960}
+{"bits": "100", "error": 68.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 9, "reflect_r": 77, "running": true, "t_ms": 36570, "turn": 11.56}
+{"bits": "000", "error": 46.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 32, "reflect_r": 78, "running": true, "t_ms": 37142, "turn": 12.69}
+{"bits": "010", "error": 1.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 78, "reflect_r": 79, "running": true, "t_ms": 37436, "turn": -1.63}
+{"bits": "000", "error": 12.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "param_rev": 1, "reason": "PD", "reflect_l": 65, "reflect_r": 77, "running": true, "t_ms": 38346, "turn": 2.83}
+{"event": "LOST_SUSPECT", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 39823}
+{"event": "LINE_LOST", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 39955}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 0, "t_ms": 39959}
+{"deg": 15.5, "event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "SCAN_R", "running": true, "t_ms": 40447}
+{"dist_mm": 0.7, "event": "LINE_RECOVER", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 40450}
+{"bits": "111", "confirm_ms": 20, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 1, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 40477}

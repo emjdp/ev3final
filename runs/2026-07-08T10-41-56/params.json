@@ -1,0 +1,663 @@
+{
+  "changes": [
+    {
+      "name": "base_speed",
+      "new": 15,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 20,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "grip_speed",
+      "new": 50,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "kp",
+      "new": 0.17,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "left_th_node",
+      "new": 18,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "left_th_steer",
+      "new": 66,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "lost_max_recover",
+      "new": 2,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 100,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 40,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 40,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "right_th_node",
+      "new": 14,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "right_th_steer",
+      "new": 63,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.71,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.66,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "turn_speed",
+      "new": 6,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 4324
+    },
+    {
+      "name": "base_speed",
+      "new": 14,
+      "old": 15,
+      "rev": 4,
+      "source": "watcher:get",
+      "t_ms": 5056
+    },
+    {
+      "name": "base_speed",
+      "new": 13,
+      "old": 14,
+      "rev": 6,
+      "source": "watcher:get",
+      "t_ms": 5477
+    },
+    {
+      "name": "base_speed",
+      "new": 12,
+      "old": 13,
+      "rev": 9,
+      "source": "watcher:get",
+      "t_ms": 5874
+    },
+    {
+      "name": "base_speed",
+      "new": 11,
+      "old": 12,
+      "rev": 12,
+      "source": "watcher:get",
+      "t_ms": 6861
+    },
+    {
+      "name": "base_speed",
+      "new": 10,
+      "old": 11,
+      "rev": 14,
+      "source": "watcher:get",
+      "t_ms": 7692
+    },
+    {
+      "name": "turn_speed",
+      "new": 7,
+      "old": 6,
+      "rev": 15,
+      "source": "watcher:get",
+      "t_ms": 10712
+    },
+    {
+      "name": "turn_speed",
+      "new": 8,
+      "old": 7,
+      "rev": 16,
+      "source": "watcher:get",
+      "t_ms": 11004
+    },
+    {
+      "name": "turn_speed",
+      "new": 9,
+      "old": 8,
+      "rev": 17,
+      "source": "watcher:get",
+      "t_ms": 11301
+    },
+    {
+      "name": "turn_speed",
+      "new": 10,
+      "old": 9,
+      "rev": 19,
+      "source": "watcher:get",
+      "t_ms": 12011
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 50,
+      "old": 40,
+      "rev": 20,
+      "source": "watcher:get",
+      "t_ms": 20016
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 60,
+      "old": 50,
+      "rev": 21,
+      "source": "watcher:get",
+      "t_ms": 20309
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 30,
+      "old": 20,
+      "rev": 24,
+      "source": "watcher:get",
+      "t_ms": 24166
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 40,
+      "old": 30,
+      "rev": 27,
+      "source": "watcher:get",
+      "t_ms": 25006
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 50,
+      "old": 40,
+      "rev": 29,
+      "source": "watcher:get",
+      "t_ms": 25358
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 60,
+      "old": 50,
+      "rev": 32,
+      "source": "watcher:get",
+      "t_ms": 26400
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 70,
+      "old": 60,
+      "rev": 33,
+      "source": "watcher:get",
+      "t_ms": 26899
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 80,
+      "old": 70,
+      "rev": 35,
+      "source": "watcher:get",
+      "t_ms": 27782
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 90,
+      "old": 80,
+      "rev": 37,
+      "source": "watcher:get",
+      "t_ms": 29322
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 100,
+      "old": 90,
+      "rev": 39,
+      "source": "watcher:get",
+      "t_ms": 32250
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 110,
+      "old": 100,
+      "rev": 40,
+      "source": "watcher:get",
+      "t_ms": 36780
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 120,
+      "old": 110,
+      "rev": 42,
+      "source": "watcher:get",
+      "t_ms": 37546
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 130,
+      "old": 120,
+      "rev": 44,
+      "source": "watcher:get",
+      "t_ms": 37880
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 140,
+      "old": 130,
+      "rev": 48,
+      "source": "watcher:get",
+      "t_ms": 38646
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 150,
+      "old": 140,
+      "rev": 50,
+      "source": "watcher:get",
+      "t_ms": 39011
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 160,
+      "old": 150,
+      "rev": 52,
+      "source": "watcher:get",
+      "t_ms": 39522
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 170,
+      "old": 160,
+      "rev": 54,
+      "source": "watcher:get",
+      "t_ms": 39958
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 180,
+      "old": 170,
+      "rev": 56,
+      "source": "watcher:get",
+      "t_ms": 40398
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 190,
+      "old": 180,
+      "rev": 58,
+      "source": "watcher:get",
+      "t_ms": 40824
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 200,
+      "old": 190,
+      "rev": 61,
+      "source": "watcher:get",
+      "t_ms": 41298
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 210,
+      "old": 200,
+      "rev": 63,
+      "source": "watcher:get",
+      "t_ms": 41660
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 220,
+      "old": 210,
+      "rev": 65,
+      "source": "watcher:get",
+      "t_ms": 42135
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 230,
+      "old": 220,
+      "rev": 68,
+      "source": "watcher:get",
+      "t_ms": 42858
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 240,
+      "old": 230,
+      "rev": 71,
+      "source": "watcher:get",
+      "t_ms": 43689
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 250,
+      "old": 240,
+      "rev": 75,
+      "source": "watcher:get",
+      "t_ms": 44679
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 260,
+      "old": 250,
+      "rev": 78,
+      "source": "watcher:get",
+      "t_ms": 45312
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 270,
+      "old": 260,
+      "rev": 80,
+      "source": "watcher:get",
+      "t_ms": 45638
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 280,
+      "old": 270,
+      "rev": 82,
+      "source": "watcher:get",
+      "t_ms": 46054
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 290,
+      "old": 280,
+      "rev": 84,
+      "source": "watcher:get",
+      "t_ms": 46573
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 300,
+      "old": 290,
+      "rev": 86,
+      "source": "watcher:get",
+      "t_ms": 47106
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 310,
+      "old": 300,
+      "rev": 88,
+      "source": "watcher:get",
+      "t_ms": 47514
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 320,
+      "old": 310,
+      "rev": 90,
+      "source": "watcher:get",
+      "t_ms": 47900
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 330,
+      "old": 320,
+      "rev": 92,
+      "source": "watcher:get",
+      "t_ms": 48301
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 340,
+      "old": 330,
+      "rev": 94,
+      "source": "watcher:get",
+      "t_ms": 48983
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 350,
+      "old": 340,
+      "rev": 96,
+      "source": "watcher:get",
+      "t_ms": 49471
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 360,
+      "old": 350,
+      "rev": 99,
+      "source": "watcher:get",
+      "t_ms": 50018
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 370,
+      "old": 360,
+      "rev": 101,
+      "source": "watcher:get",
+      "t_ms": 50408
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 380,
+      "old": 370,
+      "rev": 103,
+      "source": "watcher:get",
+      "t_ms": 50732
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 370,
+      "old": 380,
+      "rev": 105,
+      "source": "watcher:get",
+      "t_ms": 51369
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 360,
+      "old": 370,
+      "rev": 107,
+      "source": "watcher:get",
+      "t_ms": 51852
+    },
+    {
+      "name": "lost_max_recover",
+      "new": 3,
+      "old": 2,
+      "rev": 111,
+      "source": "watcher:get",
+      "t_ms": 53670
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 350,
+      "old": 360,
+      "rev": 112,
+      "source": "watcher:get",
+      "t_ms": 55416
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 340,
+      "old": 350,
+      "rev": 113,
+      "source": "watcher:get",
+      "t_ms": 55872
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 330,
+      "old": 340,
+      "rev": 114,
+      "source": "watcher:get",
+      "t_ms": 56208
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 320,
+      "old": 330,
+      "rev": 117,
+      "source": "watcher:get",
+      "t_ms": 57159
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 310,
+      "old": 320,
+      "rev": 118,
+      "source": "watcher:get",
+      "t_ms": 57968
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 300,
+      "old": 310,
+      "rev": 121,
+      "source": "watcher:get",
+      "t_ms": 58780
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 290,
+      "old": 300,
+      "rev": 123,
+      "source": "watcher:get",
+      "t_ms": 59273
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 280,
+      "old": 290,
+      "rev": 125,
+      "source": "watcher:get",
+      "t_ms": 59792
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 270,
+      "old": 280,
+      "rev": 128,
+      "source": "watcher:get",
+      "t_ms": 65217
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 260,
+      "old": 270,
+      "rev": 129,
+      "source": "watcher:get",
+      "t_ms": 65509
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 250,
+      "old": 260,
+      "rev": 132,
+      "source": "watcher:get",
+      "t_ms": 66296
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 240,
+      "old": 250,
+      "rev": 135,
+      "source": "watcher:get",
+      "t_ms": 67237
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 230,
+      "old": 240,
+      "rev": 136,
+      "source": "watcher:get",
+      "t_ms": 70042
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 220,
+      "old": 230,
+      "rev": 138,
+      "source": "watcher:get",
+      "t_ms": 71068
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 210,
+      "old": 220,
+      "rev": 140,
+      "source": "watcher:get",
+      "t_ms": 74128
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 200,
+      "old": 210,
+      "rev": 141,
+      "source": "watcher:get",
+      "t_ms": 74990
+    }
+  ],
+  "initial": {},
+  "stage": "run_maze_v13",
+  "started": "2026-07-08T10-41-56"
+}

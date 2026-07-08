@@ -1,0 +1,247 @@
+{
+  "changes": [
+    {
+      "name": "base_speed",
+      "new": 10,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "cal_l_black",
+      "new": 0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "cal_l_white",
+      "new": 100,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "cal_r_black",
+      "new": 0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "cal_r_white",
+      "new": 100,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "deadband",
+      "new": 3.0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 100,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "grip_speed",
+      "new": 50,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "ki",
+      "new": 0.06,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "kp",
+      "new": 0.16,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "left_th_node",
+      "new": 18,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "left_th_steer",
+      "new": 66,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "lost_max_recover",
+      "new": 3,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 200,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 60,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 40,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "right_th_node",
+      "new": 14,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "right_th_steer",
+      "new": 63,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.71,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.66,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "turn_speed",
+      "new": 10,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 209242
+    },
+    {
+      "name": "cal_l_black",
+      "new": 9,
+      "old": 0,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 229765
+    },
+    {
+      "name": "cal_l_white",
+      "new": 78,
+      "old": 100,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 229765
+    },
+    {
+      "name": "cal_r_black",
+      "new": 10,
+      "old": 0,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 229765
+    },
+    {
+      "name": "cal_r_white",
+      "new": 78,
+      "old": 100,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 229765
+    },
+    {
+      "name": "cal_l_white",
+      "new": 77,
+      "old": 78,
+      "rev": 9,
+      "source": "watcher:get",
+      "t_ms": 235188
+    },
+    {
+      "name": "cal_l_black",
+      "new": 3,
+      "old": 9,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 240527
+    },
+    {
+      "name": "cal_r_black",
+      "new": 4,
+      "old": 10,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 240527
+    },
+    {
+      "name": "cal_r_white",
+      "new": 80,
+      "old": 78,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 240527
+    }
+  ],
+  "initial": {},
+  "stage": "final_run1",
+  "started": "2026-07-08T16-52-04"
+}

@@ -1,0 +1,323 @@
+<style>
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.logline{font-family:var(--font-mono);font-size:12px;line-height:1.6;color:var(--text-secondary);margin:0}
+.logline.big{color:var(--text-primary)}
+.badge{font-size:12px;padding:3px 10px;border-radius:999px;font-weight:500}
+</style>
+<h2 class="sr-only">우선순위 좌 우 직으로 분기를 하나씩 정리하며 모든 노드를 방문하고, 복귀는 최단경로로 돌아오는 시뮬레이션.</h2>
+
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 8px">
+  <span class="badge" style="background:var(--bg-pro);color:var(--text-pro)">좌>우>직</span>
+  <span id="phaseBadge" class="badge" style="background:var(--bg-neutral,var(--surface-1));color:var(--text-secondary)">대기</span>
+  <span style="font-size:13px;color:var(--text-secondary)">점 <span id="dots" style="font-weight:500;color:var(--text-primary)">0</span>/7</span>
+  <span style="font-size:13px;color:var(--text-secondary)">구간 <span id="segs" style="font-weight:500;color:var(--text-primary)">0</span></span>
+</div>
+<p id="action" style="font-size:14px;margin:0 0 10px;color:var(--text-primary)">▶ 시작을 누르면 출발합니다</p>
+
+<canvas id="cv" style="width:100%;aspect-ratio:1;display:block;border:0.5px solid var(--border);border-radius:12px"></canvas>
+
+<div style="display:flex;align-items:center;gap:10px;margin:12px 0">
+  <button id="playBtn" style="min-width:88px"><i class="ti ti-player-play" aria-hidden="true"></i> 시작</button>
+  <button id="resetBtn" aria-label="리셋"><i class="ti ti-refresh" aria-hidden="true"></i></button>
+  <label style="font-size:13px;color:var(--text-secondary)">속도</label>
+  <input type="range" id="spd" min="0.5" max="5" step="0.5" value="2" style="flex:1;min-width:60px">
+  <span id="spdOut" style="font-size:13px;font-weight:500;min-width:32px">2.0x</span>
+</div>
+
+<div id="log" style="border-top:0.5px solid var(--border);padding-top:8px;min-height:110px"></div>
+
+<script>
+const PRIO=["L","R","S"],PLABEL="좌>우>직",TOTAL=7;
+const NODES={S:[450,490],J14:[155,490],J11:[155,385],J13:[42,385],R6:[42,490],J9:[155,265],J8:[42,265],R4:[42,165],J3:[270,165],J2:[270,60],J1:[155,60],R1:[155,165],G:[85,60],J4:[375,165],J5:[375,60],R2:[480,60],J6:[375,265],J7:[480,265],R3:[480,165],J12:[375,385],R5:[270,385]};
+const EDGES=[["S","J14"],["J14","J11"],["J11","J13"],["J13","R6"],["J11","J9"],["J9","J8"],["J8","R4"],["J9","J6"],["J3","J2"],["J2","J1"],["J1","G"],["J1","R1"],["J3","J4"],["J4","J5"],["J5","R2"],["J4","J6"],["J6","J7"],["J7","R3"],["J6","J12"],["J12","R5"]];
+const MARK={R1:"red",R2:"red",R3:"red",R4:"red",R5:"red",R6:"red",G:"green",S:"yellow"};
+const OPPD={N:"S",S:"N",E:"W",W:"E"},LEFTOF={N:"W",W:"S",S:"E",E:"N"},RIGHTOF={N:"E",E:"S",S:"W",W:"N"};
+const DIRA={E:0,S:90,W:180,N:270};
+const adj={};
+EDGES.forEach(function(e){
+  const a=e[0],b=e[1],pa=NODES[a],pb=NODES[b];
+  let d;
+  if(Math.abs(pb[0]-pa[0])>Math.abs(pb[1]-pa[1])) d=pb[0]>pa[0]?"E":"W"; else d=pb[1]>pa[1]?"S":"N";
+  (adj[a]=adj[a]||{})[d]=b;(adj[b]=adj[b]||{})[OPPD[d]]=a;
+});
+
+const cv=document.getElementById("cv"),ctx=cv.getContext("2d");
+const INK=(getComputedStyle(document.documentElement).getPropertyValue("--text-primary")||"#222").trim()||"#222";
+const C={red:"#E24B4A",redDark:"#A32D2D",redPale:"rgba(226,75,74,.15)",green:"#639922",greenDark:"#3B6D11",greenPale:"rgba(99,153,34,.15)",greenZone:"rgba(99,153,34,.14)",yelZone:"rgba(239,159,39,.16)",yel:"#F5D90A",body:"#1D9E75",bodyDark:"#0F6E56",bodyLight:"#E1F5EE",out:"rgba(212,83,126,.35)",home:"rgba(29,158,117,.9)",obj:"#EF9F27",objDark:"#854F0B"};
+
+let st;
+function init(){
+  st={node:"S",heading:"W",angle:180,pos:{x:450,y:490},phase:"out",seen:{},parent:{},expl:{},pend:{},work:null,probeDir:null,dots:0,segs:0,dropped:false,grabbed:false,gripClosed:false,done:false,started:false,queue:[],cur:null,obj:{x:390,y:490,carried:false,placed:true},outTrail:[],homeTrail:[],logs:[]};
+  setBadge("대기");
+  setAction("▶ 시작을 누르면 출발합니다");
+  updStats();renderLog();
+  playBtn.innerHTML='<i class="ti ti-player-play" aria-hidden="true"></i> 시작';
+  running=false;
+}
+function setBadge(t){document.getElementById("phaseBadge").textContent=t;}
+function setAction(t){document.getElementById("action").textContent=t;}
+function log(t,big){st.logs.unshift({t:t,big:!!big});if(st.logs.length>7)st.logs.pop();renderLog();}
+function renderLog(){document.getElementById("log").innerHTML=st.logs.map(function(l){return '<p class="logline'+(l.big?" big":"")+'">'+l.t+'</p>';}).join("");}
+function updStats(){
+  document.getElementById("dots").textContent=String(st.dots);
+  document.getElementById("segs").textContent=String(st.segs);
+}
+function enq(a){st.queue.push(a);}
+function relName(d){if(d===st.heading)return "직진";if(d===LEFTOF[st.heading])return "좌회전";if(d===RIGHTOF[st.heading])return "우회전";return "유턴";}
+function goDir(d){
+  if(d!==st.heading)enq({t:"turn",dir:d});
+  enq({t:"move",to:adj[st.node][d]});
+}
+function candidates(id){
+  const out=[];
+  for(const d in adj[id]){if(!(st.expl[id]&&st.expl[id][d])&&d!==st.parent[id])out.push(d);}
+  return out;
+}
+function chooseArm(id){
+  const cands=candidates(id);
+  if(!cands.length)return false;
+  const order=PRIO.map(function(m){return m==="R"?RIGHTOF[st.heading]:m==="L"?LEFTOF[st.heading]:st.heading;});
+  let pick=null;
+  for(let i=0;i<order.length;i++){if(cands.indexOf(order[i])>=0){pick=order[i];break;}}
+  if(!pick)pick=cands[0];
+  st.expl[id][pick]=true;st.probeDir=pick;
+  log("분기: "+relName(pick)+" — 새 길 탐색 ("+PLABEL+")");
+  setAction("새 길 진입: "+relName(pick));
+  enq({t:"wait",ms:220});goDir(pick);
+  return true;
+}
+function junction(id){
+  if(st.work===null){st.work=id;chooseArm(id);return;}
+  if(id===st.work){
+    if(chooseArm(id))return;
+    const p=st.pend[id];
+    if(p){
+      delete st.pend[id];st.work=p.node;
+      log("이 분기 정리 완료 → 발견해둔 분기로 이동",true);
+      setAction("정리 끝, 다음 분기로");
+      enq({t:"wait",ms:250});goDir(p.dir);return;
+    }
+    goDir(st.parent[id]);return;
+  }
+  const rem=candidates(st.work).length;
+  if(rem>0){
+    st.pend[st.work]={dir:st.probeDir,node:id};
+    log("새 분기 발견! 직전 분기에 안 간 길 있음 → 되돌아감",true);
+    setAction("놓친 노드 찍으러 복귀");
+    enq({t:"wait",ms:300});goDir(OPPD[st.heading]);
+  }else{
+    st.work=id;
+    log("새 분기 발견 · 직전 분기는 정리 완료 → 여기서 계속",true);
+    chooseArm(id);
+  }
+}
+
+function decide(id){
+  const back=OPPD[st.heading];
+  if(!st.seen[id]){
+    st.seen[id]=true;
+    if(id!=="S")st.parent[id]=back;
+    const m0=MARK[id];
+    if(m0&&m0!=="yellow"){st.dots++;updStats();}
+  }
+  st.expl[id]=st.expl[id]||{};
+  st.expl[id][back]=true;
+  const mk=MARK[id];
+  if(mk==="red"){
+    log("VISIT · 빨강 마커 ("+st.dots+"/"+TOTAL+") → 유턴");
+    setAction("빨강 방문! ("+st.dots+"/"+TOTAL+")");
+    if(st.dots>=TOTAL){startReturn();return;}
+    enq({t:"wait",ms:300});goDir(back);return;
+  }
+  if(mk==="green"){goalSeq(back);return;}
+  if(mk==="yellow"&&st.started){finish();return;}
+  const nb=[];
+  for(const d in adj[id])if(d!==back)nb.push(d);
+  if(nb.length===1){goDir(nb[0]);return;}
+  junction(id);
+}
+function goalSeq(back){
+  setAction("초록 도착! ("+st.dots+"/"+TOTAL+") 소스통 내려놓기");
+  log("NODE_IS_GOAL · 초록 ("+st.dots+"/"+TOTAL+") → 전진·오픈·후진·유턴",true);
+  const hv={E:[1,0],W:[-1,0],N:[0,-1],S:[0,1]}[st.heading];
+  enq({t:"wait",ms:400});
+  enq({t:"shift",dx:hv[0]*22,dy:hv[1]*22});
+  enq({t:"fn",f:function(){
+    st.dropped=true;st.gripClosed=false;st.obj.carried=false;st.obj.placed=true;
+    st.obj.x=st.pos.x+hv[0]*20;st.obj.y=st.pos.y+hv[1]*20;
+    log("그리퍼 오픈 — 내려놓기 · 비프");
+  }});
+  enq({t:"wait",ms:500});
+  enq({t:"shift",dx:-hv[0]*22,dy:-hv[1]*22});
+  enq({t:"turn",dir:back});
+  if(st.dots>=TOTAL){
+    enq({t:"fn",f:startReturn});
+  }else{
+    enq({t:"move",to:adj["G"][back]});
+  }
+}
+function shortestPath(from,to){
+  const prev={},vis={};vis[from]=1;
+  const q=[from];
+  while(q.length){
+    const u=q.shift();
+    if(u===to)break;
+    for(const d in adj[u]){
+      const v=adj[u][d];
+      if(!vis[v]){vis[v]=1;prev[v]=u;q.push(v);}
+    }
+  }
+  const path=[to];let c=to;
+  while(c!==from){c=prev[c];path.unshift(c);}
+  return path;
+}
+function startReturn(){
+  st.phase="home";setBadge("복귀 · 최단경로");
+  const p=shortestPath(st.node,"S");
+  log("모든 노드 방문 완료 → BFS 최단경로 "+(p.length-1)+"구간으로 복귀",true);
+  setAction("최단경로로 집까지 직행");
+  let h=st.heading;
+  for(let i=0;i<p.length-1;i++){
+    let dir=null;
+    for(const d in adj[p[i]])if(adj[p[i]][d]===p[i+1])dir=d;
+    if(dir!==h)enq({t:"turn",dir:dir});
+    enq({t:"move",to:p[i+1]});
+    h=dir;
+  }
+}
+function finish(){
+  st.done=true;setBadge("완주");
+  log("노랑(집) 도착 · 점 "+st.dots+"/"+TOTAL+" · 총 "+st.segs+"구간 — 완료",true);
+  setAction("전 노드 방문 + 최단 복귀 완료!");
+  playBtn.innerHTML='<i class="ti ti-refresh" aria-hidden="true"></i> 다시';
+  running=false;
+}
+
+let running=false,speed=2,scale=1,last=0;
+const playBtn=document.getElementById("playBtn");
+playBtn.onclick=function(){
+  if(st.done){init();return;}
+  if(!st.started){
+    st.started=true;setBadge("탐색 (out)");
+    log("출발 · 우선순위 "+PLABEL+", 분기 정리형 탐색",true);
+    setAction("탐색 시작");
+    enq({t:"wait",ms:300});enq({t:"move",to:"J14"});
+  }
+  running=!running;
+  playBtn.innerHTML=running?'<i class="ti ti-player-pause" aria-hidden="true"></i> 일시정지':'<i class="ti ti-player-play" aria-hidden="true"></i> 계속';
+};
+document.getElementById("resetBtn").onclick=init;
+document.getElementById("spd").oninput=function(e){speed=parseFloat(e.target.value);document.getElementById("spdOut").textContent=speed.toFixed(1)+"x";};
+
+function fit(){const w=cv.clientWidth||380;const dpr=window.devicePixelRatio||1;cv.width=w*dpr;cv.height=w*dpr;scale=cv.width/540;}
+window.addEventListener("resize",fit);
+
+function step(dt){
+  if(!running||st.done)return;
+  if(!st.cur){st.cur=st.queue.shift()||null;if(!st.cur)return;}
+  const c=st.cur;
+  if(c.t==="wait"){c.ms-=dt*1000;if(c.ms<=0)st.cur=null;return;}
+  if(c.t==="fn"){c.f();st.cur=null;return;}
+  if(c.t==="turn"){
+    if(c.rem===undefined){
+      let d=(DIRA[c.dir]-st.angle)%360;d=(d+540)%360-180;if(d===-180)d=180;c.rem=d;
+    }
+    const rate=320*speed*dt,s=Math.sign(c.rem)*Math.min(Math.abs(c.rem),rate);
+    st.angle+=s;c.rem-=s;
+    if(Math.abs(c.rem)<0.5){st.angle=DIRA[c.dir];st.heading=c.dir;st.cur=null;}
+    return;
+  }
+  if(c.t==="shift"){
+    if(!c.tg)c.tg={x:st.pos.x+c.dx,y:st.pos.y+c.dy};
+    stepToward(c.tg,dt,40);
+    if(dist(st.pos,c.tg)<0.5){st.pos.x=c.tg.x;st.pos.y=c.tg.y;st.cur=null;}
+    return;
+  }
+  if(c.t==="move"){
+    const tg={x:NODES[c.to][0],y:NODES[c.to][1]};
+    if(!st.grabbed&&st.obj.placed&&dist(st.pos,st.obj)<26){
+      st.grabbed=true;st.gripClosed=true;st.obj.carried=true;st.obj.placed=false;
+      log("GRAB · 초음파 감지 → 그리퍼 파지 · 비프",true);setAction("소스통 파지!");
+      st.queue.unshift(c);st.cur={t:"wait",ms:600};return;
+    }
+    stepToward(tg,dt,115);
+    const tr=st.phase==="out"?st.outTrail:st.homeTrail;
+    const lp=tr[tr.length-1];
+    if(!lp||dist(lp,st.pos)>5)tr.push({x:st.pos.x,y:st.pos.y});
+    if(dist(st.pos,tg)<0.5){
+      st.pos.x=tg.x;st.pos.y=tg.y;st.node=c.to;st.cur=null;
+      st.segs++;updStats();
+      if(!st.queue.length)decide(c.to);
+    }
+  }
+}
+function stepToward(tg,dt,base){
+  const dx=tg.x-st.pos.x,dy=tg.y-st.pos.y,d=Math.hypot(dx,dy);
+  if(d<0.001)return;
+  const s=Math.min(d,base*speed*dt);
+  st.pos.x+=dx/d*s;st.pos.y+=dy/d*s;
+}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
+
+function draw(){
+  ctx.setTransform(scale,0,0,scale,0,0);
+  ctx.clearRect(0,0,540,540);
+  ctx.fillStyle=C.greenZone;ctx.strokeStyle=C.green;ctx.lineWidth=1.5;
+  rr(6,6,134,102,10);ctx.fill();ctx.stroke();
+  ctx.fillStyle=C.yelZone;ctx.strokeStyle=C.obj;
+  rr(408,438,126,96,10);ctx.fill();ctx.stroke();
+  ctx.fillStyle=C.green;ctx.font="500 14px sans-serif";ctx.fillText("도착",14,26);
+  ctx.fillStyle=C.objDark;ctx.fillText("출발",470,462);
+  ctx.strokeStyle=INK;ctx.lineWidth=13;ctx.lineCap="round";
+  EDGES.forEach(function(e){
+    const a=NODES[e[0]],b=NODES[e[1]];
+    ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();
+  });
+  trail(st.outTrail,C.out,st.phase==="out");
+  trail(st.homeTrail,C.home,st.phase==="home");
+  for(const k in MARK){
+    const p=NODES[k],m=MARK[k],v=!!st.seen[k];
+    ctx.beginPath();ctx.arc(p[0],p[1],m==="red"?9:11,0,7);
+    if(m==="red")ctx.fillStyle=v?C.red:C.redPale;
+    else if(m==="green")ctx.fillStyle=v?C.green:C.greenPale;
+    else ctx.fillStyle=C.yel;
+    ctx.fill();ctx.lineWidth=2.5;
+    ctx.strokeStyle=m==="red"?C.redDark:m==="green"?C.greenDark:C.objDark;
+    ctx.stroke();
+  }
+  if(!st.obj.carried&&st.obj.placed){
+    ctx.fillStyle=C.obj;ctx.strokeStyle=C.objDark;ctx.lineWidth=1.5;
+    rr(st.obj.x-7,st.obj.y-7,14,14,3);ctx.fill();ctx.stroke();
+  }
+  ctx.save();
+  ctx.translate(st.pos.x,st.pos.y);ctx.rotate(st.angle*Math.PI/180);
+  ctx.strokeStyle=C.bodyDark;ctx.lineWidth=3;ctx.lineCap="round";
+  const gy=st.gripClosed?4:10;
+  ctx.beginPath();ctx.moveTo(13,-8);ctx.lineTo(24,-gy);ctx.moveTo(13,8);ctx.lineTo(24,gy);ctx.stroke();
+  ctx.fillStyle=C.body;ctx.strokeStyle=C.bodyDark;ctx.lineWidth=2;
+  rr(-15,-11,29,22,6);ctx.fill();ctx.stroke();
+  ctx.fillStyle=C.bodyLight;
+  ctx.beginPath();ctx.moveTo(10,0);ctx.lineTo(2,-5);ctx.lineTo(2,5);ctx.closePath();ctx.fill();
+  if(st.obj.carried){
+    ctx.fillStyle=C.obj;ctx.strokeStyle=C.objDark;ctx.lineWidth=1.5;
+    rr(15,-7,14,14,3);ctx.fill();ctx.stroke();
+  }
+  ctx.restore();
+}
+function trail(pts,col,live){
+  if(pts.length<2&&!(live&&pts.length))return;
+  ctx.strokeStyle=col;ctx.lineWidth=4;ctx.lineJoin="round";ctx.lineCap="round";
+  ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);
+  for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i].x,pts[i].y);
+  if(live)ctx.lineTo(st.pos.x,st.pos.y);
+  ctx.stroke();
+}
+function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+
+function loop(ts){
+  if(!last)last=ts;
+  let dt=(ts-last)/1000;last=ts;if(dt>0.08)dt=0.08;
+  step(dt);draw();requestAnimationFrame(loop);
+}
+init();fit();requestAnimationFrame(loop);
+</script>

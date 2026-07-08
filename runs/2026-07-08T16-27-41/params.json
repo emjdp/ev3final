@@ -1,0 +1,471 @@
+{
+  "changes": [
+    {
+      "name": "base_speed",
+      "new": 9,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "branch_confirm_ms",
+      "new": 20,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "center_gate_ms",
+      "new": 800,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 100,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.0,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "grip_speed",
+      "new": 50,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "kp",
+      "new": 0.17,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.44,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "left_th_node",
+      "new": 18,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "left_th_steer",
+      "new": 66,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "lost_max_recover",
+      "new": 3,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 200,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 60,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 20,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "right_th_node",
+      "new": 14,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "right_th_steer",
+      "new": 63,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.71,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.66,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "turn_speed",
+      "new": 10,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 79231
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.43,
+      "old": 0.44,
+      "rev": 6,
+      "source": "watcher:get",
+      "t_ms": 81002
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.42,
+      "old": 0.43,
+      "rev": 7,
+      "source": "watcher:get",
+      "t_ms": 82016
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.41,
+      "old": 0.42,
+      "rev": 8,
+      "source": "watcher:get",
+      "t_ms": 83774
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.4,
+      "old": 0.41,
+      "rev": 11,
+      "source": "watcher:get",
+      "t_ms": 88654
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.39,
+      "old": 0.4,
+      "rev": 12,
+      "source": "watcher:get",
+      "t_ms": 90183
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.38,
+      "old": 0.39,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 91588
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.37,
+      "old": 0.38,
+      "rev": 14,
+      "source": "watcher:get",
+      "t_ms": 92782
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.36,
+      "old": 0.37,
+      "rev": 15,
+      "source": "watcher:get",
+      "t_ms": 93913
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.35,
+      "old": 0.36,
+      "rev": 17,
+      "source": "watcher:get",
+      "t_ms": 97402
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.34,
+      "old": 0.35,
+      "rev": 18,
+      "source": "watcher:get",
+      "t_ms": 98670
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.45,
+      "old": 0.34,
+      "rev": 0,
+      "source": "watcher:get",
+      "t_ms": 1690
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.44,
+      "old": 0.45,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 12029
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.43,
+      "old": 0.44,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 13253
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.42,
+      "old": 0.43,
+      "rev": 4,
+      "source": "watcher:get",
+      "t_ms": 16605
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.41,
+      "old": 0.42,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 17646
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.4,
+      "old": 0.41,
+      "rev": 6,
+      "source": "watcher:get",
+      "t_ms": 19089
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.39,
+      "old": 0.4,
+      "rev": 7,
+      "source": "watcher:get",
+      "t_ms": 20347
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.38,
+      "old": 0.39,
+      "rev": 8,
+      "source": "watcher:get",
+      "t_ms": 21455
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.37,
+      "old": 0.38,
+      "rev": 9,
+      "source": "watcher:get",
+      "t_ms": 26969
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.36,
+      "old": 0.37,
+      "rev": 10,
+      "source": "watcher:get",
+      "t_ms": 29204
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.35,
+      "old": 0.36,
+      "rev": 11,
+      "source": "watcher:get",
+      "t_ms": 35546
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.34,
+      "old": 0.35,
+      "rev": 12,
+      "source": "watcher:get",
+      "t_ms": 59430
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.33,
+      "old": 0.34,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 61109
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.32,
+      "old": 0.33,
+      "rev": 14,
+      "source": "watcher:get",
+      "t_ms": 66772
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.31,
+      "old": 0.32,
+      "rev": 15,
+      "source": "watcher:get",
+      "t_ms": 68640
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.3,
+      "old": 0.31,
+      "rev": 16,
+      "source": "watcher:get",
+      "t_ms": 70157
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.29,
+      "old": 0.3,
+      "rev": 17,
+      "source": "watcher:get",
+      "t_ms": 73215
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.28,
+      "old": 0.29,
+      "rev": 19,
+      "source": "watcher:get",
+      "t_ms": 75501
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.27,
+      "old": 0.28,
+      "rev": 20,
+      "source": "watcher:get",
+      "t_ms": 76762
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.26,
+      "old": 0.27,
+      "rev": 21,
+      "source": "watcher:get",
+      "t_ms": 78118
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.25,
+      "old": 0.26,
+      "rev": 22,
+      "source": "watcher:get",
+      "t_ms": 79663
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.24,
+      "old": 0.25,
+      "rev": 23,
+      "source": "watcher:get",
+      "t_ms": 81408
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.23,
+      "old": 0.24,
+      "rev": 24,
+      "source": "watcher:get",
+      "t_ms": 82884
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.22,
+      "old": 0.23,
+      "rev": 25,
+      "source": "watcher:get",
+      "t_ms": 84177
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.21,
+      "old": 0.22,
+      "rev": 26,
+      "source": "watcher:get",
+      "t_ms": 85372
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.2,
+      "old": 0.21,
+      "rev": 27,
+      "source": "watcher:get",
+      "t_ms": 86713
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.19,
+      "old": 0.2,
+      "rev": 28,
+      "source": "watcher:get",
+      "t_ms": 88447
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.18,
+      "old": 0.19,
+      "rev": 29,
+      "source": "watcher:get",
+      "t_ms": 90001
+    },
+    {
+      "name": "kp_edge",
+      "new": 0.17,
+      "old": 0.18,
+      "rev": 30,
+      "source": "watcher:get",
+      "t_ms": 92085
+    }
+  ],
+  "initial": {},
+  "stage": "run_maze_v14",
+  "started": "2026-07-08T16-27-41"
+}
