@@ -23,7 +23,7 @@ done
 
 SCRIPT_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-CACHE_DIR="${XDG_DATA_HOME:-${HOME}/.local/share}/ev3test"
+CACHE_DIR="${XDG_DATA_HOME:-${HOME}/.local/share}/ev3final"
 BIN_DIR="${HOME}/.local/bin"
 CACHE_SCRIPT="${CACHE_DIR}/ev3_session.sh"
 BIN_SCRIPT="${BIN_DIR}/ev3sess"
@@ -36,8 +36,8 @@ cat >"${BIN_SCRIPT}" <<EOF
 set -euo pipefail
 
 DEFAULT_REPO=$(printf '%q' "${REPO_ROOT}")
-EV3TEST_REPO="\${EV3TEST_REPO:-\${DEFAULT_REPO}}"
-REPO_SCRIPT="\${EV3TEST_REPO}/tools/ev3_session.sh"
+EV3FINAL_REPO="\${EV3FINAL_REPO:-\${DEFAULT_REPO}}"
+REPO_SCRIPT="\${EV3FINAL_REPO}/tools/ev3_session.sh"
 CACHE_SCRIPT=$(printf '%q' "${CACHE_SCRIPT}")
 
 if [[ -x "\${REPO_SCRIPT}" ]]; then
@@ -45,12 +45,12 @@ if [[ -x "\${REPO_SCRIPT}" ]]; then
 fi
 
 if [[ -x "\${CACHE_SCRIPT}" ]]; then
-  export EV3TEST_REPO
+  export EV3FINAL_REPO
   exec "\${CACHE_SCRIPT}" --terminal tmux "\$@"
 fi
 
 echo "ev3sess: 실행할 ev3_session.sh 를 찾을 수 없습니다." >&2
-echo "ev3sess: repo=\${EV3TEST_REPO}" >&2
+echo "ev3sess: repo=\${EV3FINAL_REPO}" >&2
 echo "ev3sess: cache=\${CACHE_SCRIPT}" >&2
 exit 1
 EOF

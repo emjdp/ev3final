@@ -2,7 +2,7 @@
 # EV3 실기 세션을 한 번에 준비한다.
 #
 # 기본 동작:
-#   1) stages/lib/tools/config 를 scp 로 브릭 ~/ev3test/ 아래에 업로드
+#   1) stages/lib/tools/config 를 scp 로 브릭 ~/ev3final/ 아래에 업로드
 #   2) 브릭 stage 실행 터미널
 #   3) SSH 포트포워딩 터미널
 #   4) telemetry watcher 터미널
@@ -28,14 +28,14 @@ while [[ -h "${SOURCE}" ]]; do
 done
 
 SCRIPT_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
-if [[ -n "${EV3TEST_REPO:-}" ]]; then
-  REPO_ROOT="$(cd "${EV3TEST_REPO}" && pwd)"
+if [[ -n "${EV3FINAL_REPO:-}" ]]; then
+  REPO_ROOT="$(cd "${EV3FINAL_REPO}" && pwd)"
 else
   REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 fi
 
 ROBOT_HOST="ev3"
-REMOTE_DIR="~/ev3test"
+REMOTE_DIR="~/ev3final"
 STAGE_INPUT="stages/run_maze_v12.py"
 LOCAL_PORT="8765"
 REMOTE_PORT="8765"
@@ -65,13 +65,13 @@ Options:
   -s, --stage PATH_OR_NAME   실행할 stage 파일. 기본: stages/run_maze_v12.py
                              예: stages/run_maze_v12.py, run_maze_v12
   -h, --host HOST            SSH/scp 대상. 기본: ev3
-  -r, --remote-dir DIR       브릭 작업 디렉토리. 기본: ~/ev3test
+  -r, --remote-dir DIR       브릭 작업 디렉토리. 기본: ~/ev3final
   -p, --port PORT            로컬/브릭 튜닝 포트. 기본: 8765
       --local-port PORT      로컬 포트만 지정
       --remote-port PORT     브릭 포트만 지정
   -t, --terminal NAME        auto, gnome-terminal, konsole, xfce4-terminal,
                              mate-terminal, kitty, alacritty, xterm, tmux 중 하나
-      --tmux-session NAME    tmux 세션 이름. 기본: ev3test-<stage>
+      --tmux-session NAME    tmux 세션 이름. 기본: ev3final-<stage>
       --no-upload            scp 업로드를 건너뛴다
       --no-robotctl          robotctl 대기 터미널을 열지 않는다
       --dry-run              실행할 업로드/터미널 명령만 출력한다
@@ -214,7 +214,7 @@ case "${REMOTE_DIR}" in
 esac
 
 if [[ -z "${TMUX_SESSION}" ]]; then
-  TMUX_SESSION="ev3test-${STAGE_NAME//[^A-Za-z0-9_]/_}"
+  TMUX_SESSION="ev3final-${STAGE_NAME//[^A-Za-z0-9_]/_}"
 fi
 
 choose_terminal() {

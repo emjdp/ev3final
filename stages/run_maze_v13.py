@@ -131,22 +131,22 @@ TONE_UTURN = ((300, 150), (300, 150))
 
 # 파라미터당 한 줄: (이름, 초기값, min, max, max_step, ui_step, 단위)
 PARAM_TABLE = (
-    ("base_speed",      16,    5,   45,   5,    1,    "%"),
+    ("base_speed",      10,    5,   45,   5,    1,    "%"),
     ("kp",              0.17,  0.0, 3.0,  0.1,  0.01, ""),
-    ("turn_speed",      6,     5,   40,   5,    1,    "%"),
+    ("turn_speed",      10,    5,   40,   5,    1,    "%"),
     ("node_confirm_ms", 40,    0,   1000, 60,   10,   "ms"),
     ("left_th_steer",   66,    0,   100,  3,    1,    "%"),   # 유실 복구 검정 판정
     ("right_th_steer",  63,    0,   100,  3,    1,    "%"),
     ("left_th_node",    18,    0,   100,  3,    1,    "%"),   # 노드 bits 판정
     ("right_th_node",   14,    0,   100,  3,    1,    "%"),
-    ("node_advance_mm", 40,    0,   120,  10,   10,   "mm"),  # 의심지점 기준 총 전진
-    ("goal_advance_mm", 20,    0,   200,  10,   10,   "mm"),  # 배달 전·후진 거리
+    ("node_advance_mm", 60,    0,   120,  10,   10,   "mm"),  # 의심지점 기준 총 전진
+    ("goal_advance_mm", 100,   0,   200,  10,   10,   "mm"),  # 배달 전·후진 거리
     ("turn_90_factor",  0.66,  0.3, 2.0,  0.05, 0.01, "x"),
     ("turn_180_factor", 0.71,  0.3, 2.0,  0.05, 0.01, "x"),
     ("grab_dist_cm",    6.0,   1.0, 20.0, 1.0,  0.5,  "cm"),
     ("grip_speed",      50,    5,   80,   5,    1,    "%"),
-    ("lost_persist_ms", 100,   0,   500,  100,  10,   "ms"),  # v13: 000 지속 필터
-    ("lost_max_recover", 2,    1,   3,    1,    1,    ""),    # v13: 유턴 전 복구 허용 횟수
+    ("lost_persist_ms", 200,   0,   500,  100,  10,   "ms"),  # v13: 000 지속 필터
+    ("lost_max_recover", 3,    1,   3,    1,    1,    ""),    # v13: 유턴 전 복구 허용 횟수
 )
 
 INITIAL_PARAMS = dict((r[0], r[1]) for r in PARAM_TABLE)
@@ -465,6 +465,12 @@ class Runner(object):
             "grabbed": self.grabbed,
         }
         frame.update(extra)
+        last_reason = self.log.last_reason()
+        if last_reason is not None:
+            frame["last_reason"] = last_reason
+        events = self.log.drain_events()
+        if events:
+            frame["events"] = events
         self.tele.publish(frame)
 
     def log_events(self, events):
