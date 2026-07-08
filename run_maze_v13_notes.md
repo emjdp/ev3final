@@ -72,6 +72,26 @@ save 할 것.
 가짜 유턴이 또 보이면 `DEAD_END` 직전의 `LOST_SUSPECT`/`REALIGN` 로그로
 어느 단계가 뚫렸는지 바로 구분할 수 있다.
 
+## v13.1 — T/십자(111·101) 분기 미인식 → 가짜 데드엔드 수정
+
+실기 증상: 111 을 인식하고도 회전 대신 데드엔드 유턴. 확정된 111 은
+`handle_node` 에서 좌/우 bit 때문에 항상 분기(n_exits≥2)로 가므로,
+문제는 "확정 실패" 또는 "확정·회전 이후"에 있었다.
+
+| # | 원인 | 수정 |
+|---|---|---|
+| 5 | confirm **취소**도 900ms 디바운스를 걸어, 그 사이(~60-70mm) 감지 블라인드 상태로 가로선을 타넘음 | 취소 후 재감지 대기를 `NODE_CANCEL_DEBOUNCE_MS=150` 으로 분리(확정은 900 유지) |
+| 6 | T 는 직진 출구가 없어 재판정 시점에 센서가 가로선을 넘으면 000 → `CANCELLED` 처리 → 5번 체인 | **passed-over 확정**: 좌/우 팔이 있던 후보(111/101)가 000 이 되면 '지나침'으로 보고 처음 bits 로 확정. 직진 유무는 handle_node 색 재판정이 결정 |
+| 7 | 피벗 오차로 회전 직후 중앙이 새 팔 라인 밖 → 000 유실 체인 | 회전 직후 중앙이 흰/없음이면 `REALIGN` 스캔으로 라인 재획득(`TURN_ACQUIRE` 로그). 마커 색 위에서는 생략 |
+| 8 | `lost_streak` 이 회전을 넘어 이월 → 회전 직후 첫 유실에서 후진 없이 즉시 `LOST_STREAK_LIMIT` 유턴 | `turn()` 진입 시 streak 리셋(노드/마커 처리 = 새 구간) |
+
+새 로그: `NODE_CONFIRMED PASSED_OVER_DURING_CREEP / PASSED_OVER_AT_STOP`,
+`TURN_ACQUIRE CENTER_OFF_LINE_AFTER_TURN`.
+
+증상이 남으면 `DEAD_END` 직전 rule 로 경로를 구분한다:
+`CANCELLED_*`(5·6 관련) / `TURN` 직후 `LOST_SUSPECT`(7 — `turn_90_factor`
+캘리브레이션도 의심) / `LOST_STREAK_LIMIT`(8).
+
 ## 대시보드 리셋 버튼
 
 `tools/dashboard.py` 에 `[r]` 키를 추가했다(모든 스테이지 공용).
