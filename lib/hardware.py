@@ -354,6 +354,14 @@ class Ev3Hardware(object):
             self._read_center_rgb_raw()
         return self._read_center_rgb_raw()
 
+    def read_center_rgb_now(self):
+        """in2 RGB-RAW 1회 — 전환/settle 없음(final_run9 상시 RGB 트랙용).
+
+        시작 시 read_center_rgb() 로 RGB-RAW 모드에 들어간 뒤 매 루프 호출용.
+        (read_center_color_now 의 RGB 판이다 — 모드가 같으면 재전환 비용 없음.)
+        """
+        return self._read_center_rgb_raw()
+
     def restore_reflect_mode(self, settle_s):
         """컬러 모드 → 반사광 모드 복귀 + settle(라인추종 재개 전 안정화)."""
         _ = self._center.reflected_light_intensity  # 모드 복귀 트리거
