@@ -46,6 +46,7 @@ final_run4 추가(2026-07-08): 브릭 가운데 버튼 시작 + wav 음성 + LCD
 규약: 브릭 코드는 Python 3.5 안전 — f-string 금지, .format() 사용.
 """
 
+import os
 import threading
 import time
 
@@ -101,6 +102,8 @@ class Ev3Hardware(object):
                 pass
         except Exception:
             self._sound = None
+        self._buttons = None
+        self._display = None
 
         # final_run4: 소리는 백그라운드 큐에서 순서대로 재생한다 — 주행 루프가
         # 재생 완료를 기다리지 않고 '움직이면서' 소리가 난다. 지연 시작(_ensure_audio).
@@ -173,6 +176,109 @@ class Ev3Hardware(object):
         self._audio_enqueue(("beep",))
 
     # --- Stage 3 추가(좌/중/우 반사광 + 거리 환산용 엔코더 평균). __init__ 불변. ---
+
+    def _ensure_buttons(self):
+        if self._buttons is None:
+            from ev3dev2.button import Button
+            self._buttons = Button()
+
+    def center_pressed(self):
+        """Return True while the EV3 brick center/enter button is pressed."""
+        try:
+            self._ensure_buttons()
+            val = getattr(self._buttons, "enter", False)
+            if callable(val):
+                val = val()
+            if bool(val):
+                return True
+            pressed = getattr(self._buttons, "buttons_pressed", None)
+            if callable(pressed):
+                pressed = pressed()
+            if pressed:
+                return ("enter" in pressed or "center" in pressed)
+            checker = getattr(self._buttons, "check_buttons", None)
+            if callable(checker):
+                try:
+                    return bool(checker(buttons=["enter"]))
+                except TypeError:
+                    return bool(checker(["enter"]))
+            return False
+        except Exception:
+            return False
+
+    def wait_center_release(self):
+        while self.center_pressed():
+            time.sleep(0.03)
+
+    def _ensure_display(self):
+        if self._display is None:
+            from ev3dev2.display import Display
+            self._display = Display()
+
+    def display_lines(self, lines):
+        """Best-effort EV3 screen text. Also prints for SSH/debug logs."""
+        try:
+            print("\n".join([str(x) for x in lines]))
+        except Exception:
+            pass
+        try:
+            self._ensure_display()
+            self._display.clear()
+            for idx, line in enumerate(lines):
+                try:
+                    self._display.text_grid(str(line), x=0, y=idx)
+                except TypeError:
+                    self._display.text_grid(str(line), 0, idx)
+            self._display.update()
+        except Exception:
+            pass
+
+    def speak(self, text):
+        if self._sound is None:
+            return False
+        try:
+            self._sound.speak(str(text))
+            return True
+        except Exception:
+            return False
+
+    def play_file(self, path):
+        if self._sound is None or not path or not os.path.exists(path):
+            return False
+        try:
+            self._sound.play_file(path)
+            return True
+        except Exception:
+            return False
+
+    def play_named_sound(self, names, fallback_text=None):
+        roots = ("/usr/share/sounds/ev3dev", "/usr/share/sounds",
+                 "/home/robot/sounds", "/home/robot/sound")
+        exts = (".wav", ".WAV")
+        for root in roots:
+            for name in names:
+                _base, ext = os.path.splitext(name)
+                candidates = [name] if ext else [name + e for e in exts]
+                for candidate in candidates:
+                    if self.play_file(os.path.join(root, candidate)):
+                        return True
+        if fallback_text:
+            return self.speak(fallback_text)
+        return False
+
+    def say_number(self, number):
+        names = {1: "One", 2: "Two", 3: "Three", 4: "Four"}
+        text = names.get(int(number), str(number))
+        return self.play_named_sound((text, text.lower()), text.lower())
+
+    def say_good_job(self):
+        return self.play_named_sound(("Good Job", "Good job", "good_job",
+                                      "good-job"), "Good job")
+
+    def say_blue(self, number):
+        words = {1: "one", 2: "two", 3: "three", 4: "four"}
+        word = words.get(int(number), str(number))
+        return self.speak("Blue " + word)
 
     def _ensure_side_sensors(self):
         """좌/우 컬러센서(in1/in3)를 첫 사용 시에만 연다(지연 오픈).
