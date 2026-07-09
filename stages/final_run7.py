@@ -101,6 +101,7 @@ final_run2 변경(run_maze_v13 이번 커밋 반영, 노드 bits 임계값만):
 문법 점검(PC): python3 -m py_compile stages/final_run3.py lib/*.py
 """
 
+import json
 import os
 import random
 import sys
@@ -174,6 +175,8 @@ PID_DERIV_LIMIT = 220.0
 PID_D_EMA_ALPHA = 0.35
 POST_TURN_ALIGN_TURN_LIMIT = 5.0
 BLUE_DEBOUNCE_MS = 1200
+POST_TURN_SCAN_EXIT_SAMPLES = 2
+POST_TURN_SCAN_MIN_WIDTH_DEG = 4.0
 # 적분(I) windup 가드(§변경 2). BAND 밖(커브/노드 진입)에선 적분 동결,
 # I 항 기여는 ±TURN_LIMIT 의 절반로 제한해 P 를 이기지 못하게 한다.
 INTEG_BAND = 25.0           # |error(정규화)| 가 이 이하일 때만 적분
@@ -250,6 +253,8 @@ PARAM_TABLE = (
     ("turn_180_factor", 0.71,  0.3, 2.0,  0.05, 0.01, "x"),
     ("turn_ramp_deg",   45,    0,   140,  10,   5,    "deg"),
     ("turn_min_speed",  5,     3,   20,   2,    1,    "%"),
+    ("post_turn_scan_deg", 45, 0,   100,  10,   5,    "deg"),
+    ("post_turn_scan_speed", 4, 3,  12,   2,    1,    "%"),
     ("post_turn_align_mm", 30, 0,   80,   10,   5,    "mm"),
     ("post_turn_align_speed", 6, 3, 15,   2,    1,    "%"),
     ("grab_dist_cm",    6.0,   1.0, 20.0, 1.0,  0.5,  "cm"),
@@ -1397,7 +1402,151 @@ class Runner(object):
                              move=move, color=color)
                 acquired = self.realign_to_line(self.params.snapshot())
             if acquired and not self.interrupted():
-                self.post_turn_align(self.params.snapshot())
+                snap = self.params.snapshot()
+                self.post_turn_center_scan(snap)
+                if not self.interrupted():
+                    self.post_turn_align(snap)
+
+    def _pivot_degrees(self, direction, degrees, speed, mode):
+        if degrees <= 0:
+            return 0.0
+        left_dir, right_dir = (-1, 1) if direction == "L" else (1, -1)
+        self.hw.reset_encoders()
+        try:
+            self.hw.drive_raw(left_dir * speed, right_dir * speed)
+            while self.hw.enc_avg() < degrees:
+                if self.interrupted():
+                    break
+                if self.paused:
+                    self._hold_while_paused(mode)
+                    if self.interrupted():
+                        break
+                    self.hw.drive_raw(left_dir * speed, right_dir * speed)
+                self.publish(mode, direction=direction,
+                             target_deg=round(degrees, 1),
+                             enc_avg=round(self.hw.enc_avg(), 1))
+                time.sleep(0.005)
+        finally:
+            self.hw.stop()
+        return self.hw.enc_avg()
+
+    def post_turn_center_scan(self, snap):
+        max_deg = snap.get("post_turn_scan_deg", 0)
+        if max_deg <= 0:
+            return False
+        speed = snap.get("post_turn_scan_speed", REALIGN_SPEED)
+        if self.hw.read_center_color_now() != COL_BLACK:
+            self.log.log("POST_TURN_CENTER", "SKIP_CENTER_NOT_BLACK")
+            return False
+
+        left_edge = None
+        off_count = 0
+        self.hw.reset_encoders()
+        try:
+            self.hw.drive_raw(-speed, speed)
+            while self.hw.enc_avg() < max_deg:
+                if self.interrupted():
+                    break
+                if self.paused:
+                    self._hold_while_paused("post_turn_scan_left")
+                    if self.interrupted():
+                        break
+                    self.hw.drive_raw(-speed, speed)
+                color = self.hw.read_center_color_now()
+                if color == COL_BLACK:
+                    off_count = 0
+                else:
+                    off_count += 1
+                    if off_count >= POST_TURN_SCAN_EXIT_SAMPLES:
+                        left_edge = self.hw.enc_avg()
+                        break
+                self.publish("post_turn_scan_left",
+                             enc_avg=round(self.hw.enc_avg(), 1),
+                             color=color)
+                time.sleep(0.005)
+        finally:
+            self.hw.stop()
+
+        if self.interrupted():
+            return False
+        if left_edge is None:
+            restore = self.hw.enc_avg()
+            self._pivot_degrees("R", restore, speed, "post_turn_scan_restore")
+            self.reset_steer_pd()
+            self.log.log("POST_TURN_CENTER", "LEFT_EDGE_NOT_FOUND",
+                         scanned_deg=round(restore, 1))
+            return False
+
+        black_start = None
+        black_end = None
+        saw_black = False
+        off_count = 0
+        travel_limit = left_edge + max_deg
+        self.hw.reset_encoders()
+        try:
+            self.hw.drive_raw(speed, -speed)
+            while self.hw.enc_avg() < travel_limit:
+                if self.interrupted():
+                    break
+                if self.paused:
+                    self._hold_while_paused("post_turn_scan_right")
+                    if self.interrupted():
+                        break
+                    self.hw.drive_raw(speed, -speed)
+                enc = self.hw.enc_avg()
+                color = self.hw.read_center_color_now()
+                if color == COL_BLACK:
+                    if not saw_black:
+                        black_start = enc
+                        saw_black = True
+                    off_count = 0
+                elif saw_black:
+                    off_count += 1
+                    if off_count >= POST_TURN_SCAN_EXIT_SAMPLES:
+                        black_end = enc
+                        break
+                self.publish("post_turn_scan_right",
+                             enc_avg=round(enc, 1), left_edge=round(left_edge, 1),
+                             color=color, saw_black=saw_black)
+                time.sleep(0.005)
+        finally:
+            self.hw.stop()
+
+        current = self.hw.enc_avg()
+        if self.interrupted():
+            return False
+
+        width = 0.0 if black_start is None or black_end is None else (
+            black_end - black_start)
+        if (black_start is None or black_end is None or
+                width < POST_TURN_SCAN_MIN_WIDTH_DEG):
+            offset_from_start = current - left_edge
+            if offset_from_start > 0:
+                self._pivot_degrees("L", offset_from_start, speed,
+                                    "post_turn_scan_restore")
+            else:
+                self._pivot_degrees("R", -offset_from_start, speed,
+                                    "post_turn_scan_restore")
+            self.reset_steer_pd()
+            self.log.log("POST_TURN_CENTER", "BLACK_WINDOW_NOT_FOUND",
+                         left_edge=round(left_edge, 1),
+                         current=round(current, 1),
+                         black_start=black_start,
+                         black_end=black_end,
+                         width=round(width, 1))
+            return False
+
+        center_from_left = (black_start + black_end) / 2.0
+        back_left = max(0.0, current - center_from_left)
+        self._pivot_degrees("L", back_left, speed, "post_turn_scan_center")
+        self.reset_steer_pd()
+        self.log.log("POST_TURN_CENTER", "CENTERED_ON_BLACK_WINDOW",
+                     left_edge=round(left_edge, 1),
+                     black_start=round(black_start, 1),
+                     black_end=round(black_end, 1),
+                     width=round(width, 1),
+                     back_left=round(back_left, 1))
+        return True
 
     def post_turn_align(self, snap):
         dist_mm = snap.get("post_turn_align_mm", 0)
@@ -2019,15 +2168,50 @@ def force_run7_defaults(params, log):
                     saved=saved, save_msg=save_msg)
 
 
+def load_saved_compatible(params, log):
+    ok, msg = params.load_saved_into_defaults()
+    if ok:
+        return
+    if not os.path.exists(SAVE_PATH):
+        log.log("PARAM_LOAD", "NO_SAVED_PARAMS")
+        return
+    try:
+        with open(SAVE_PATH, "r") as fp:
+            loaded = json.load(fp)
+    except Exception as exc:
+        log.log("PARAM_LOAD", "FAILED_READ", error=str(exc))
+        return
+    if not isinstance(loaded, dict):
+        log.log("PARAM_LOAD", "FAILED_NOT_OBJECT")
+        return
+    forced = dict(FORCED_RUN7_PARAMS)
+    applied = []
+    skipped = []
+    for name, value in loaded.items():
+        if name not in PARAM_LIMITS:
+            skipped.append(name)
+            continue
+        if name in forced:
+            continue
+        ok, set_msg = _force_param_gradual(params, name, value)
+        if ok:
+            applied.append(name)
+        else:
+            skipped.append(name + ":" + set_msg)
+    log.log("PARAM_LOAD", "COMPAT_MERGE",
+            applied=",".join(sorted(applied)),
+            skipped=",".join(sorted(skipped)),
+            source=SAVE_PATH, error=msg)
+
+
 def run():
     from lib.hardware import Ev3Hardware   # ev3dev2 — 브릭에서만 import 가능
 
     params = SharedParams(INITIAL_PARAMS, PARAM_LIMITS, MAX_STEP, SAVE_PATH,
                           ui_step=UI_STEP, units=UNITS, param_order=PARAM_ORDER)
-    params.load_saved_into_defaults()
-
     tele = Telemetry()
     log = DecisionLog(telemetry=tele)
+    load_saved_compatible(params, log)
     force_run7_defaults(params, log)
     hw = Ev3Hardware()
     hw.read_center_color(COLOR_MODE_SETTLE_S, 1)    # 중앙센서를 컬러 모드로 진입
