@@ -67,8 +67,8 @@ final_run8 대비 변경:
     다음 스텝 라벨로 상대 move 를 계산해 회전(§변경 C — 리프에선 자연히 유턴).
     커브(n_exits==1)는 노드가 아니므로 스텝을 소비하지 않는다 — 간선에
     커브가 몇 개든 계획과 어긋나지 않는다.
-  - 빨강 재방문: 정지+부저 2번(기존 유지) + home_revisit 카운트 + REVISIT_HOME
-    로그 후 계획 계속. 초음파 파지는 HOME 에서 원래 비활성.
+  - 빨강 재방문: "red N" 재생 + home_revisit 카운트 + REVISIT_HOME 로그 후
+    계획 계속. 초음파 파지는 복귀 중에도 동작한다(두 번째 통 — 명세 7·8).
   - 도착 종류/가능한 move 가 계획과 어긋나면 RETURN_FALLBACK 로그 후 즉석
     탐색(좌>우>직)으로 전환 — 절대 그 자리에 멈추지 않는다. 노랑을 계획보다
     일찍 만나면 그대로 종료하되 못 본 빨강 수를 경고 로그로 남긴다.
@@ -1716,6 +1716,10 @@ class Runner(object):
             if pressed is True:
                 break
             # None = timeout(계속 대기), False = stop/reset(루프 상단에서 처리)
+            # 또는 버튼 장치 초기화 실패 — 이때 sleep 없이 돌면 busy-spin 이므로
+            # 짧게 쉰다(정상 타임아웃 대기에는 영향 미미).
+            if pressed is False:
+                time.sleep(0.1)
         self.run_started_t = time.monotonic()
         self.mission_number = random.randint(1, 4)
         self.show_screen()
