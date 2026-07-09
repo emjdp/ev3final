@@ -9,7 +9,7 @@
 | 항목 | run8 | run9 |
 |---|---|---|
 | 중앙센서(in2) | 상시 컬러 모드(색 코드) | **상시 RGB-RAW** — 한 읽기로 밝기(PID·노드)+색판정 동시 |
-| 조향 에러 | normR − normL (2센서) | **3센서 가중 위치** 100·(darkL−darkR)/(darkL+darkC+darkR) |
+| 조향 에러 | normR − normL (2센서) | **중앙 센서 엣지 팔로잉** steer_sign·(norm_c − edge_target) — 좌/우는 조향 미사용 |
 | 노드 중앙 bit | color==BLACK (이진) | **밝기 정규화값 < center_th_node** (아날로그 임계) |
 | 마커 판정 | ev3dev color 코드 | **classify_rgb 비율 판정**(rgb_* 파라미터) + 기존 정지 다수결 유지 |
 | 시작 | 노랑 감지 | **브릭 가운데 버튼**(명세 1) |
@@ -55,8 +55,11 @@ run8 실행층은 커브를 지나며 갱신된 **실주행 heading** 과 rel_mo
    검은 라인 위에서도 실행해 COL_BLACK(1) 확인(rgb_black_max).
 3. **calibrate**: 라인 직선 구간 위에서 실행 — 좌/우 반사광 + 중앙 밝기의
    black/white 를 실측 기록(cal_*).
-4. 주행: kp/ki/deadband/base_speed 라이브 튜닝(run8 값에서 시작).
-   center_th_node 는 캘리브레이션 후 norm_c 로그를 보고 조정(기본 50).
+4. 주행(중앙 엣지 팔로잉): **먼저 로봇을 라인 경계에 걸치게 놓고** 천천히 출발해
+   방향을 본다 — 라인 반대로 폭주하면 `steer_sign` 을 -1 로 뒤집는다(그게 핵심
+   한 값). 이후 kp(기본 0.30)/ki/deadband/base_speed 라이브 튜닝. edge_target 은
+   중앙이 타야 할 경계 밝기(기본 50) — calibrate 후 라인 경계에서 read_rgb 의
+   norm_c 를 보고 조정. center_th_node(노드 판별용)는 norm_c 로그로 별도 조정.
 5. 소리: 첫 실행 때 espeak 가 `sounds/` 에 wav 17개를 생성(수십 초 소요,
    이후 캐시). `AUDIO_DIAG` 로그에서 made/cached/failed 확인.
    espeak 이 없으면 tone 폴백으로만 동작 — `sudo apt-get install espeak`.
@@ -65,8 +68,10 @@ run8 실행층은 커브를 지나며 갱신된 **실주행 heading** 과 rel_mo
 
 - RGB-RAW 모드의 읽기 지연/노이즈는 실기 미확인(컬러 모드와 동급으로 예상).
 - rgb_* 기본값은 전형값 기반 추정 — read_rgb 실측 없이는 마커 오판 가능.
-- 3센서 가중 에러의 체감 조향 품질(사용자 불만 1: "세밀하게 안됌")은
-  kp/deadband 재튜닝과 함께 실기에서 판단해야 한다.
+- 중앙 엣지 팔로잉은 **중앙 센서가 라인 경계를 타야** 방향 신호가 나온다.
+  라인이 얇아 중앙이 라인 정중앙(포화 검정)에 앉으면 신호가 없어 못 따라간다 —
+  장착/트랙을 엣지 기준으로 맞추는 게 전제(실기 미검증, 사용자 생각 1 채택).
+- steer_sign 초기값 +1 은 임의 — 첫 주행에서 방향 확인 후 확정해야 한다.
 - 버튼 시작: ev3dev Button 이 정상일 때만 시작 가능(실패 시 로그 BUTTON).
 
 ## 업로드/실행

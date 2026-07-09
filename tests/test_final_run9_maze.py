@@ -257,28 +257,35 @@ class ClassifyRgbCase(unittest.TestCase):
         self.assertEqual(self.cls(90, 100, 80), COL_NONE)
 
 
-class PidCentroidCase(unittest.TestCase):
-    """3센서 가중 위치 에러: 부호/스케일이 run8(normR-normL)과 호환."""
+class PidEdgeFollowCase(unittest.TestCase):
+    """중앙 센서 엣지 팔로잉: error = steer_sign*(norm_c - edge_target)."""
 
-    def error_of(self, nl, nc, nr):
+    def error_of(self, nc, snap=None):
         pid = PidSteer()
-        _l, _r, error, _turn, _trim = pid.step(nl, nc, nr, INITIAL_PARAMS, 15)
+        _l, _r, error, _turn, _trim = pid.step(nc, snap or INITIAL_PARAMS, 15)
         return error
 
-    def test_centered_zero(self):
-        self.assertAlmostEqual(self.error_of(90, 5, 90), 0.0)
+    def test_on_edge_zero(self):
+        # 중앙이 경계값(edge_target=50) 위 = 에러 0(조향 없음).
+        self.assertAlmostEqual(self.error_of(50), 0.0)
 
-    def test_drift_right_line_under_left(self):
-        # 라인이 좌센서 아래로(로봇이 우로 치우침) → error > 0 → turn > 0 →
-        # left=base-turn 이 느려져 좌회전(run8 부호 규약: error = normR-normL).
-        self.assertGreater(self.error_of(30, 40, 95), 0.0)
+    def test_on_white_positive(self):
+        # 흰 바닥 쪽(밝음)으로 벗어남 → error > 0(steer_sign=+1 기본).
+        self.assertGreater(self.error_of(85), 0.0)
 
-    def test_drift_left_line_under_right(self):
-        self.assertLess(self.error_of(95, 40, 30), 0.0)
+    def test_on_black_negative(self):
+        # 검은 라인 쪽(어두움)으로 벗어남 → error < 0.
+        self.assertLess(self.error_of(10), 0.0)
 
-    def test_all_white_no_blowup(self):
-        # 전백(유실 직전)에서도 분모 하한 덕에 에러가 폭주하지 않는다.
-        self.assertLessEqual(abs(self.error_of(98, 97, 99)), 5.0)
+    def test_steer_sign_flips(self):
+        snap = dict(INITIAL_PARAMS)
+        snap["steer_sign"] = -1
+        self.assertLess(self.error_of(85, snap), 0.0)
+        self.assertGreater(self.error_of(10, snap), 0.0)
+
+    def test_uses_only_center(self):
+        # 좌/우 값과 무관하게 중앙만으로 결정됨을 시그니처로 보장(인자 1개).
+        self.assertAlmostEqual(self.error_of(50), 0.0)
 
 
 class NodeBitsCase(unittest.TestCase):
