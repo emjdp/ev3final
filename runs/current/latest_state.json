@@ -29,7 +29,7 @@
       "turn_speed": 10
     }
   },
-  "poll_time": 1783567069.2682774,
+  "poll_time": 1783567095.5207782,
   "recent_events": [
     {
       "event": "REALIGN",
@@ -247,5 +247,5 @@
   ],
   "run_dir": "runs/2026-07-09T12-07-43",
   "stage": "final_run8",
-  "updated_at": "2026-07-09T12:17:49"
+  "updated_at": "2026-07-09T12:18:15"
 }
