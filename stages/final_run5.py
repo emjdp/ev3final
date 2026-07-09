@@ -1,6 +1,25 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""final_run3 — final_run2 + 복귀(home) 로직 교체: 지도 기반 최소거리 전노드 재방문.
+"""final_run5 — final_run3 + 회전 시작 '틱틱' 튐 제거(가속 램프 + coast).
+
+final_run5 변경(주행 하드웨어 계층만, 판단/복귀 로직은 final_run3 그대로):
+  실기에서 90/180 회전을 시작하는 순간 바퀴가 틱틱 튕겼다. 원인 두 가지가
+  겹쳤다 — (1) 회전 직전 stop() 이 brake=True(hold)라 모터가 위치를 붙잡고
+  버티는 상태에서 turn() 이 reset_encoders()(position=0)를 호출해 hold
+  컨트롤러가 기준이 틀어졌다고 판단, 위치보정 킥을 낸다. (2) 그 뒤 drive_raw
+  가 가속 램프 없이 저속(turn_speed)으로 바로 명령해 속도PID 가 정지마찰+기어
+  백래시를 이기려 duty 를 확 밀어넣어 저속 regulation 이 거칠게 스터터한다.
+  해결: turn() 에서 (1) reset_encoders() 전에 hw.coast()(brake=False)로 hold
+  를 풀고, (2) 회전 동안만 hw.set_ramp(turn_ramp_ms)로 가속을 램프한 뒤
+  finally 에서 set_ramp(0)으로 되돌린다(라인추종 drive() 조향엔 램프 미적용 —
+  매 15ms 조향이 뭉개지지 않게). 회전각은 엔코더 target 으로 끊으므로
+  램프를 걸어도 정확도 손해가 없다(첫 몇 도만 천천히 돈다). turn_ramp_ms 는
+  라이브 파라미터(기본 250ms, 실기에서 200~350 튜닝). lib/hardware.py 에는
+  set_ramp()/coast() 를 '추가만' 한다(기존 메서드/다른 스테이지 동작 불변).
+
+===== 이하 final_run3 원문 헤더 =====
+
+final_run3 — final_run2 + 복귀(home) 로직 교체: 지도 기반 최소거리 전노드 재방문.
 
 복귀 사양 변경(채점 기준): 복귀 중에도 모든 빨강 마커를 다시 지나가야 한다.
 단, 총 이동거리는 최소. 가는 길(out) 탐색/배달/유실 처리는 final_run2 와
@@ -97,13 +116,11 @@ final_run2 변경(run_maze_v13 이번 커밋 반영, 노드 bits 임계값만):
 규약: Python 3.5(f-string 금지) / ev3dev2 는 run() 안에서만 import /
       BACK 버튼 미사용 — 정지는 네트워크 stop 또는 Ctrl-C, 재시작은 네트워크 reset.
 
-실행(브릭):   python3 stages/final_run3.py
-문법 점검(PC): python3 -m py_compile stages/final_run3.py lib/*.py
+실행(브릭):   python3 stages/final_run5.py
+문법 점검(PC): python3 -m py_compile stages/final_run5.py lib/*.py
 """
 
-import json
 import os
-import random
 import sys
 import threading
 import time
@@ -125,7 +142,6 @@ from lib.tuning_server import TuningServer                          # noqa: E402
 # ---------------------------------------------------------------------
 
 COL_BLACK = 1
-COL_BLUE = 2
 COL_GREEN = 3
 COL_YELLOW = 4
 COL_RED = 5
@@ -169,14 +185,10 @@ FOLLOW_LOG_S = 0.25         # LINE_FOLLOW 로그 최소 간격
 COLOR_MODE_SETTLE_S = 0.01  # 시작 시 컬러 모드 전환 settle(정리.md)
 
 # PID — KD 는 notes 대로 고정, derivative 는 clamp + EMA 로 완화.
-PID_KD = 0.0
+PID_KD = 0.05
 PID_TURN_LIMIT = 16
 PID_DERIV_LIMIT = 220.0
 PID_D_EMA_ALPHA = 0.35
-POST_TURN_ALIGN_TURN_LIMIT = 5.0
-BLUE_DEBOUNCE_MS = 1200
-POST_TURN_SCAN_EXIT_SAMPLES = 2
-POST_TURN_SCAN_MIN_WIDTH_DEG = 4.0
 # 적분(I) windup 가드(§변경 2). BAND 밖(커브/노드 진입)에선 적분 동결,
 # I 항 기여는 ±TURN_LIMIT 의 절반로 제한해 P 를 이기지 못하게 한다.
 INTEG_BAND = 25.0           # |error(정규화)| 가 이 이하일 때만 적분
@@ -195,19 +207,6 @@ TONE_BRANCH = ((600, 100), (900, 100))
 TONE_UTURN = ((300, 150), (300, 150))
 TONE_CAL_FAIL = ((250, 300),)
 
-SOUND_ROOT = "/usr/share/sounds/ev3dev"
-SOUND_RED = os.path.join(SOUND_ROOT, "colors", "red.wav")
-SOUND_GOOD_JOB = os.path.join(SOUND_ROOT, "communication", "good_job.wav")
-NUMBER_SOUNDS = dict(
-    (i, os.path.join(SOUND_ROOT, "numbers", w + ".wav")) for i, w in (
-        (1, "one"), (2, "two"), (3, "three"), (4, "four"), (5, "five"),
-        (6, "six")))
-FORCED_RUN7_PARAMS = (
-    ("kp", 0.05),
-    ("ki", 0.065),
-    ("deadband", 0.5),
-)
-
 
 # ---------------------------------------------------------------------
 # 라이브 파라미터 — 대시보드/robotctl 로 실기에서 튜닝한다.
@@ -218,10 +217,11 @@ FORCED_RUN7_PARAMS = (
 # 기본값 black 0 / white 100 = 정규화 항등(원시값 그대로) → 미보정 시 v13 동작.
 PARAM_TABLE = (
     ("base_speed",      10,    5,   45,   5,    1,    "%"),
-    ("kp",              0.05,  0.0, 3.0,  0.1,  0.01, ""),
-    ("ki",              0.065, 0.0, 0.5,  0.05, 0.01, ""),
-    ("deadband",        0.5,   0.0, 20.0, 20.0, 0.5,  ""),
+    ("kp",              0.17,  0.0, 3.0,  0.1,  0.01, ""),
+    ("ki",              0.06,  0.0, 0.5,  0.05, 0.01, ""),
+    ("deadband",        3.0,   0.0, 20.0, 2.0,  0.5,  ""),
     ("turn_speed",      10,    5,   40,   5,    1,    "%"),
+    ("turn_ramp_ms",    250,   0,   600,  100,  50,   "ms"),  # 회전 가속 램프(시작 틱틱 튐 방지, final_run5)
     ("node_confirm_ms", 40,    0,   1000, 60,   10,   "ms"),
     ("left_th_steer",   66,    0,   100,  3,    1,    "%"),   # 유실 복구 검정 판정(원시값)
     ("right_th_steer",  63,    0,   100,  3,    1,    "%"),
@@ -238,12 +238,6 @@ PARAM_TABLE = (
     ("goal_advance_mm", 100,   0,   200,  10,   10,   "mm"),  # 배달 전·후진 거리
     ("turn_90_factor",  0.66,  0.3, 2.0,  0.05, 0.01, "x"),
     ("turn_180_factor", 0.71,  0.3, 2.0,  0.05, 0.01, "x"),
-    ("turn_ramp_deg",   45,    0,   140,  10,   5,    "deg"),
-    ("turn_min_speed",  5,     3,   20,   2,    1,    "%"),
-    ("post_turn_scan_deg", 45, 0,   100,  10,   5,    "deg"),
-    ("post_turn_scan_speed", 4, 3,  12,   2,    1,    "%"),
-    ("post_turn_align_mm", 30, 0,   80,   10,   5,    "mm"),
-    ("post_turn_align_speed", 6, 3, 15,   2,    1,    "%"),
     ("grab_dist_cm",    6.0,   1.0, 20.0, 1.0,  0.5,  "cm"),
     ("grip_speed",      50,    5,   80,   5,    1,    "%"),
     ("lost_persist_ms", 200,   0,   500,  100,  10,   "ms"),  # 000 지속 필터(v13)
@@ -257,8 +251,8 @@ UI_STEP = dict((r[0], r[5]) for r in PARAM_TABLE)
 UNITS = dict((r[0], r[6]) for r in PARAM_TABLE)
 PARAM_ORDER = [r[0] for r in PARAM_TABLE]
 
-SAVE_PATH = os.path.join(_ROOT, "config", "final_run7.json")
-STAGE_NAME = "final_run7"
+SAVE_PATH = os.path.join(_ROOT, "config", "final_run5.json")
+STAGE_NAME = "final_run5"
 
 ACTIONS = [
     {"name": "calibrate", "label": "Calibrate L/R on line (sweep)"},
@@ -736,11 +730,6 @@ class PidSteer(object):
         self.deriv = 0.0
         self.integ = 0.0
 
-    def reset_pd(self):
-        self.prev_error = 0.0
-        self.prev_t = None
-        self.deriv = 0.0
-
     def reset(self):
         """회전/노드/복구 후 — P/D 이력은 버리되 적분은 절반 유지.
 
@@ -748,7 +737,9 @@ class PidSteer(object):
         전부 버리면 매 구간 재학습으로 초반 치우침이 되살아난다. 절반만
         남기면 잘못 누적된 값(커브 잔재)도 두 번 리셋이면 거의 사라진다.
         """
-        self.reset_pd()
+        self.prev_error = 0.0
+        self.prev_t = None
+        self.deriv = 0.0
         self.integ *= INTEG_RESET_KEEP
 
     def step(self, norm_l, norm_r, snap, base_speed):
@@ -819,15 +810,6 @@ class Runner(object):
         self.last_marker_t = -1e9
         self.last_node_t = -1e9
         self.last_recover_t = -1e9
-        self.mission_number = None
-        self.mission_started_t = None
-        self.segment_started_t = None
-        self.green_elapsed = None
-        self.yellow_elapsed = None
-        self.blue_count = 0
-        self.last_blue_t = -1e9
-        self.delivery_count = 0
-        self.audio_diag_done = False
         self.lost_since = None      # 000 연속 시작 시각(지속 필터, v13)
         self.lost_streak = 0        # 윈도 내 연속 복구 횟수(v13)
         self.node_debounce_ms = 0   # 직전 confirm 결과에 따른 재감지 간격(v13.1)
@@ -870,10 +852,6 @@ class Runner(object):
             "grabbed": self.grabbed,
             "home_total": self.ex.home_red_total,
             "home_revisit": self.home_revisit,
-            "mission_number": self.mission_number,
-            "green_elapsed": self.green_elapsed,
-            "yellow_elapsed": self.yellow_elapsed,
-            "blue_count": self.blue_count,
         }
         frame.update(extra)
         last_reason = self.log.last_reason()
@@ -918,189 +896,6 @@ class Runner(object):
         self.pid.reset()
         self.last_turn = 0.0
         self.lost_since = None      # 모션 프리미티브 후 stale 유실 타이머 방지(v13)
-
-    def reset_steer_pd(self):
-        self.pid.reset_pd()
-        self.last_turn = 0.0
-        self.lost_since = None
-
-    def screen(self, lines):
-        try:
-            display = getattr(self.hw, "display_lines", None)
-            if callable(display):
-                display(lines)
-                return
-        except Exception:
-            pass
-        try:
-            print("\n".join([str(x) for x in lines]))
-        except Exception:
-            pass
-
-    def _sound_ready(self):
-        checker = getattr(self.hw, "sound_available", None)
-        if callable(checker):
-            return bool(checker())
-        return getattr(self.hw, "_sound", None) is not None
-
-    def _queue_wav(self, path, label):
-        if not path or not os.path.isfile(path):
-            self.log.log("AUDIO", "WAV_MISSING_" + label, path=path)
-            return False
-        if not self._sound_ready():
-            self.log.log("AUDIO", "WAV_UNAVAILABLE_" + label, path=path)
-            return False
-        player = getattr(self.hw, "play_wav", None)
-        if not callable(player):
-            self.log.log("AUDIO", "WAV_PLAYER_MISSING_" + label, path=path)
-            return False
-        player(path)   # Ev3Hardware queues wav playback on a background worker.
-        self.log.log("AUDIO", "WAV_" + label, path=path)
-        return True
-
-    def diagnose_audio_once(self):
-        if self.audio_diag_done:
-            return
-        self.audio_diag_done = True
-        sound_ready = self._sound_ready()
-        red_found = os.path.isfile(SOUND_RED)
-        numbers_found = [n for n, path in NUMBER_SOUNDS.items()
-                         if os.path.isfile(path)]
-        self.log.log("AUDIO_DIAG", "EV3_SOUND_CHECK",
-                     sound_ready=sound_ready, root=SOUND_ROOT,
-                     red_found=red_found, numbers_found=numbers_found)
-        if (not sound_ready) or (not red_found) or len(numbers_found) < 6:
-            self.screen(("AUDIO DIAG",
-                         "red {}".format("OK" if red_found else "MISS"),
-                         "nums {}/6".format(len(numbers_found)),
-                         "fallback ready"))
-            time.sleep(0.4)
-
-    def say_number(self, number):
-        path = NUMBER_SOUNDS.get(int(number))
-        if self._queue_wav(path, "NUMBER"):
-            return
-        self.play(((500 + int(number) * 80, 250),))
-        self.log.log("AUDIO", "NUMBER_FALLBACK_TONE", number=number)
-
-    def say_red_number(self, number):
-        number_path = NUMBER_SOUNDS.get(int(number))
-        red_ok = self._queue_wav(SOUND_RED, "RED")
-        number_ok = self._queue_wav(number_path, "NUMBER")
-        if red_ok and number_ok:
-            self.log.log("AUDIO", "RED_NUMBER", number=number)
-            return
-        self.play(((700, 120), (500 + int(number) * 80, 250)))
-        self.log.log("AUDIO", "RED_NUMBER_FALLBACK_TONE", number=number)
-
-    def say_good_job(self):
-        if self._queue_wav(SOUND_GOOD_JOB, "GOOD_JOB"):
-            return
-        self.play(((900, 120), (1200, 160), (900, 120)))
-        self.log.log("AUDIO", "GOOD_JOB_FALLBACK_TONE")
-
-    def say_blue(self, number):
-        self.play(((700, 90), (900, 90)))
-
-    def _wait_center_press(self, mode, lines):
-        last_screen = -1e9
-        button_warned = False
-        while True:
-            if self.stop_on:
-                return "stop"
-            if self.reset_on:
-                return "reset"
-            if self.paused:
-                self.hw.stop()
-                self.publish(mode + "_paused")
-                time.sleep(0.05)
-                continue
-            self.handle_pending()
-            now = time.monotonic()
-            if now - last_screen >= 0.5:
-                self.screen(lines)
-                last_screen = now
-            self.publish(mode, mission_number=self.mission_number or 0)
-            waiter = getattr(self.hw, "wait_center_button", None)
-            if callable(waiter):
-                try:
-                    pressed = waiter(lambda: self.stop_on,
-                                     lambda: self.reset_on,
-                                     poll_s=0.03, timeout=0.05)
-                except Exception as exc:
-                    pressed = None
-                    if not button_warned:
-                        self.log.log("BUTTON", "WAIT_CENTER_FAILED",
-                                     error=str(exc))
-                        button_warned = True
-                if pressed is True:
-                    return "pressed"
-                if pressed is False:
-                    if self.stop_on:
-                        return "stop"
-                    if self.reset_on:
-                        return "reset"
-            center = getattr(self.hw, "center_pressed", None)
-            if callable(center):
-                try:
-                    if center():
-                        release = getattr(self.hw, "wait_center_release", None)
-                        if callable(release):
-                            release()
-                        return "pressed"
-                except Exception as exc:
-                    if not button_warned:
-                        self.log.log("BUTTON", "CENTER_POLL_FAILED",
-                                     error=str(exc))
-                        button_warned = True
-            if not callable(waiter):
-                time.sleep(0.05)
-
-    def _timer_lines(self):
-        green = "--" if self.green_elapsed is None else "{:.1f}s".format(
-            self.green_elapsed)
-        yellow = "--" if self.yellow_elapsed is None else "{:.1f}s".format(
-            self.yellow_elapsed)
-        return ("GOOD JOB",
-                "GREEN {}".format(green),
-                "YELLOW {}".format(yellow),
-                "NUM {}".format(self.mission_number or "-"))
-
-    def _finish_delivery_segment(self, label):
-        self.delivery_count += 1
-        elapsed = 0.0
-        if self.segment_started_t is not None:
-            elapsed = time.monotonic() - self.segment_started_t
-        if label == "green":
-            self.green_elapsed = elapsed
-        else:
-            self.yellow_elapsed = elapsed
-        self.say_good_job()
-        self.screen(self._timer_lines())
-        self.log.log("DELIVERY_DONE", "GOOD_JOB_" + label.upper(),
-                     delivery=self.delivery_count,
-                     elapsed_s=round(elapsed, 1),
-                     number=self.mission_number)
-        time.sleep(1.0)
-        return elapsed
-
-    def _handle_blue_marker(self, context):
-        now = time.monotonic()
-        if (now - self.last_blue_t) * 1000 < BLUE_DEBOUNCE_MS:
-            return False
-        self.hw.stop()
-        self.blue_count += 1
-        idx = ((self.blue_count - 1) % 4) + 1
-        self.screen(("BLUE {}".format(idx),
-                     "NUM {}".format(self.mission_number or "-"),
-                     "passing"))
-        self.say_blue(idx)
-        self.log.log("BLUE_MARKER", "COLOR_BLUE",
-                     index=idx, context=context, session=self.session)
-        self.last_blue_t = now
-        self.straight(25, CONFIRM_SPEED, mode="blue_pass")
-        self.reset_steer()
-        return True
 
     def _hold_while_paused(self, mode):
         """모션 중 pause: 모터를 세우고 해제/중단까지 대기."""
@@ -1239,7 +1034,13 @@ class Runner(object):
 
     def turn(self, move):
         """제자리 회전(L/R/U) + heading 갱신 + PID 리셋. 유턴은 낮은 tone 2번 선행.
-        회전각/속도를 바꾸려면 여기(와 params 의 factor)만 보면 된다."""
+        회전각/속도를 바꾸려면 여기(와 params 의 factor)만 보면 된다.
+
+        final_run5: 회전 시작 '틱틱' 튐 제거 — (1) reset_encoders() 전에 coast()
+        로 직전 brake-hold 를 풀어 엔코더 리셋(position=0) 위치보정 킥을 막고,
+        (2) 회전 동안만 set_ramp(turn_ramp_ms)로 가속을 램프해 속도PID 콜드스타트/
+        백래시 킥을 없앤다. finally 에서 set_ramp(0)으로 되돌려 라인추종 조향엔
+        영향이 없다(감속 램프는 0 — 엔코더 target 에서 크리스프하게 멈춘다)."""
         # 노드/마커 처리를 마치면 새 구간 — 복구 카운트 이월 방지(v13.1).
         self.lost_streak = 0
         if move == "S":
@@ -1252,7 +1053,9 @@ class Runner(object):
             target = BASE_PIVOT_DEG_90 * snap["turn_90_factor"]
         left_dir, right_dir = (-1, 1) if move == "L" else (1, -1)
         speed = snap["turn_speed"]
+        self.hw.coast()                 # 직전 brake-hold 해제 → 리셋 킥 방지(final_run5)
         self.hw.reset_encoders()
+        self.hw.set_ramp(snap["turn_ramp_ms"])   # 가속만 램프(감속=0), final_run5
         try:
             self.hw.drive_raw(left_dir * speed, right_dir * speed)
             while self.hw.enc_avg() < target:
@@ -1268,6 +1071,7 @@ class Runner(object):
                 time.sleep(0.005)
         finally:
             self.hw.stop()
+            self.hw.set_ramp(0)         # 라인추종 조향엔 램프 미적용(final_run5)
         actual = self.hw.enc_avg()
         time.sleep(POST_TURN_SETTLE_S)
         self.log.log("TURN", {"L": "TURN_LEFT", "R": "TURN_RIGHT", "U": "UTURN"}[move],
@@ -1287,268 +1091,9 @@ class Runner(object):
 
     # ---- 마커 / 노드 처리 ----
 
-    def _turn_speed_at(self, enc, target, snap):
-        max_speed = snap["turn_speed"]
-        min_speed = min(max_speed, snap.get("turn_min_speed", 5))
-        ramp = snap.get("turn_ramp_deg", 0)
-        if ramp <= 0 or target <= 0:
-            return max_speed
-        remaining = max(target - enc, 0.0)
-        up = min(1.0, enc / float(ramp))
-        down = min(1.0, remaining / float(ramp))
-        scale = min(up, down)
-        return clamp(max(min_speed, max_speed * scale), min_speed, max_speed)
-
-    def turn(self, move):
-        self.lost_streak = 0
-        if move == "S":
-            return
-        snap = self.params.snapshot()
-        if move == "U":
-            self.play(TONE_UTURN)
-            target = BASE_PIVOT_DEG_180 * snap["turn_180_factor"]
-        else:
-            target = BASE_PIVOT_DEG_90 * snap["turn_90_factor"]
-        left_dir, right_dir = (-1, 1) if move == "L" else (1, -1)
-        ramp_setter = getattr(self.hw, "set_ramp", None)
-        if callable(ramp_setter):
-            ramp_setter(180, 120)
-        self.hw.reset_encoders()
-        last_speed = 0.0
-        try:
-            while self.hw.enc_avg() < target:
-                if self.interrupted():
-                    break
-                if self.paused:
-                    self._hold_while_paused("turning")
-                    if self.interrupted():
-                        break
-                enc = self.hw.enc_avg()
-                speed = self._turn_speed_at(enc, target, snap)
-                last_speed = speed
-                self.hw.drive_raw(left_dir * speed, right_dir * speed)
-                self.publish("turning", target_deg=round(target, 1),
-                             enc_avg=round(enc, 1), speed=round(speed, 1))
-                time.sleep(0.005)
-        finally:
-            self.hw.stop()
-            if callable(ramp_setter):
-                ramp_setter(0, 0)
-        actual = self.hw.enc_avg()
-        time.sleep(POST_TURN_SETTLE_S)
-        self.log.log("TURN",
-                     {"L": "TURN_LEFT", "R": "TURN_RIGHT", "U": "UTURN"}[move],
-                     target_deg=round(target, 1), enc_avg=round(actual, 1),
-                     error_deg=round(actual - target, 1),
-                     speed=round(last_speed, 1),
-                     stopped_early=self.interrupted())
-        self.ex.apply_move(move)
-        self.reset_steer()
-        if not self.interrupted():
-            color = self.hw.read_center_color_now()
-            acquired = True
-            if color != COL_BLACK and color not in MARKER_COLORS:
-                self.log.log("TURN_ACQUIRE", "CENTER_OFF_LINE_AFTER_TURN",
-                             move=move, color=color)
-                acquired = self.realign_to_line(self.params.snapshot())
-            if acquired and not self.interrupted():
-                snap = self.params.snapshot()
-                self.post_turn_center_scan(snap)
-                if not self.interrupted():
-                    self.post_turn_align(snap)
-
-    def _pivot_degrees(self, direction, degrees, speed, mode):
-        if degrees <= 0:
-            return 0.0
-        left_dir, right_dir = (-1, 1) if direction == "L" else (1, -1)
-        self.hw.reset_encoders()
-        try:
-            self.hw.drive_raw(left_dir * speed, right_dir * speed)
-            while self.hw.enc_avg() < degrees:
-                if self.interrupted():
-                    break
-                if self.paused:
-                    self._hold_while_paused(mode)
-                    if self.interrupted():
-                        break
-                    self.hw.drive_raw(left_dir * speed, right_dir * speed)
-                self.publish(mode, direction=direction,
-                             target_deg=round(degrees, 1),
-                             enc_avg=round(self.hw.enc_avg(), 1))
-                time.sleep(0.005)
-        finally:
-            self.hw.stop()
-        return self.hw.enc_avg()
-
-    def post_turn_center_scan(self, snap):
-        max_deg = snap.get("post_turn_scan_deg", 0)
-        if max_deg <= 0:
-            return False
-        speed = snap.get("post_turn_scan_speed", REALIGN_SPEED)
-        if self.hw.read_center_color_now() != COL_BLACK:
-            self.log.log("POST_TURN_CENTER", "SKIP_CENTER_NOT_BLACK")
-            return False
-
-        left_edge = None
-        off_count = 0
-        self.hw.reset_encoders()
-        try:
-            self.hw.drive_raw(-speed, speed)
-            while self.hw.enc_avg() < max_deg:
-                if self.interrupted():
-                    break
-                if self.paused:
-                    self._hold_while_paused("post_turn_scan_left")
-                    if self.interrupted():
-                        break
-                    self.hw.drive_raw(-speed, speed)
-                color = self.hw.read_center_color_now()
-                if color == COL_BLACK:
-                    off_count = 0
-                else:
-                    off_count += 1
-                    if off_count >= POST_TURN_SCAN_EXIT_SAMPLES:
-                        left_edge = self.hw.enc_avg()
-                        break
-                self.publish("post_turn_scan_left",
-                             enc_avg=round(self.hw.enc_avg(), 1),
-                             color=color)
-                time.sleep(0.005)
-        finally:
-            self.hw.stop()
-
-        if self.interrupted():
-            return False
-        if left_edge is None:
-            restore = self.hw.enc_avg()
-            self._pivot_degrees("R", restore, speed, "post_turn_scan_restore")
-            self.reset_steer_pd()
-            self.log.log("POST_TURN_CENTER", "LEFT_EDGE_NOT_FOUND",
-                         scanned_deg=round(restore, 1))
-            return False
-
-        black_start = None
-        black_end = None
-        saw_black = False
-        off_count = 0
-        travel_limit = left_edge + max_deg
-        self.hw.reset_encoders()
-        try:
-            self.hw.drive_raw(speed, -speed)
-            while self.hw.enc_avg() < travel_limit:
-                if self.interrupted():
-                    break
-                if self.paused:
-                    self._hold_while_paused("post_turn_scan_right")
-                    if self.interrupted():
-                        break
-                    self.hw.drive_raw(speed, -speed)
-                enc = self.hw.enc_avg()
-                color = self.hw.read_center_color_now()
-                if color == COL_BLACK:
-                    if not saw_black:
-                        black_start = enc
-                        saw_black = True
-                    off_count = 0
-                elif saw_black:
-                    off_count += 1
-                    if off_count >= POST_TURN_SCAN_EXIT_SAMPLES:
-                        black_end = enc
-                        break
-                self.publish("post_turn_scan_right",
-                             enc_avg=round(enc, 1), left_edge=round(left_edge, 1),
-                             color=color, saw_black=saw_black)
-                time.sleep(0.005)
-        finally:
-            self.hw.stop()
-
-        current = self.hw.enc_avg()
-        if self.interrupted():
-            return False
-
-        width = 0.0 if black_start is None or black_end is None else (
-            black_end - black_start)
-        if (black_start is None or black_end is None or
-                width < POST_TURN_SCAN_MIN_WIDTH_DEG):
-            offset_from_start = current - left_edge
-            if offset_from_start > 0:
-                self._pivot_degrees("L", offset_from_start, speed,
-                                    "post_turn_scan_restore")
-            else:
-                self._pivot_degrees("R", -offset_from_start, speed,
-                                    "post_turn_scan_restore")
-            self.reset_steer_pd()
-            self.log.log("POST_TURN_CENTER", "BLACK_WINDOW_NOT_FOUND",
-                         left_edge=round(left_edge, 1),
-                         current=round(current, 1),
-                         black_start=black_start,
-                         black_end=black_end,
-                         width=round(width, 1))
-            return False
-
-        center_from_left = (black_start + black_end) / 2.0
-        back_left = max(0.0, current - center_from_left)
-        self._pivot_degrees("L", back_left, speed, "post_turn_scan_center")
-        self.reset_steer_pd()
-        self.log.log("POST_TURN_CENTER", "CENTERED_ON_BLACK_WINDOW",
-                     left_edge=round(left_edge, 1),
-                     black_start=round(black_start, 1),
-                     black_end=round(black_end, 1),
-                     width=round(width, 1),
-                     back_left=round(back_left, 1))
-        return True
-
-    def post_turn_align(self, snap):
-        dist_mm = snap.get("post_turn_align_mm", 0)
-        if dist_mm <= 0:
-            return
-        speed = snap.get("post_turn_align_speed", CONFIRM_SPEED)
-        self.reset_steer_pd()
-        self.hw.reset_encoders()
-        target_deg = dist_mm / MM_PER_DEG
-        last_error = 0.0
-        last_turn = 0.0
-        try:
-            while self.hw.enc_avg() < target_deg:
-                if self.interrupted():
-                    break
-                if self.paused:
-                    self._hold_while_paused("post_turn_align")
-                    if self.interrupted():
-                        break
-                color = self.hw.read_center_color_now()
-                if color in MARKER_COLORS:
-                    break
-                rl = self.hw.read_left_reflect()
-                rr = self.hw.read_right_reflect()
-                norm_l = normalize(rl, snap["cal_l_black"],
-                                   snap["cal_l_white"])
-                norm_r = normalize(rr, snap["cal_r_black"],
-                                   snap["cal_r_white"])
-                _left, _right, error, turn, _trim = self.pid.step(
-                    norm_l, norm_r, snap, speed)
-                turn = clamp(turn, -POST_TURN_ALIGN_TURN_LIMIT,
-                             POST_TURN_ALIGN_TURN_LIMIT)
-                self.hw.drive(speed - turn, speed + turn)
-                last_error = error
-                last_turn = turn
-                self.publish("post_turn_align",
-                             dist_mm=round(self.hw.enc_avg() * MM_PER_DEG, 1),
-                             error=round(error, 2), turn=round(turn, 2))
-                time.sleep(LOOP_DELAY_S)
-        finally:
-            self.hw.stop()
-        self.reset_steer_pd()
-        self.log.log("POST_TURN_ALIGN", "CREEP_PID",
-                     dist_mm=round(self.hw.enc_avg() * MM_PER_DEG, 1),
-                     target_mm=dist_mm, speed=speed,
-                     error=round(last_error, 2), turn=round(last_turn, 2))
-
     def handle_marker(self, color, context):
         """빨강/노랑/초록 마커 — 즉시 정지 + 짧은 부저 2번(최우선).
         노랑@복귀 = 완주 / 초록@탐색 = 배달 후 유턴 / 그 외 = 유턴. 처리했으면 True."""
-        if color == COL_BLUE:
-            return self._handle_blue_marker(context)
         if color not in MARKER_COLORS:
             return False
         if (time.monotonic() - self.last_marker_t) * 1000 < MARKER_DEBOUNCE_MS:
@@ -1564,11 +1109,6 @@ class Runner(object):
                      session=self.session)
 
         if color == COL_YELLOW and self.ex.mode == "HOME":
-            snap = self.params.snapshot()
-            self.hw.grip_open(snap["grip_speed"], GRIP_SEC)
-            self.grabbed = False
-            self.log.log("DROP_HOME", "COLOR_YELLOW")
-            self._finish_delivery_segment("yellow")
             # 계획 소진 확인: 남은 스텝이 home 진입 1개뿐이면 정상 완주.
             # 조기 도착(폴백 지름길)이면 못 본 빨강 수를 경고 로그로 남긴다.
             self.done = True
@@ -1626,11 +1166,6 @@ class Runner(object):
         if self.interrupted():
             return
         self.hw.grip_open(snap["grip_speed"], GRIP_SEC)
-        self.grabbed = False
-        self._finish_delivery_segment("green")
-        self.segment_started_t = time.monotonic()
-        if self.interrupted():
-            return
         self.straight(snap["goal_advance_mm"], -STRAIGHT_SPEED)
 
     def confirm_node(self, first_bits, snap):
@@ -1900,44 +1435,6 @@ class Runner(object):
         self.last_marker_t = time.monotonic()   # 출발 노랑 재감지 방지
         return "go"
 
-    def wait_for_start(self):
-        snap = self.params.snapshot()
-        self.hw.grip_open(snap["grip_speed"], GRIP_SEC)
-
-        status = self._wait_center_press(
-            "waiting_random_button",
-            ("RUN7 READY", "dashboard calibrate", "CENTER: RANDOM"))
-        if status != "pressed":
-            return status
-
-        self.mission_number = random.randint(1, 6)
-        self.diagnose_audio_once()
-        self.screen(("NUMBER {}".format(self.mission_number),
-                     "place can at {}".format(self.mission_number),
-                     "CENTER: START"))
-        self.say_red_number(self.mission_number)
-        self.log.log("MISSION_RANDOM", "START_NUMBER",
-                     number=self.mission_number, session=self.session)
-
-        status = self._wait_center_press(
-            "waiting_start_button",
-            ("NUMBER {}".format(self.mission_number),
-             "calibrate if needed",
-             "CENTER: START"))
-        if status != "pressed":
-            return status
-
-        self.mission_started_t = time.monotonic()
-        self.segment_started_t = self.mission_started_t
-        self.green_elapsed = None
-        self.yellow_elapsed = None
-        self.hw.beep_ok()
-        self.log.log("START", "CENTER_BUTTON",
-                     number=self.mission_number, session=self.session)
-        self.straight(START_EXIT_MM, STRAIGHT_SPEED, mode="start_exit")
-        self.last_marker_t = time.monotonic()
-        return "go"
-
     def explore(self):
         """탐색+복귀 메인 루프. status(stop/reset/done) 반환."""
         last_follow_log = -1e9
@@ -2078,91 +1575,15 @@ class Runner(object):
             # status == "reset" → 루프 상단에서 new_session.
 
 
-def _force_param_gradual(params, name, target):
-    current = params.get(name)
-    if current is None:
-        return False, "missing"
-    step = MAX_STEP.get(name, abs(target - current))
-    if step <= 0:
-        step = abs(target - current) or 1.0
-    while abs(target - current) > 1e-9:
-        delta = target - current
-        if abs(delta) <= step:
-            next_value = target
-        elif delta > 0:
-            next_value = current + step
-        else:
-            next_value = current - step
-        ok, msg = params.set(name, next_value)
-        if not ok:
-            return False, msg
-        current = next_value
-    return True, "ok"
-
-
-def force_run7_defaults(params, log):
-    changed = []
-    for name, target in FORCED_RUN7_PARAMS:
-        before = params.get(name)
-        ok, msg = _force_param_gradual(params, name, target)
-        after = params.get(name)
-        if ok and before != after:
-            changed.append((name, before, after))
-        elif not ok:
-            log.log("PARAM_FORCE", "FAILED", name=name, target=target, msg=msg)
-    if changed:
-        saved, save_msg = params.save()
-        for name, before, after in changed:
-            log.log("PARAM_FORCE", "RUN7_DEFAULT",
-                    name=name, before=before, after=after,
-                    saved=saved, save_msg=save_msg)
-
-
-def load_saved_compatible(params, log):
-    ok, msg = params.load_saved_into_defaults()
-    if ok:
-        return
-    if not os.path.exists(SAVE_PATH):
-        log.log("PARAM_LOAD", "NO_SAVED_PARAMS")
-        return
-    try:
-        with open(SAVE_PATH, "r") as fp:
-            loaded = json.load(fp)
-    except Exception as exc:
-        log.log("PARAM_LOAD", "FAILED_READ", error=str(exc))
-        return
-    if not isinstance(loaded, dict):
-        log.log("PARAM_LOAD", "FAILED_NOT_OBJECT")
-        return
-    forced = dict(FORCED_RUN7_PARAMS)
-    applied = []
-    skipped = []
-    for name, value in loaded.items():
-        if name not in PARAM_LIMITS:
-            skipped.append(name)
-            continue
-        if name in forced:
-            continue
-        ok, set_msg = _force_param_gradual(params, name, value)
-        if ok:
-            applied.append(name)
-        else:
-            skipped.append(name + ":" + set_msg)
-    log.log("PARAM_LOAD", "COMPAT_MERGE",
-            applied=",".join(sorted(applied)),
-            skipped=",".join(sorted(skipped)),
-            source=SAVE_PATH, error=msg)
-
-
 def run():
     from lib.hardware import Ev3Hardware   # ev3dev2 — 브릭에서만 import 가능
 
     params = SharedParams(INITIAL_PARAMS, PARAM_LIMITS, MAX_STEP, SAVE_PATH,
                           ui_step=UI_STEP, units=UNITS, param_order=PARAM_ORDER)
+    params.load_saved_into_defaults()
+
     tele = Telemetry()
     log = DecisionLog(telemetry=tele)
-    load_saved_compatible(params, log)
-    force_run7_defaults(params, log)
     hw = Ev3Hardware()
     hw.read_center_color(COLOR_MODE_SETTLE_S, 1)    # 중앙센서를 컬러 모드로 진입
     runner = Runner(hw, params, tele, log)
@@ -2172,8 +1593,9 @@ def run():
                           actions=ACTIONS, stage=STAGE_NAME)
     server.start()
 
-    print("final_run7 ready. Center button: random number, calibrate if needed, "
-          "center button again: start. PID defaults kp=0.05 ki=0.065 kd=0.")
+    print("final_run5 ready. put robot ON the line and run dashboard 'calibrate' "
+          "first, then place on YELLOW to start. dashboard 'reset' ([r] key) "
+          "returns to start any time. (Ctrl-C or robotctl stop to quit)")
     try:
         runner.run_sessions()
     except KeyboardInterrupt:
@@ -2183,7 +1605,7 @@ def run():
             hw.stop()
         finally:
             server.stop()
-    print("final_run7 stopped. sessions={}".format(runner.session))
+    print("final_run5 stopped. sessions={}".format(runner.session))
 
 
 if __name__ == "__main__":

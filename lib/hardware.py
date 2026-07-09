@@ -47,6 +47,7 @@ final_run4 추가(2026-07-08): 브릭 가운데 버튼 시작 + wav 음성 + LCD
 """
 
 import os
+import subprocess
 import threading
 import time
 
@@ -101,10 +102,6 @@ class Ev3Hardware(object):
         try:
             from ev3dev2.sound import Sound
             self._sound = Sound()
-            try:
-                self._sound.set_volume(100)   # final_run4: 항상 최대 볼륨
-            except Exception:
-                pass
         except Exception as exc:
             self._sound = None
             self._sound_error = repr(exc)
@@ -249,10 +246,10 @@ class Ev3Hardware(object):
             return False
 
     def play_file(self, path):
-        if self._sound is None or not path or not os.path.exists(path):
+        if not path or not os.path.exists(path):
             return False
         try:
-            self._sound.play_file(path)
+            self._play_wav_direct(path)
             return True
         except Exception:
             return False
@@ -440,12 +437,20 @@ class Ev3Hardware(object):
     def _audio_enqueue(self, item):
         """재생 항목을 큐에 넣는다. 워커가 순서대로(직렬) 재생하므로 red→number
         같은 연속 재생의 순서는 보장되고, 호출자(주행 루프)는 막히지 않는다."""
-        if self._sound is None:
+        if self._sound is None and item[0] != "wav":
             return
         self._ensure_audio()
         with self._audio_cv:
             self._audio_queue.append(item)
             self._audio_cv.notify()
+
+    def _play_wav_direct(self, path):
+        """Play wav through aplay without ev3dev2.Sound.set_volume().
+
+        On this EV3, `amixer set PCM 100%` can collapse the PCM mixer value.
+        aplay preserves the operator-set mixer volume from alsamixer.
+        """
+        subprocess.call(("/usr/bin/aplay", "-q", path))
 
     def _audio_worker(self):
         while True:
@@ -456,7 +461,7 @@ class Ev3Hardware(object):
             kind = item[0]
             try:
                 if kind == "wav":
-                    self._sound.play_file(item[1])       # 기본 = 완료까지(워커 안에서만)
+                    self._play_wav_direct(item[1])       # 완료까지 기다리되 워커 안에서만
                 elif kind == "tone":
                     self._sound.play_tone(item[1], item[2])
                 elif kind == "beep":

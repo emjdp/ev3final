@@ -1,0 +1,159 @@
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 1, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 15326}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 5, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 21309}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 9, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 27074}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 13, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 33055}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 17, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 39298}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 21, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 44916}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 25, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 51814}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 29, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 56367}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 33, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 60923}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 37, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 66109}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 41, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 71283}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 45, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 77020}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 49, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 82853}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 53, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 90146}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 57, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 95463}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 61, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 100717}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 65, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 105411}
+{"event": "CAL_OK", "l_black": 8, "l_white": 79, "last_reason": "CAL_OK", "param_rev": 69, "r_black": 9, "r_white": 79, "reason": "SWEEP_MIN_MAX", "running": true, "save_msg": "/home/robot/ev3final/config/final_run8.json", "saved": true, "t_ms": 109890}
+{"bits": "010", "error": -2.9, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 94.3, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 75, "running": true, "t_ms": 118605, "trim": -0.08, "turn": 0.2}
+{"bits": "010", "error": -7.16, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 91.4, "param_rev": 69, "reason": "PID", "reflect_l": 78, "reflect_r": 73, "running": true, "t_ms": 118866, "trim": -0.17, "turn": -1.64}
+{"bits": "010", "error": -0.02, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 120064, "trim": -0.3, "turn": -0.34}
+{"bits": "010", "error": -2.86, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 100.0, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 79, "reflect_r": 77, "running": true, "t_ms": 120390, "trim": -0.32, "turn": -0.84}
+{"bits": "010", "error": -1.43, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 100.0, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 79, "reflect_r": 78, "running": true, "t_ms": 120648, "trim": -0.34, "turn": -0.39}
+{"bits": "010", "error": -0.02, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 120893, "trim": -0.35, "turn": -0.03}
+{"bits": "010", "error": -0.04, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 122063, "trim": -0.35, "turn": -0.33}
+{"bits": "010", "error": 2.78, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 94.4, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 75, "reflect_r": 77, "running": true, "t_ms": 122599, "trim": -0.34, "turn": 0.16}
+{"bits": "010", "error": 8.41, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 88.7, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 71, "reflect_r": 77, "running": true, "t_ms": 122859, "trim": -0.23, "turn": 1.44}
+{"bits": "010", "error": 7.04, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 93.0, "norm_r": 100.0, "param_rev": 69, "reason": "PID", "reflect_l": 74, "reflect_r": 79, "running": true, "t_ms": 123688, "trim": 0.09, "turn": 0.5}
+{"bits": "010", "error": 5.63, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 94.4, "norm_r": 100.0, "param_rev": 69, "reason": "PID", "reflect_l": 75, "reflect_r": 79, "running": true, "t_ms": 124315, "trim": 0.31, "turn": 0.66}
+{"bits": "010", "error": 1.39, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 124630, "trim": 0.34, "turn": 0.04}
+{"bits": "010", "error": -1.47, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 126346, "trim": 0.24, "turn": 0.58}
+{"bits": "010", "error": -1.49, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 95.8, "norm_r": 94.3, "param_rev": 69, "reason": "PID", "reflect_l": 76, "reflect_r": 75, "running": true, "t_ms": 126604, "trim": 0.23, "turn": -0.04}
+{"bits": "011", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 126783}
+{"enc_avg": 132.0, "error_deg": 4.6, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 130345, "target_deg": 127.4}
+{"color": 6, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "R", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 130352}
+{"deg": 15.0, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "SCAN_R", "running": true, "t_ms": 130845}
+{"bits": "010", "error": -5.73, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 92.9, "param_rev": 69, "reason": "PID", "reflect_l": 78, "reflect_r": 74, "running": true, "t_ms": 130914, "trim": 0.01, "turn": -0.45}
+{"bits": "010", "error": 1.41, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 100.0, "param_rev": 69, "reason": "PID", "reflect_l": 78, "reflect_r": 79, "running": true, "t_ms": 131838, "trim": 0.0, "turn": 0.24}
+{"bits": "010", "error": 1.39, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 132096, "trim": 0.04, "turn": -0.23}
+{"bits": "010", "error": 9.82, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 87.3, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 70, "reflect_r": 77, "running": true, "t_ms": 132674, "trim": 0.3, "turn": 1.07}
+{"bits": "010", "error": 6.9, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 83.1, "norm_r": 90.0, "param_rev": 69, "reason": "PID", "reflect_l": 67, "reflect_r": 72, "running": true, "t_ms": 133230, "trim": 0.37, "turn": 1.77}
+{"bits": "110", "color": 1, "creep_mm": 3.7, "event": "NODE_CONFIRMED", "first_bits": "110", "last_reason": "NODE_CONFIRMED", "param_rev": 69, "reason": "SLOW_STRAIGHT_STOP", "reflect_l": 10, "reflect_r": 67, "running": true, "t_ms": 133689}
+{"event": "NODE_NEW", "id": 0, "last_reason": "PROBE", "param_rev": 69, "reason": "FIRST", "running": true, "t_ms": 135333}
+{"arm": "N", "event": "PROBE", "last_reason": "PROBE", "move": "L", "param_rev": 69, "reason": "PRIORITY_L_R_S", "running": true, "t_ms": 135334, "work": 0}
+{"bits": "010", "error": -0.02, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 138448, "trim": 0.38, "turn": 0.15}
+{"bits": "010", "error": 1.37, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 95.8, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 139097, "trim": 0.41, "turn": 0.54}
+{"bits": "010", "error": 1.39, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 139384, "trim": 0.43, "turn": 0.49}
+{"bits": "010", "error": 1.37, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 95.8, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 139733, "trim": 0.44, "turn": 0.65}
+{"bits": "010", "error": 1.39, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 143578, "trim": 0.06, "turn": 0.15}
+{"bits": "010", "error": 1.37, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 95.8, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 143852, "trim": 0.08, "turn": 0.08}
+{"bits": "010", "error": 2.78, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 94.4, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 75, "reflect_r": 77, "running": true, "t_ms": 144105, "trim": 0.11, "turn": 0.29}
+{"bits": "010", "error": -1.47, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 145838, "trim": -0.23, "turn": 0.23}
+{"enc_avg": 278.5, "error_deg": 4.4, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 148913, "target_deg": 274.1}
+{"color": 7, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "U", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 148919}
+{"deg": 11.5, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "SCAN_L", "running": true, "t_ms": 149306}
+{"arm": "N", "event": "PROBE_END", "kind": "red", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "ARM_DONE", "running": true, "t_ms": 149308, "work": 0}
+{"bits": "010", "error": 12.66, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 85.9, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 69, "reflect_r": 78, "running": true, "t_ms": 149398, "trim": -0.06, "turn": 1.58}
+{"bits": "011", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 150808}
+{"enc_avg": 135.0, "error_deg": 7.6, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 154308, "target_deg": 127.4}
+{"bits": "110", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 154337}
+{"enc_avg": 133.0, "error_deg": 5.6, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 157831, "target_deg": 127.4}
+{"color": 6, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "L", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 157837}
+{"event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "NOT_FOUND", "running": true, "scan_deg": 214.0, "t_ms": 162820}
+{"bits": "000", "error": -0.02, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 78, "reflect_r": 78, "running": true, "t_ms": 162860, "trim": 0.0, "turn": 0.0}
+{"deg": 13.5, "event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "SCAN_R", "running": true, "t_ms": 164466}
+{"dist_mm": 42.0, "event": "LINE_RECOVER", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 164468}
+{"bits": "111", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 164507}
+{"deg": 24.5, "event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "SCAN_R", "running": true, "t_ms": 168810}
+{"dist_mm": 56.4, "event": "LINE_RECOVER", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 168814}
+{"bits": "011", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 168845}
+{"bits": "110", "color": 1, "creep_mm": 2.2, "event": "NODE_CONFIRMED", "first_bits": "110", "last_reason": "NODE_CONFIRMED", "param_rev": 69, "reason": "SLOW_STRAIGHT_STOP", "reflect_l": 25, "reflect_r": 76, "running": true, "t_ms": 173144}
+{"enc_avg": 129.5, "error_deg": 2.1, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 176504, "target_deg": 127.4}
+{"color": 6, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "L", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 176517}
+{"deg": 16.5, "event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "SCAN_R", "running": true, "t_ms": 177027}
+{"bits": "011", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 177062}
+{"enc_avg": 130.0, "error_deg": 2.6, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 180482, "target_deg": 127.4}
+{"color": 6, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "R", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 180488}
+{"deg": 68.5, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "SCAN_R", "running": true, "t_ms": 181856}
+{"bits": "010", "error": -27.22, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 94.4, "norm_r": 67.1, "param_rev": 69, "reason": "PID", "reflect_l": 75, "reflect_r": 56, "running": true, "t_ms": 181932, "trim": -0.0, "turn": -4.12}
+{"bits": "011", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 182038}
+{"bits": "010", "error": -21.79, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 74.6, "norm_r": 52.9, "param_rev": 69, "reason": "PID", "reflect_l": 61, "reflect_r": 46, "running": true, "t_ms": 183072, "trim": -0.92, "turn": -4.06}
+{"bits": "010", "error": -2.94, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 94.4, "norm_r": 91.4, "param_rev": 69, "reason": "PID", "reflect_l": 75, "reflect_r": 73, "running": true, "t_ms": 184831, "trim": -0.44, "turn": -0.55}
+{"bits": "010", "error": -14.47, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 87.3, "norm_r": 72.9, "param_rev": 69, "reason": "PID", "reflect_l": 70, "reflect_r": 60, "running": true, "t_ms": 185108, "trim": -0.68, "turn": -3.51}
+{"bits": "010", "error": -10.18, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 87.3, "norm_r": 77.1, "param_rev": 69, "reason": "PID", "reflect_l": 70, "reflect_r": 63, "running": true, "t_ms": 185734, "trim": -1.24, "turn": -1.69}
+{"bits": "010", "error": -7.28, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 90.1, "norm_r": 82.9, "param_rev": 69, "reason": "PID", "reflect_l": 72, "reflect_r": 67, "running": true, "t_ms": 186365, "trim": -1.57, "turn": -1.98}
+{"bits": "000", "error": 1.33, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 93.0, "norm_r": 94.3, "param_rev": 69, "reason": "PID", "reflect_l": 74, "reflect_r": 75, "running": true, "t_ms": 186654, "trim": -1.57, "turn": -0.79}
+{"event": "SESSION_RESET", "last_reason": "SESSION_RESET", "param_rev": 69, "reason": "DASHBOARD", "running": true, "session": 2, "source": "dashboard", "t_ms": 187493}
+{"event": "START", "last_reason": "START", "param_rev": 69, "reason": "COLOR_YELLOW", "running": true, "t_ms": 189126}
+{"bits": "010", "error": -0.04, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 189938, "trim": 0.0, "turn": 0.0}
+{"bits": "010", "error": -0.04, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 191930, "trim": 0.05, "turn": -0.15}
+{"bits": "010", "error": 1.39, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 192184, "trim": 0.07, "turn": 0.1}
+{"bits": "000", "error": -1.47, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 192476, "trim": 0.06, "turn": -0.28}
+{"bits": "000", "error": -1.47, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 194145, "trim": 0.04, "turn": -0.31}
+{"event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "ALREADY_ON_LINE", "running": true, "t_ms": 195287}
+{"dist_mm": 32.5, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 69, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 2, "t_ms": 195289}
+{"bits": "010", "error": 1.39, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 195356, "trim": 0.02, "turn": 0.02}
+{"bits": "010", "error": 1.39, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 195638, "trim": 0.05, "turn": -0.09}
+{"bits": "010", "error": 2.8, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 95.8, "norm_r": 98.6, "param_rev": 69, "reason": "PID", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 197331, "trim": 0.05, "turn": 0.36}
+{"bits": "000", "error": -0.04, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 197623, "trim": 0.04, "turn": 0.1}
+{"enc_avg": 132.0, "error_deg": 4.6, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 209127, "target_deg": 127.4}
+{"color": 6, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "L", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 209137}
+{"deg": 8.0, "event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "SCAN_R", "running": true, "t_ms": 209539}
+{"bits": "101", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 209566}
+{"bits": "010", "error": -0.06, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 95.8, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 76, "reflect_r": 76, "running": true, "t_ms": 214345, "trim": 0.02, "turn": -0.14}
+{"bits": "010", "error": -0.06, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 95.8, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 76, "reflect_r": 76, "running": true, "t_ms": 214846, "trim": 0.03, "turn": -0.02}
+{"bits": "010", "error": -0.04, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 215372, "trim": 0.01, "turn": 0.09}
+{"bits": "010", "error": -2.9, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 94.3, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 75, "running": true, "t_ms": 215638, "trim": -0.03, "turn": -0.32}
+{"bits": "010", "error": -1.47, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 215925, "trim": -0.06, "turn": 0.04}
+{"bits": "010", "error": -0.06, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 95.8, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 76, "reflect_r": 76, "running": true, "t_ms": 218119, "trim": -0.24, "turn": -0.1}
+{"bits": "010", "error": 1.37, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 95.8, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 218435, "trim": -0.22, "turn": -0.35}
+{"bits": "010", "error": 4.19, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 93.0, "norm_r": 97.1, "param_rev": 69, "reason": "PID", "reflect_l": 74, "reflect_r": 77, "running": true, "t_ms": 219930, "trim": 0.18, "turn": 0.1}
+{"bits": "010", "error": 2.76, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 93.0, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 74, "reflect_r": 76, "running": true, "t_ms": 220228, "trim": 0.23, "turn": 0.08}
+{"bits": "010", "error": -1.47, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 221628, "trim": 0.18, "turn": 0.19}
+{"bits": "010", "error": -1.47, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.2, "norm_r": 95.7, "param_rev": 69, "reason": "PID", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 221888, "trim": 0.15, "turn": 0.16}
+{"enc_avg": 132.5, "error_deg": 5.1, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 226097, "target_deg": 127.4}
+{"color": 7, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "R", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 226109}
+{"deg": 1.5, "event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "SCAN_R", "running": true, "t_ms": 226278}
+{"bits": "011", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 226306}
+{"enc_avg": 137.5, "error_deg": 10.1, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 229880, "target_deg": 127.4}
+{"color": 6, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "R", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 229887}
+{"deg": 37.5, "event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "SCAN_R", "running": true, "t_ms": 230733}
+{"bits": "111", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 230786}
+{"enc_avg": 130.0, "error_deg": 2.6, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 243756, "target_deg": 127.4}
+{"color": 0, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "R", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 243780}
+{"event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "NOT_FOUND", "running": true, "scan_deg": 213.5, "t_ms": 248599}
+{"bits": "101", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 248622}
+{"enc_avg": 129.5, "error_deg": 2.1, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 252027, "target_deg": 127.4}
+{"color": 0, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "L", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 252033}
+{"event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "NOT_FOUND", "running": true, "scan_deg": 215.0, "t_ms": 256848}
+{"bits": "101", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 256877}
+{"enc_avg": 276.0, "error_deg": 1.9, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 261692, "target_deg": 274.1}
+{"color": 0, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "U", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 261697}
+{"event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "NOT_FOUND", "running": true, "scan_deg": 213.5, "t_ms": 266590}
+{"bits": "101", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 266612}
+{"event": "BACK_TO_WORK", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PROBE_END", "running": true, "t_ms": 268487, "work": 2}
+{"arm": "S", "event": "PROBE", "last_reason": "NODE_CANDIDATE", "move": "S", "param_rev": 69, "reason": "PRIORITY_L_R_S", "running": true, "t_ms": 268488, "work": 2}
+{"bits": "101", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 268528}
+{"enc_avg": 133.0, "error_deg": 5.6, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 271895, "target_deg": 127.4}
+{"color": 0, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "L", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 271900}
+{"event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "NOT_FOUND", "running": true, "scan_deg": 215.5, "t_ms": 276892}
+{"bits": "101", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 276915}
+{"event": "BACK_TO_WORK", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PROBE_END", "running": true, "t_ms": 288489, "work": 4}
+{"arm": "W", "event": "PROBE", "last_reason": "NODE_CANDIDATE", "move": "S", "param_rev": 69, "reason": "PRIORITY_L_R_S", "running": true, "t_ms": 288493, "work": 4}
+{"bits": "101", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 288516}
+{"enc_avg": 133.0, "error_deg": 5.6, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 291928, "target_deg": 127.4}
+{"color": 0, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "L", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 291957}
+{"event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "NOT_FOUND", "running": true, "scan_deg": 212.0, "t_ms": 296886}
+{"bits": "101", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 296908}
+{"enc_avg": 276.5, "error_deg": 2.4, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "UTURN", "running": true, "stopped_early": false, "t_ms": 301733, "target_deg": 274.1}
+{"color": 0, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "U", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 301740}
+{"event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "NOT_FOUND", "running": true, "scan_deg": 212.0, "t_ms": 306625}
+{"bits": "101", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 306655}
+{"bits": "101", "color": 0, "creep_mm": 2.9, "event": "NODE_CONFIRMED", "first_bits": "101", "last_reason": "NODE_CONFIRMED", "param_rev": 69, "reason": "SLOW_STRAIGHT_STOP", "reflect_l": 0, "reflect_r": 0, "running": true, "t_ms": 308751}
+{"event": "NODE_NEW", "id": 8, "last_reason": "PROBE", "param_rev": 69, "parent": 6, "reason": "PROBE", "running": true, "t_ms": 310403, "via": "N"}
+{"arm": "W", "event": "PROBE", "last_reason": "PROBE", "move": "L", "param_rev": 69, "reason": "PRIORITY_L_R_S", "running": true, "t_ms": 310406, "work": 8}
+{"enc_avg": 131.0, "error_deg": 3.6, "event": "TURN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "TURN_LEFT", "running": true, "stopped_early": false, "t_ms": 311966, "target_deg": 127.4}
+{"color": 0, "event": "TURN_ACQUIRE", "last_reason": "NODE_CANDIDATE", "move": "L", "param_rev": 69, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 311972}
+{"event": "REALIGN", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "NOT_FOUND", "running": true, "scan_deg": 217.0, "t_ms": 316861}
+{"bits": "101", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 69, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 316886}

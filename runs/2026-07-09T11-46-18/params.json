@@ -1,0 +1,215 @@
+{
+  "changes": [
+    {
+      "name": "base_speed",
+      "new": 10,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "cal_l_black",
+      "new": 8,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "cal_l_white",
+      "new": 74,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "cal_r_black",
+      "new": 8,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "cal_r_white",
+      "new": 73,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "deadband",
+      "new": 0.5,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 100,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.0,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "grip_speed",
+      "new": 50,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "ki",
+      "new": 0.065,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "kp",
+      "new": 0.05,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "left_th_node",
+      "new": 35,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "left_th_steer",
+      "new": 66,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "lost_max_recover",
+      "new": 3,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 200,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 60,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 40,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "post_turn_align_mm",
+      "new": 30,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "post_turn_align_speed",
+      "new": 6,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "right_th_node",
+      "new": 30,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "right_th_steer",
+      "new": 63,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.71,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.66,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "turn_min_speed",
+      "new": 5,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "turn_ramp_deg",
+      "new": 45,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    },
+    {
+      "name": "turn_speed",
+      "new": 10,
+      "old": null,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 15578
+    }
+  ],
+  "initial": {},
+  "stage": "final_run7",
+  "started": "2026-07-09T11-46-18"
+}
