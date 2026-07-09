@@ -146,6 +146,28 @@ class Ev3Hardware(object):
         """좌/우 모터 누적 회전각(도) 튜플. 부호는 회전 방향을 따른다."""
         return self._left.position, self._right.position
 
+    # --- final_run6 추가(회전 시작 '틱틱' 튐 제거). 위 메서드/__init__ 불변. ---
+
+    def set_ramp(self, up_ms, down_ms=0):
+        """주행 모터 가속/감속 램프(ms) 설정. 회전 시작 시 속도PID 콜드스타트로
+        생기는 '틱틱' 튐을 없애기 위해 회전 프리미티브에서만 켜고 끝나면 0 으로
+        되돌린다(라인추종 drive() 에는 램프를 걸지 않는다 — 매 15ms 조향이
+        뭉개진다). up_ms 는 0→최대속도 가속 시간, down_ms 는 감속 시간.
+        best-effort: 커널에 속성이 없어도 조용히 통과한다."""
+        for m in (self._left, self._right):
+            try:
+                m.ramp_up_sp = int(up_ms)
+                m.ramp_down_sp = int(down_ms)
+            except Exception:
+                pass
+
+    def coast(self):
+        """양 바퀴 hold 해제(brake=False, 무회생 정지). 회전 직전 reset_encoders()
+        가 brake-hold 상태에서 position 을 0 으로 바꾸며 내는 위치보정 킥을 막는다.
+        정지 상태에서 호출하므로 바퀴가 굴러가지는 않는다."""
+        self._left.off(brake=False)
+        self._right.off(brake=False)
+
     def beep_ok(self):
         """회전 완료 신호음(best-effort, 비블로킹). Sound 가 없으면 조용히 통과."""
         self._audio_enqueue(("beep",))
