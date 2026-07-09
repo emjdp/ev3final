@@ -92,7 +92,12 @@ class Ev3Hardware(object):
 
         # Stage 2 회전 완료음(선택). 없거나 실패해도 주행/회전에 영향 없게 best-effort.
         # (Stage 1 도 Ev3Hardware 를 쓰므로 여기서 예외가 나면 안 된다.)
+        # final_run8: Sound 생성/재생 실패를 삼키지 않고 기록해 '소리 안 남'을 추적
+        # 가능하게 한다(sound_available/sound_error/audio_fail_count).
         self._sound = None
+        self._sound_error = None
+        self._audio_error = None
+        self._audio_fail_count = 0
         try:
             from ev3dev2.sound import Sound
             self._sound = Sound()
@@ -100,8 +105,9 @@ class Ev3Hardware(object):
                 self._sound.set_volume(100)   # final_run4: 항상 최대 볼륨
             except Exception:
                 pass
-        except Exception:
+        except Exception as exc:
             self._sound = None
+            self._sound_error = repr(exc)
         self._buttons = None
         self._display = None
 
@@ -406,6 +412,20 @@ class Ev3Hardware(object):
         """단일 tone(비블로킹 큐 재생, best-effort). Sound 가 없으면 조용히 통과."""
         self._audio_enqueue(("tone", freq_hz, dur_ms / 1000.0))
 
+    # --- final_run8: 오디오 자가진단(소리 안 남 원인 추적) ---
+
+    def sound_available(self):
+        """Sound 객체 생성에 성공했는지(=소리를 낼 수 있는지)."""
+        return self._sound is not None
+
+    def sound_error(self):
+        """Sound 생성 실패 시의 예외 문자열(성공이면 None)."""
+        return self._sound_error
+
+    def audio_fail_count(self):
+        """워커에서 재생이 실패한 누적 횟수(0 이면 재생 계통 정상)."""
+        return self._audio_fail_count
+
     # --- final_run4: 소리 백그라운드 큐(주행을 막지 않는다) ---
 
     def _ensure_audio(self):
@@ -441,8 +461,10 @@ class Ev3Hardware(object):
                     self._sound.play_tone(item[1], item[2])
                 elif kind == "beep":
                     self._sound.beep()
-            except Exception:
-                pass
+            except Exception as exc:
+                # final_run8: 삼키되 흔적은 남긴다(마지막 에러 + 카운트).
+                self._audio_error = repr(exc)
+                self._audio_fail_count += 1
 
     # --- final_run4 추가(버튼 시작 + wav 음성 + LCD 표시). 위 메서드 불변. ---
 
