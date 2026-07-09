@@ -1,28 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""final_run8 — 픽업/운반/드롭 미션 재설계 + 오디오 신뢰성 + 스무스 턴.
+"""final_run8 — 운반 미션(소리 없음) + 마커 확정 + 스무스 턴.
 
 미션(왕복 운반):
-  1) 노란점(출발): 난수 생성 → 오디오로만 안내(LCD 없음) → 심판이 물체를
-     그리퍼에 놓으면 초음파가 감지해 파지 → 출발.
-  2) 초록점까지 미로 탐색(라인추종 + 분기 탐색). 초록 도착 = 목적지.
-  3) 초록점: 물체 내려놓기(그리퍼 오픈) → 새 난수 생성/안내 → 물체가 다시
-     놓이면 재파지 → 유턴 → 그 시점 지도로 복귀 계획 수립.
+  1) 노란점(출발): 노랑 감지 → 그리퍼 오픈(물체 받을 준비) → 출발.
+     ※ 물체는 출발 시 잡지 않는다.
+  2) 초록점까지 미로 탐색(라인추종 + 분기 탐색). 가는 길에 물체를 만나면
+     (초음파 grab_dist 이내) 그때 파지한다.
+  3) 초록점: 물체 내려놓기(그리퍼 오픈) → 유턴 → 그 시점 지도로 복귀 계획.
   4) 노란점까지 복귀(지도 기반 최소거리, 모든 빨강 재방문). 초록/커브는 경유.
+     오는 길에도 물체를 만나면 파지한다(가는 길과 동일).
   5) 노란점(도착): 그리퍼 오픈으로 물체 해제 → 완주.
 
 final_run3 대비 변경(순수 판단층 Explorer/build_return_route/PID/node_bits 는
 그대로 — tests/test_run_maze_v4_logic.py 계속 통과):
-  A) 세션 흐름 재작성: 버튼/노랑대기 시작 대신 '난수 안내 → 초음파로 물체
-     놓임 감지 → 파지'가 출발·초록 양쪽의 공통 트리거(announce_and_wait_for_object).
-     미로 도중 초음파 자동 파지(옛 미션 잔재)는 제거 — 물체는 노랑/초록에서만
-     주고받는다.
+  A) 파지: 출발/초록에서 기다렸다 잡지 않고, 미로 이동 중 물체를 만나면
+     (초음파) 잡는다(explore 루프, 그립이 비어 있을 때만). 초록은 내려놓고
+     유턴만, 재파지는 복귀 이동 중 자동으로.
   B) 마커 오검출 방지: 색은 1프레임이 아니라 정지 후 여러 번 재판독해 다수결로
      확정(_confirm_marker_color). 코너/경계에서 튄 가짜 초록이 배달을 트리거하던
      final_run3 버그 제거.
-  C) 오디오 신뢰성: 난수는 wav 가 있으면 음성, 없으면 'N번 비프'로 항상 들리게
-     한다(announce_number). Sound 생성 실패/재생 실패를 로그로 드러낸다
-     (hw.sound_available/sound_error/audio_fail_count). LCD/스톱워치는 제거.
+  C) 소리 전부 제거: 마커/회전/난수/완주 오디오 없음(나중에 재도입 예정).
+     LCD/스톱워치도 없음.
   D) 스무스 턴(final_run6): turn() 이 reset_encoders 전에 coast() 로 hold 를
      풀고, 회전 동안만 set_ramp(turn_ramp_ms)로 가속 램프 → 회전 시작 '틱틱'
      튐 제거. finally 에서 ramp 0 복원(라인추종 조향엔 영향 없음).
@@ -135,7 +134,6 @@ final_run2 변경(run_maze_v13 이번 커밋 반영, 노드 bits 임계값만):
 """
 
 import os
-import random
 import sys
 import threading
 import time
@@ -205,16 +203,6 @@ MARKER_CONFIRM_SAMPLES = 4  # 정지 후 재판독 횟수
 MARKER_CONFIRM_MIN = 3      # 같은 마커 색이 이만큼 이상이어야 확정(첫 판독 포함 아님)
 MARKER_CONFIRM_GAP_S = 0.015
 
-# 물체 픽업(§변경 A) — 난수 안내 후 심판이 그리퍼에 물체를 놓으면 초음파로 감지.
-GRAB_CONFIRM = 3            # 연속 이만큼 grab_dist 이내여야 '놓임' 확정(오검출 방지)
-GRAB_POLL_S = 0.05
-
-# 난수(§변경 C) — 오디오 전용. wav 가 없으면 'N번 비프'로 항상 들리게.
-RANDOM_MIN = 1
-RANDOM_MAX = 4
-NUMBER_BEEP_HZ = 880
-NUMBER_BEEP_MS = 180
-
 # PID — KD 는 notes 대로 고정, derivative 는 clamp + EMA 로 완화.
 PID_KD = 0.05
 PID_TURN_LIMIT = 16
@@ -232,20 +220,7 @@ CAL_SPEED = 6               # 스윕 피벗 속도(%)
 CAL_HALF_DEG = 60           # 한쪽 스윕 enc deg(로봇 약 40~45도)
 CAL_MIN_SPAN = 20           # white-black 이 이보다 좁으면 실패(라인을 못 봤다)
 
-# 소리 구분(notes) — (주파수Hz, 길이ms) 나열. 색 마커는 beep 2번.
-TONE_CURVE = ((700, 120),)
-TONE_BRANCH = ((600, 100), (900, 100))
-TONE_UTURN = ((300, 150), (300, 150))
-TONE_CAL_FAIL = ((250, 300),)
-TONE_DONE = ((880, 150), (1175, 150), (1568, 250))   # 완주 팡파레(wav 없어도 들린다)
-
-# 선택적 음성(wav). 없으면 코드가 톤/비프로 폴백하므로 필수는 아니다.
-SOUND_ROOT = "/usr/share/sounds/ev3dev"
-SOUND_GOOD_JOB = os.path.join(SOUND_ROOT, "communication", "good_job.wav")
-NUMBER_SOUNDS = dict(
-    (i, os.path.join(SOUND_ROOT, "numbers", w + ".wav")) for i, w in (
-        (1, "one"), (2, "two"), (3, "three"), (4, "four"), (5, "five"),
-        (6, "six"), (7, "seven"), (8, "eight"), (9, "nine"), (10, "ten")))
+# (final_run8: 소리 전부 제거 — 마커/회전/난수 오디오 없음. 나중에 재도입 예정.)
 
 
 # ---------------------------------------------------------------------
@@ -298,7 +273,7 @@ ACTIONS = [
     {"name": "calibrate", "label": "Calibrate L/R on line (sweep)"},
     {"name": "read_color", "label": "Read Center Color"},
     {"name": "read_reflect", "label": "Read L/R Reflect (raw+norm)"},
-    {"name": "reset", "label": "Reset to Start (announce + wait object)"},
+    {"name": "reset", "label": "Reset to Start (wait YELLOW)"},
 ]
 
 
@@ -846,7 +821,6 @@ class Runner(object):
         self.goal_seen = False
         self.grabbed = False
         self.done = False
-        self.random_number = None   # 마지막으로 안내한 난수(오디오 전용)
         self.last_turn = 0.0
         self.last_marker_t = -1e9
         self.last_node_t = -1e9
@@ -893,7 +867,6 @@ class Runner(object):
             "grabbed": self.grabbed,
             "home_total": self.ex.home_red_total,
             "home_revisit": self.home_revisit,
-            "random_number": self.random_number,
         }
         frame.update(extra)
         last_reason = self.log.last_reason()
@@ -929,70 +902,6 @@ class Runner(object):
                          norm_l=round(nl, 1), norm_r=round(nr, 1))
             self.publish("read_reflect", reflect_l=rl, reflect_r=rr,
                          norm_l=round(nl, 1), norm_r=round(nr, 1))
-
-    def play(self, tones):
-        for freq, ms in tones:
-            self.hw.tone(freq, ms)
-
-    # ---- 오디오(§변경 C) — wav 없으면 톤/비프로 폴백해 '항상' 들린다 ----
-
-    def announce_number(self, number):
-        """난수를 오디오로만 안내: 음성 wav 가 있으면 재생, 없으면 N번 비프.
-        어떤 경로로 냈는지 로그로 남겨 '소리 안 남' 원인을 추적 가능하게 한다."""
-        path = NUMBER_SOUNDS.get(number)
-        if self.hw.sound_available() and path and os.path.isfile(path):
-            self.hw.play_wav(path)
-            how = "wav"
-        else:
-            for _ in range(number):
-                self.hw.tone(NUMBER_BEEP_HZ, NUMBER_BEEP_MS)
-            how = "beeps"
-        self.log.log("NUMBER_ANNOUNCE", how.upper(),
-                     number=number, how=how,
-                     sound=self.hw.sound_available())
-
-    def announce_random(self, phase):
-        """난수 생성 + 오디오 안내(LCD 없음). phase = 'OUT'|'RETURN'."""
-        n = random.randint(RANDOM_MIN, RANDOM_MAX)
-        self.random_number = n
-        self.log.log("RANDOM_NUMBER", phase, number=n)
-        self.announce_number(n)
-
-    def wait_for_object(self, phase):
-        """심판이 그리퍼에 물체를 놓을 때까지 초음파로 대기 → 파지.
-        연속 GRAB_CONFIRM 회 grab_dist 이내여야 확정(오검출 방지). 대기 중에도
-        stop/reset/pause/대시보드 액션에 반응한다. 반환: 'ok'|'stop'|'reset'."""
-        snap = self.params.snapshot()
-        self.log.log("WAIT_OBJECT", phase, grab_dist_cm=snap["grab_dist_cm"])
-        close = 0
-        while True:
-            if self.stop_on:
-                return "stop"
-            if self.reset_on:
-                return "reset"
-            if self.paused:
-                self.hw.stop()
-                self.publish("waiting_object_paused", phase=phase)
-                time.sleep(0.05)
-                continue
-            self.handle_pending()
-            dist = self.hw.read_distance_cm()
-            close = close + 1 if dist < snap["grab_dist_cm"] else 0
-            self.publish("waiting_object", phase=phase,
-                         distance_cm=round(dist, 1), close=close)
-            if close >= GRAB_CONFIRM:
-                break
-            time.sleep(GRAB_POLL_S)
-        self.hw.grip_close(snap["grip_speed"], GRIP_SEC)
-        self.grabbed = True
-        self.hw.beep_ok()
-        self.log.log("GRAB", phase, grab_dist_cm=snap["grab_dist_cm"])
-        return "ok"
-
-    def announce_and_wait_for_object(self, phase):
-        """난수 안내 → 물체 놓임 대기 → 파지(출발/초록 공통). 상태 반환."""
-        self.announce_random(phase)
-        return self.wait_for_object(phase)
 
     def reset_steer(self):
         self.pid.reset()
@@ -1064,7 +973,6 @@ class Runner(object):
                          l_min=stats["l_min"], l_max=stats["l_max"],
                          r_min=stats["r_min"], r_max=stats["r_max"],
                          min_span=CAL_MIN_SPAN)
-            self.play(TONE_CAL_FAIL)
             return
         self.params.set("cal_l_black", int(round(stats["l_min"])))
         self.params.set("cal_l_white", int(round(stats["l_max"])))
@@ -1078,8 +986,6 @@ class Runner(object):
                      r_black=int(round(stats["r_min"])),
                      r_white=int(round(stats["r_max"])),
                      saved=saved, save_msg=save_msg)
-        self.hw.beep_ok()
-        self.hw.beep_ok()
 
     # ---- 모션 프리미티브 ----
 
@@ -1148,7 +1054,6 @@ class Runner(object):
             return
         snap = self.params.snapshot()
         if move == "U":
-            self.play(TONE_UTURN)
             target = BASE_PIVOT_DEG_180 * snap["turn_180_factor"]
         else:
             target = BASE_PIVOT_DEG_90 * snap["turn_90_factor"]
@@ -1228,8 +1133,6 @@ class Runner(object):
             self.log.log("MARKER_REJECT", "UNCONFIRMED", context=context,
                          ex_mode=self.ex.mode)
             return False
-        self.hw.beep_ok()
-        self.hw.beep_ok()
         name = MARKER_NAMES[color]
         self.log.log("MARKER", "COLOR_{}_CONFIRMED".format(name.upper()),
                      color=color, context=context, ex_mode=self.ex.mode,
@@ -1268,10 +1171,10 @@ class Runner(object):
             return True
 
         if color == COL_GREEN:
-            # 초록 도착(목적지): 드롭 → 새 난수 → 재파지 → 유턴 → 복귀 계획.
-            status = self.deliver_and_repick()
-            if status != "ok" or self.interrupted():
-                self.last_marker_t = time.monotonic()
+            # 초록 도착(목적지): 물체 내려놓기(그립 오픈) → 유턴 → 복귀 계획.
+            # 재파지는 복귀 중 물체를 만나면 자동으로 한다(가는 길과 동일).
+            self.deliver()
+            if self.interrupted():
                 return True
             self.turn("U")
             if self.interrupted():
@@ -1289,9 +1192,9 @@ class Runner(object):
         self.last_marker_t = time.monotonic()
         return True
 
-    def deliver_and_repick(self):
-        """초록점: 운반해 온 물체를 내려놓고 → 새 난수 안내 → 다시 놓이면 재파지.
-        상태 반환('ok'|'stop'|'reset'). 유턴/복귀 전환은 호출부가 한다."""
+    def deliver(self):
+        """초록점: 운반해 온 물체를 내려놓는다 — 전진→그립 오픈→후진.
+        (그립을 열면 grabbed=False → 복귀 중 물체를 다시 만나면 자동 재파지.)"""
         snap = self.params.snapshot()
         self.goal_seen = True
         self.log.log("GOAL_DROP", "COLOR_GREEN",
@@ -1299,26 +1202,18 @@ class Runner(object):
         # 전진해 초록선을 넘어 물체를 내려놓고(그립 오픈) 다시 초록으로 후진.
         self.straight(snap["goal_advance_mm"], STRAIGHT_SPEED)
         if self.interrupted():
-            return "stop" if self.stop_on else "reset"
+            return
         self.hw.grip_open(snap["grip_speed"], GRIP_SEC)
         self.grabbed = False
         self.straight(snap["goal_advance_mm"], -STRAIGHT_SPEED)
-        if self.interrupted():
-            return "stop" if self.stop_on else "reset"
-        # 새 난수 안내 후, 심판이 물체를 다시 놓으면 재파지.
-        return self.announce_and_wait_for_object("RETURN")
 
     def _release_at_home(self):
-        """노란점 완주: 물체를 내려놓는다(그립 해제) + 완주 사운드."""
+        """노란점 완주: 물체를 내려놓는다(그립 해제)."""
         snap = self.params.snapshot()
         if self.grabbed:
             self.hw.grip_open(snap["grip_speed"], GRIP_SEC)
             self.grabbed = False
             self.log.log("DROP_HOME", "COLOR_YELLOW")
-        if self.hw.sound_available() and os.path.isfile(SOUND_GOOD_JOB):
-            self.hw.play_wav(SOUND_GOOD_JOB)
-        else:
-            self.play(TONE_DONE)
 
     def confirm_node(self, first_bits, snap):
         """의심지점: PID off → 저속 직진(node_confirm_ms) → 정지 후 재판정.
@@ -1415,7 +1310,6 @@ class Runner(object):
             self.log.log("CURVE", "FORCED_" + {"L": "LEFT", "R": "RIGHT",
                                                "S": "STRAIGHT"}[move],
                          bits=bits_str(bits), color=color)
-            self.play(TONE_CURVE)
             self.turn(move)
             return
 
@@ -1425,7 +1319,6 @@ class Runner(object):
         else:
             move, events = self.ex.on_junction(has_left, has_right, has_straight)
         self.log_events(events)
-        self.play(TONE_BRANCH)
         self.turn(move)
 
     # ---- 유실(000) 처리 — v13 ----
@@ -1567,17 +1460,23 @@ class Runner(object):
     # ---- 세션 단계 ----
 
     def wait_for_start(self):
-        """노란점 출발 시퀀스: 그리퍼 오픈(물체 받을 준비) → 난수 안내 → 심판이
-        물체를 놓으면(초음파) 파지 → 출발선 이탈 전진. status('go'|'stop'|'reset').
+        """노란점에 놓일 때까지 대기 → 그리퍼 오픈(가는 길에 물체 받을 준비) →
+        출발선 이탈 전진. status('go'|'stop'|'reset'). 물체는 여기서 잡지 않고
+        가는 길에 초음파로 만나면 잡는다(explore 루프).
 
         대기 중에도 handle_pending 이 돌므로 이 상태에서 calibrate([1] 키)를
-        먼저 실행하면 된다(로봇을 라인 위에 두고 실행 → beep 2번)."""
+        먼저 실행하면 된다(로봇을 라인 위에 두고 실행)."""
         snap = self.params.snapshot()
-        self.hw.grip_open(snap["grip_speed"], GRIP_SEC)   # 물체 받을 준비
-        status = self.announce_and_wait_for_object("OUT")
-        if status != "ok":
-            return status
-        self.log.log("START", "OBJECT_GRABBED")
+        self.hw.grip_open(snap["grip_speed"], GRIP_SEC)   # 가는 길에 물체 받을 준비
+        while self.hw.read_center_color_now() != COL_YELLOW:
+            if self.stop_on:
+                return "stop"
+            if self.reset_on:
+                return "reset"
+            self.handle_pending()
+            self.publish("waiting_start")
+            time.sleep(0.05)
+        self.log.log("START", "COLOR_YELLOW")
         self.straight(START_EXIT_MM, STRAIGHT_SPEED, mode="start_exit")
         self.last_marker_t = time.monotonic()   # 출발 노랑 재감지 방지
         return "go"
@@ -1606,8 +1505,16 @@ class Runner(object):
             if self.handle_marker(color, "follow"):
                 continue
 
-            # (final_run8) 미로 도중 초음파 자동 파지 제거 — 물체는 노랑/초록에서만
-            # 주고받는다. 파지는 wait_for_object 가 담당한다.
+            # 가는/오는 길 중 물체를 만나면(초음파 grab_dist 이내) 잡는다.
+            # 그립이 비어 있을 때만(이미 잡았으면 무시). 미로 어디서든 동작.
+            if (not self.grabbed and
+                    self.hw.read_distance_cm() < snap["grab_dist_cm"]):
+                self.hw.stop()
+                self.hw.grip_close(snap["grip_speed"], GRIP_SEC)
+                self.grabbed = True
+                self.log.log("GRAB", "ULTRASONIC_NEAR",
+                             grab_dist_cm=snap["grab_dist_cm"])
+                self.reset_steer()
 
             rl = self.hw.read_left_reflect()
             rr = self.hw.read_right_reflect()
@@ -1727,16 +1634,6 @@ def run():
     hw = Ev3Hardware()
     hw.read_center_color(COLOR_MODE_SETTLE_S, 1)    # 중앙센서를 컬러 모드로 진입
 
-    # 오디오 자가진단(§변경 C) — Sound 생성 실패(A3)를 즉시 드러낸다. 성공이면
-    # 시작 비프를 큐에 넣어 '소리 계통이 살아있음'을 귀로 바로 확인시킨다.
-    if hw.sound_available():
-        log.log("SOUND_STATUS", "OK")
-        hw.beep_ok()
-    else:
-        log.log("SOUND_STATUS", "UNAVAILABLE", error=str(hw.sound_error()))
-        print("WARNING: sound unavailable ({}). run will be SILENT."
-              .format(hw.sound_error()))
-
     runner = Runner(hw, params, tele, log)
 
     server = TuningServer(params, tele, do_handler=runner.on_do,
@@ -1744,9 +1641,9 @@ def run():
                           actions=ACTIONS, stage=STAGE_NAME)
     server.start()
 
-    print("final_run8 ready. 1) dashboard 'calibrate' on the line, 2) place robot "
-          "on YELLOW, 3) put the object in the gripper when you hear the random "
-          "number -> it grips and drives to GREEN. dashboard 'reset' ([r]) restarts. "
+    print("final_run8 ready (SILENT — sound removed). 1) dashboard 'calibrate' on "
+          "the line, 2) place robot on YELLOW to start. it grips the object when it "
+          "meets one on the way to GREEN. dashboard 'reset' ([r]) restarts. "
           "(Ctrl-C or robotctl stop to quit)")
     try:
         runner.run_sessions()
