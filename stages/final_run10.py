@@ -1084,32 +1084,41 @@ class Runner(object):
         return color, norm_c
 
     def handle_pending(self):
-        """대시보드 calibrate / read_rgb / read_reflect 액션 처리(없으면 no-op)."""
+        """대시보드 calibrate / read_rgb / read_reflect 액션 처리(없으면 no-op).
+
+        센서 읽기 예외를 여기서 막는다(§run10) — run() 은 KeyboardInterrupt 만
+        잡으므로, 방어 없이 두면 센서 읽기 1회 실패가 제어 루프 전체를 죽여
+        대시보드에는 'queued' 만 남고 그 뒤로 아무 반응이 없게 된다(다른 do
+        액션도 같이 멈춤). wait_center_button 과 같은 원칙(v13.1)."""
         with self._pending_lock:
             action = self._pending
             self._pending = None
-        if action == "calibrate":
-            self.calibrate_line()
-        elif action == "read_rgb":
-            snap = self.params.snapshot()
-            r, g, b = self.hw.read_center_rgb_now()
-            color, bright = classify_rgb(r, g, b, snap)
-            norm_c = normalize(bright, snap["cal_c_black"], snap["cal_c_white"])
-            self.log.log("COLOR_READ", "DO_TRIGGER", r=r, g=g, b=b,
-                         color=color, name=MARKER_NAMES.get(color, str(color)),
-                         bright=round(bright, 1), norm_c=round(norm_c, 1))
-            self.publish("read_rgb", r=r, g=g, b=b, color=color,
-                         bright=round(bright, 1), norm_c=round(norm_c, 1))
-        elif action == "read_reflect":
-            snap = self.params.snapshot()
-            rl = self.hw.read_left_reflect()
-            rr = self.hw.read_right_reflect()
-            nl = normalize(rl, snap["cal_l_black"], snap["cal_l_white"])
-            nr = normalize(rr, snap["cal_r_black"], snap["cal_r_white"])
-            self.log.log("REFLECT_READ", "DO_TRIGGER", reflect_l=rl, reflect_r=rr,
-                         norm_l=round(nl, 1), norm_r=round(nr, 1))
-            self.publish("read_reflect", reflect_l=rl, reflect_r=rr,
-                         norm_l=round(nl, 1), norm_r=round(nr, 1))
+        try:
+            if action == "calibrate":
+                self.calibrate_line()
+            elif action == "read_rgb":
+                snap = self.params.snapshot()
+                r, g, b = self.hw.read_center_rgb_now()
+                color, bright = classify_rgb(r, g, b, snap)
+                norm_c = normalize(bright, snap["cal_c_black"], snap["cal_c_white"])
+                self.log.log("COLOR_READ", "DO_TRIGGER", r=r, g=g, b=b,
+                             color=color, name=MARKER_NAMES.get(color, str(color)),
+                             bright=round(bright, 1), norm_c=round(norm_c, 1))
+                self.publish("read_rgb", r=r, g=g, b=b, color=color,
+                             bright=round(bright, 1), norm_c=round(norm_c, 1))
+            elif action == "read_reflect":
+                snap = self.params.snapshot()
+                rl = self.hw.read_left_reflect()
+                rr = self.hw.read_right_reflect()
+                nl = normalize(rl, snap["cal_l_black"], snap["cal_l_white"])
+                nr = normalize(rr, snap["cal_r_black"], snap["cal_r_white"])
+                self.log.log("REFLECT_READ", "DO_TRIGGER", reflect_l=rl,
+                             reflect_r=rr, norm_l=round(nl, 1), norm_r=round(nr, 1))
+                self.publish("read_reflect", reflect_l=rl, reflect_r=rr,
+                             norm_l=round(nl, 1), norm_r=round(nr, 1))
+        except Exception as exc:
+            self.log.log("DO_ACTION_FAILED", "SENSOR_READ_EXCEPTION",
+                         action=str(action), error=repr(exc))
 
     def reset_steer(self):
         self.pid.reset()
