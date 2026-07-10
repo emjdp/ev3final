@@ -1109,6 +1109,13 @@ class Runner(object):
         with self._pending_lock:
             action = self._pending
             self._pending = None
+        if action is None:
+            return
+        # 큐에서 꺼낸 액션을 무조건 로그(§run10 진단) — 문자열이 세 분기 중
+        # 어디에도 안 걸리면 기존 코드는 조용히 아무것도 안 하고 넘어가서,
+        # 액션명 불일치(공백/오타/구버전 describe 캐시 등)를 알아챌 방법이
+        # 없었다. DO_DEQUEUE 로 실제로 무엇을 받았는지 항상 남긴다.
+        self.log.log("DO_DEQUEUE", "PENDING_ACTION", action=str(action))
         try:
             if action == "calibrate":
                 self.calibrate_line()
@@ -1132,6 +1139,9 @@ class Runner(object):
                              reflect_r=rr, norm_l=round(nl, 1), norm_r=round(nr, 1))
                 self.publish("read_reflect", reflect_l=rl, reflect_r=rr,
                              norm_l=round(nl, 1), norm_r=round(nr, 1))
+            else:
+                self.log.log("DO_ACTION_FAILED", "UNKNOWN_ACTION",
+                             action=str(action))
         except Exception as exc:
             self.log.log("DO_ACTION_FAILED", "SENSOR_READ_EXCEPTION",
                          action=str(action), error=repr(exc))
