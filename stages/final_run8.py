@@ -50,6 +50,13 @@ final_run8 이번 변경(PD 라이브 튜닝):
   - 적분(I)은 코드/가드(INTEG_*)를 그대로 두되 기본값만 ki 0.06→0.0.
     ki=0 이면 적분이 완전히 꺼지는 기존 동작이라 필요할 때만 켜서 쓴다.
 
+final_run8 이번 변경(confirm 거리 결정형):
+  - confirm creep 종료를 시간(node_confirm_ms) → 거리(node_confirm_mm)로 교체.
+    진입 감속 거리가 타이머 창에 섞여 같은 40ms 에서 creep_mm 이 1.5~7.8mm
+    로 산포하던 것을, '감지점 + 정확히 X mm'로 결정적으로 만든다.
+  - 스톨/걸림 대비 CONFIRM_TIMEOUT_S(1.5s) 상한을 함께 두고, 상한 도달 시에도
+    동일하게 정지 후 재판정으로 진행하되 로그에 timeout=True 를 남긴다.
+
 규약: Python 3.5(f-string 금지) / ev3dev2 는 run() 안에서만 import /
       정지는 네트워크 stop 또는 Ctrl-C, 재시작은 네트워크 reset.
 
@@ -221,6 +228,7 @@ NODE_CANCEL_DEBOUNCE_MS = 150  # confirm '취소' 후 간격(v13.1)
 MARKER_DEBOUNCE_MS = 1500   # 같은 마커 재감지 방지
 MARKER_PAUSE_S = 0.08       # 마커 정지 후 잠깐 멈춤
 CONFIRM_SETTLE_S = 0.08     # 재판정 전 정지 안정화
+CONFIRM_TIMEOUT_S = 1.5     # 거리 기반 confirm 안전 상한(스톨/걸림 대비)
 GRIP_SEC = 0.8              # 그리퍼 열기/닫기 구동 시간
 LOOP_DELAY_S = 0.015
 FOLLOW_LOG_S = 0.25         # LINE_FOLLOW 로그 최소 간격
@@ -265,7 +273,7 @@ PARAM_TABLE = (
     ("ki",              0.0,   0.0, 0.5,  0.05, 0.01, ""),   # 기본 0 = 적분 완전 off(코드는 유지)
     ("turn_speed",      5,     5,   40,   5,    1,    "%"),
     ("turn_ramp_ms",    250,   0,   600,  100,  50,   "ms"),  # 회전 가속 램프(시작 틱틱 튐 방지, v6)
-    ("node_confirm_ms", 40,    0,   1000, 60,   10,   "ms"),
+    ("node_confirm_mm", 8.0,   0.0, 25.0, 5.0,  1.0,  "mm"),  # 감지점+정확히 X mm 에서 재판정(거리 결정형)
     ("left_th_steer",   66,    0,   100,  3,    1,    "%"),   # 유실 복구 검정 판정(원시값)
     ("right_th_steer",  63,    0,   100,  3,    1,    "%"),
     # 노드 bits 판정(원시값) — 12:01 편도성공 로그 실측: 가로선 위 8~10 / 일반주행 하위1% 51~58.
@@ -1259,17 +1267,26 @@ class Runner(object):
             self.log.log("DROP_HOME", "COLOR_YELLOW")
 
     def confirm_node(self, first_bits, snap):
-        """의심지점: PID off → 저속 직진(node_confirm_ms) → 정지 후 재판정.
+        """의심지점: PID off → 저속 직진(감지점+node_confirm_mm) → 정지 후 재판정.
         (확정 bits 또는 None, 그동안 전진한 mm) 반환. 마커를 만나면 처리 후 None.
+        종료는 거리 결정형(이동거리 >= node_confirm_mm) — 진입 감속 거리가 타이머
+        창에 섞여 creep_mm 이 산포하던 시간 기반을 대체한다. 스톨/걸림 대비로
+        CONFIRM_TIMEOUT_S 시간 상한을 함께 두고, 상한 도달 시에도 동일하게 정지
+        후 재판정으로 진행하되 로그에 timeout=True 를 남긴다.
         000 은 여기로 들어오지 않는다 — creep/재판정 중 000 이 보이면 취소(v13)."""
         self.reset_steer()
         self.hw.reset_encoders()
         self.log.log("NODE_CANDIDATE", "PD_OFF_SLOW_STRAIGHT",
                      bits=bits_str(first_bits),
-                     confirm_ms=snap["node_confirm_ms"], speed=CONFIRM_SPEED)
-        end = time.monotonic() + snap["node_confirm_ms"] / 1000.0
+                     confirm_mm=snap["node_confirm_mm"], speed=CONFIRM_SPEED)
+        target_mm = snap["node_confirm_mm"]
+        deadline = time.monotonic() + CONFIRM_TIMEOUT_S
+        timeout = False
         self.hw.drive(CONFIRM_SPEED, CONFIRM_SPEED)
-        while time.monotonic() < end:
+        while self.hw.enc_avg() * MM_PER_DEG < target_mm:
+            if time.monotonic() >= deadline:
+                timeout = True
+                break
             if self.interrupted():
                 self.hw.stop()
                 return None, self.hw.enc_avg() * MM_PER_DEG
@@ -1310,18 +1327,18 @@ class Runner(object):
             self.log.log("NODE_CONFIRMED", "SLOW_STRAIGHT_STOP",
                          first_bits=bits_str(first_bits), bits=bits_str(bits),
                          reflect_l=rl, reflect_r=rr, color=color,
-                         creep_mm=round(creep_mm, 1))
+                         creep_mm=round(creep_mm, 1), timeout=timeout)
             return bits, creep_mm
         if bits == LOST_BITS and first_bits[0] == 1 and first_bits[2] == 1:
             # 정지 재판정에서 전백 — 위 creep 케이스와 같은 passed-over(v13.1).
             self.log.log("NODE_CONFIRMED", "PASSED_OVER_AT_STOP",
                          first_bits=bits_str(first_bits),
                          reflect_l=rl, reflect_r=rr, color=color,
-                         creep_mm=round(creep_mm, 1))
+                         creep_mm=round(creep_mm, 1), timeout=timeout)
             return first_bits, creep_mm
         self.log.log("NODE_CANDIDATE", "CANCELLED_AT_STOP",
                      first_bits=bits_str(first_bits), bits=bits_str(bits),
-                     reflect_l=rl, reflect_r=rr, color=color)
+                     reflect_l=rl, reflect_r=rr, color=color, timeout=timeout)
         return None, creep_mm
 
     def handle_node(self, bits, creep_mm):
