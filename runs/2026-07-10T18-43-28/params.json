@@ -239,6 +239,38 @@
       "rev": 16,
       "source": "watcher:get",
       "t_ms": 29442
+    },
+    {
+      "name": "base_speed",
+      "new": 23,
+      "old": 24,
+      "rev": 18,
+      "source": "watcher:get",
+      "t_ms": 31750
+    },
+    {
+      "name": "base_speed",
+      "new": 22,
+      "old": 23,
+      "rev": 20,
+      "source": "watcher:get",
+      "t_ms": 32247
+    },
+    {
+      "name": "base_speed",
+      "new": 21,
+      "old": 22,
+      "rev": 23,
+      "source": "watcher:get",
+      "t_ms": 45510
+    },
+    {
+      "name": "base_speed",
+      "new": 20,
+      "old": 21,
+      "rev": 27,
+      "source": "watcher:get",
+      "t_ms": 50224
     }
   ],
   "initial": {},

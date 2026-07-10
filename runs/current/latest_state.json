@@ -6,18 +6,18 @@
     "home_total": 0,
     "last_reason": "SESSION_READY",
     "mode": "waiting_start",
-    "param_rev": 17,
+    "param_rev": 29,
     "paused": false,
     "running": true,
     "session": 1,
-    "t_ms": 29698,
+    "t_ms": 53154,
     "visits": 0
   },
   "ok": true,
   "params": {
     "values": {
       "accel_ramp_ms": 700,
-      "base_speed": 24,
+      "base_speed": 20,
       "cal_l_black": 0,
       "cal_l_white": 100,
       "cal_r_black": 0,
@@ -43,9 +43,9 @@
       "turn_speed": 8
     }
   },
-  "poll_time": 1783676661.6382346,
+  "poll_time": 1783676684.881345,
   "recent_events": [],
   "run_dir": "runs/2026-07-10T18-43-28",
   "stage": "gg5",
-  "updated_at": "2026-07-10T18:44:21"
+  "updated_at": "2026-07-10T18:44:44"
 }
