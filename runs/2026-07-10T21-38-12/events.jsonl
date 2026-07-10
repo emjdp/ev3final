@@ -1,0 +1,6 @@
+{"event": "SESSION_READY", "last_reason": "SESSION_READY", "param_rev": 0, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 10827}
+{"dist_mm": 58.6, "event": "MANUAL_MOVE", "last_reason": "MANUAL_MOVE", "param_rev": 0, "reason": "FORWARD", "running": true, "step_mm": 50, "t_ms": 24786}
+{"dist_mm": 59.6, "event": "MANUAL_MOVE", "last_reason": "MANUAL_MOVE", "param_rev": 0, "reason": "FORWARD", "running": true, "step_mm": 50, "t_ms": 26918}
+{"dist_mm": 62.6, "event": "MANUAL_MOVE", "last_reason": "MANUAL_MOVE", "param_rev": 0, "reason": "FORWARD", "running": true, "step_mm": 50, "t_ms": 29138}
+{"dist_mm": 54.5, "event": "MANUAL_MOVE", "last_reason": "MANUAL_MOVE", "param_rev": 0, "reason": "FORWARD", "running": true, "step_mm": 50, "t_ms": 33893}
+{"dist_mm": 70.6, "event": "MANUAL_MOVE", "last_reason": "MANUAL_MOVE", "param_rev": 0, "reason": "FORWARD", "running": true, "step_mm": 50, "t_ms": 36858}

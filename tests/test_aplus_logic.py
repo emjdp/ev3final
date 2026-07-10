@@ -24,8 +24,12 @@ if _ROOT not in sys.path:
 from stages.aplus import (CommandQueue, PidSteer, Runner, adaptive_base,
                           confirm_speed, slow_speed, node_bits, on_line,
                           corner_min_speed, accel_start_speed,
+                          straight_decel_speed, STRAIGHT_DECEL_MM,
+                          STRAIGHT_DECEL_MIN,
                           INITIAL_PARAMS, MOVE_ACTIONS, DIAG_MOVES, ACTIONS,
                           SPEED_REF, STEER_SCALE_MAX, PID_TURN_LIMIT,
+                          SOUND_RED, SOUND_GOOD_JOB, NUMBER_SOUNDS,
+                          RED_SAY_MAX,
                           COL_BLACK, COL_GREEN, COL_YELLOW, COL_RED,
                           COL_WHITE, COL_BROWN)
 from lib.decision_log import DecisionLog
@@ -138,6 +142,60 @@ class OnDoDispatchCase(unittest.TestCase):
                          ["grip_close", "grip_open", "calibrate"])
         self.assertEqual(self.runner.cmd.peek_all(), [])
 
+    def test_goal_drop_queues_pending(self):
+        """[7] 도착 폴백은 모터 액션 — 이동 FIFO 가 아니라 제어 루프로 간다."""
+        resp = self.runner.on_do("goal_drop", {})
+        self.assertEqual(resp["queued"], "goal_drop")
+        self.assertEqual(self.runner._pending, ["goal_drop"])
+        self.assertEqual(self.runner.cmd.peek_all(), [])
+
+
+class SayRedCase(unittest.TestCase):
+    """패드 [1]~[6] 수동 음성 — 네트워크 스레드에서 즉시 오디오 큐로 재생,
+    이동 FIFO 를 쓰지 않고 red N 카운터도 건드리지 않는다."""
+
+    class _FakeAudioHw(object):
+        def __init__(self):
+            self.wavs = []
+
+        def play_wav(self, path):
+            self.wavs.append(path)
+
+        def beep_ok(self):
+            self.wavs.append("beep")
+
+    def setUp(self):
+        tele = Telemetry()
+        self.hw = self._FakeAudioHw()
+        self.runner = Runner(self.hw, None, tele, DecisionLog(telemetry=tele))
+
+    def test_plays_red_then_number(self):
+        resp = self.runner.on_do("say_red_3", {})
+        self.assertEqual(resp["queued"], "say_red_3")
+        self.assertEqual(self.hw.wavs, [SOUND_RED, NUMBER_SOUNDS[3]])
+
+    def test_does_not_touch_fifo_or_counters(self):
+        self.runner.on_do("say_red_1", {})
+        self.assertEqual(self.runner.cmd.peek_all(), [])
+        self.assertEqual(self.runner.out_red_spoken, 0)
+        self.assertEqual(self.runner.return_red_spoken, 0)
+
+    def test_clamps_out_of_range_number(self):
+        resp = self.runner.on_do("say_red_9", {})
+        self.assertEqual(resp["queued"], "say_red_%d" % RED_SAY_MAX)
+        self.assertEqual(self.hw.wavs,
+                         [SOUND_RED, NUMBER_SOUNDS[RED_SAY_MAX]])
+
+    def test_bad_suffix_rejected(self):
+        resp = self.runner.on_do("say_red_x", {})
+        self.assertIs(resp.get("ok"), False)
+        self.assertEqual(self.hw.wavs, [])
+
+    def test_manifest_declares_all_six(self):
+        keys = dict((a["name"], a["key"]) for a in ACTIONS)
+        for n in range(1, RED_SAY_MAX + 1):
+            self.assertEqual(keys["say_red_%d" % n], str(n))
+
 
 class ActionManifestCase(unittest.TestCase):
     """사용자 지정 키맵 규약 — w/s/a/d/q/e/p, 전부 유일."""
@@ -151,6 +209,7 @@ class ActionManifestCase(unittest.TestCase):
         self.assertEqual(keys["diag_left"], "q")
         self.assertEqual(keys["diag_right"], "e")
         self.assertEqual(keys["grip_close"], "p")
+        self.assertEqual(keys["goal_drop"], "7")
 
     def test_all_actions_have_unique_keys(self):
         keys = [a.get("key") for a in ACTIONS]
@@ -199,6 +258,131 @@ class SpeedHelpersCase(unittest.TestCase):
     def test_proportional_above_floor(self):
         self.assertEqual(confirm_speed(40), 10.0)
         self.assertEqual(slow_speed(40), 16.0)
+
+
+class StraightDecelCase(unittest.TestCase):
+    """직진 종점 감속(순수) — 남은 거리가 감속 구간이면 저속, 밖이면 그대로.
+    배달 전·후진/노드 전진이 급브레이크 없이 부드럽게 서게 한다."""
+
+    def test_cruise_outside_zone(self):
+        self.assertEqual(straight_decel_speed(15, STRAIGHT_DECEL_MM + 1), 15.0)
+        self.assertEqual(straight_decel_speed(-15, STRAIGHT_DECEL_MM + 1), -15.0)
+
+    def test_slows_inside_zone(self):
+        self.assertEqual(straight_decel_speed(15, 10), 7.5)     # 15×0.5
+
+    def test_backward_keeps_sign(self):
+        self.assertEqual(straight_decel_speed(-15, 10), -7.5)
+
+    def test_floor_applies(self):
+        # 10×0.5=5 → 하한 6.
+        self.assertEqual(straight_decel_speed(10, 5), float(STRAIGHT_DECEL_MIN))
+
+    def test_never_faster_than_original(self):
+        # 이미 하한보다 느린 저속(confirm 5%)은 그대로 — 가속 금지.
+        self.assertEqual(straight_decel_speed(5, 5), 5.0)
+        self.assertEqual(straight_decel_speed(-5, 5), -5.0)
+
+
+class ManualGoalCase(unittest.TestCase):
+    """[7] 수동 도착 처리 — 초록 미인식 폴백이 도착 절차를 그대로 시행:
+    감속 정지 → good_job/랜덤 숫자 → 전진 → 그립 오픈 → 후진 → 180도 회전."""
+
+    class _FakeMotionHw(object):
+        def __init__(self):
+            self.calls = []
+            self.enc = 0.0
+
+        def drive(self, left, right):
+            self.calls.append(("drive", left, right))
+
+        def drive_raw(self, left, right):
+            self.calls.append(("drive_raw", left, right))
+
+        def stop(self):
+            self.calls.append(("stop",))
+
+        def coast(self):
+            pass
+
+        def set_ramp(self, up_ms, down_ms=0):
+            pass
+
+        def reset_encoders(self):
+            self.enc = 0.0
+
+        def enc_avg(self):
+            self.enc += 40.0        # 호출마다 전진 — 루프가 곧 종료된다
+            return self.enc
+
+        def read_center_color_now(self):
+            return COL_BLACK        # 회전 후 라인 위 — realign 생략
+
+        def grip_open(self, speed, sec):
+            self.calls.append(("grip_open",))
+
+        def grip_close(self, speed, sec):
+            self.calls.append(("grip_close",))
+
+        def play_wav(self, path):
+            self.calls.append(("wav", path))
+
+        def tone(self, freq, ms):
+            pass
+
+        def beep_ok(self):
+            pass
+
+        def show_final4_display(self, out_s, back_s, number):
+            pass
+
+    class _FakeParams(object):
+        def snapshot(self):
+            return dict(INITIAL_PARAMS)
+
+        def rev(self):
+            return 0
+
+    def setUp(self):
+        import time
+        tele = Telemetry()
+        self.hw = self._FakeMotionHw()
+        self.runner = Runner(self.hw, self._FakeParams(), tele,
+                             DecisionLog(telemetry=tele))
+        self.runner.timer_start = time.monotonic() - 5.0
+
+    def _run_via_pending(self):
+        self.runner.on_do("goal_drop", {})
+        self.runner.handle_pending()
+
+    def test_sequence_and_state(self):
+        self._run_via_pending()
+        calls = self.hw.calls
+        # good_job 재생 + 그립 오픈 + 유턴(drive_raw)이 전부 있었다.
+        self.assertIn(("wav", SOUND_GOOD_JOB), calls)
+        self.assertIn(("grip_open",), calls)
+        raws = [c for c in calls if c[0] == "drive_raw"]
+        self.assertTrue(raws)
+        # 순서: 전진(drive +) → 그립 오픈 → 후진(drive -) → 회전(drive_raw).
+        i_open = calls.index(("grip_open",))
+        fwd = [i for i, c in enumerate(calls)
+               if c[0] == "drive" and c[1] > 0 and c[2] > 0]
+        back = [i for i, c in enumerate(calls)
+                if c[0] == "drive" and c[1] < 0 and c[2] < 0]
+        i_turn = calls.index(raws[0])
+        self.assertTrue(fwd and fwd[0] < i_open)
+        self.assertTrue(back and i_open < back[0] < i_turn)
+        # 상태: 배달 완료(goal_seen) + 그립 비움 + OUT 시간 기록.
+        self.assertTrue(self.runner.goal_seen)
+        self.assertFalse(self.runner.grabbed)
+        self.assertIsNotNone(self.runner.out_elapsed)
+        self.assertGreaterEqual(self.runner.out_elapsed, 5.0)
+
+    def test_out_time_not_overwritten_on_second_run(self):
+        self._run_via_pending()
+        first = self.runner.out_elapsed
+        self._run_via_pending()     # 조종자가 보스 — 두 번째도 그대로 시행
+        self.assertEqual(self.runner.out_elapsed, first)
 
 
 class AdaptiveBaseCase(unittest.TestCase):

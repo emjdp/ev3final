@@ -271,6 +271,1446 @@
       "rev": 27,
       "source": "watcher:get",
       "t_ms": 50224
+    },
+    {
+      "name": "base_speed",
+      "new": 19,
+      "old": 20,
+      "rev": 30,
+      "source": "watcher:get",
+      "t_ms": 54376
+    },
+    {
+      "name": "base_speed",
+      "new": 18,
+      "old": 19,
+      "rev": 32,
+      "source": "watcher:get",
+      "t_ms": 59758
+    },
+    {
+      "name": "base_speed",
+      "new": 17,
+      "old": 18,
+      "rev": 34,
+      "source": "watcher:get",
+      "t_ms": 63158
+    },
+    {
+      "name": "base_speed",
+      "new": 16,
+      "old": 17,
+      "rev": 35,
+      "source": "watcher:get",
+      "t_ms": 65268
+    },
+    {
+      "name": "base_speed",
+      "new": 15,
+      "old": 16,
+      "rev": 36,
+      "source": "watcher:get",
+      "t_ms": 66277
+    },
+    {
+      "name": "kp",
+      "new": 0.16,
+      "old": 0.17,
+      "rev": 37,
+      "source": "watcher:get",
+      "t_ms": 68265
+    },
+    {
+      "name": "kp",
+      "new": 0.15,
+      "old": 0.16,
+      "rev": 38,
+      "source": "watcher:get",
+      "t_ms": 69185
+    },
+    {
+      "name": "kp",
+      "new": 0.14,
+      "old": 0.15,
+      "rev": 39,
+      "source": "watcher:get",
+      "t_ms": 70098
+    },
+    {
+      "name": "kp",
+      "new": 0.13,
+      "old": 0.14,
+      "rev": 40,
+      "source": "watcher:get",
+      "t_ms": 71542
+    },
+    {
+      "name": "kp",
+      "new": 0.12,
+      "old": 0.13,
+      "rev": 41,
+      "source": "watcher:get",
+      "t_ms": 74217
+    },
+    {
+      "name": "kp",
+      "new": 0.11,
+      "old": 0.12,
+      "rev": 42,
+      "source": "watcher:get",
+      "t_ms": 75917
+    },
+    {
+      "name": "kp",
+      "new": 0.1,
+      "old": 0.11,
+      "rev": 43,
+      "source": "watcher:get",
+      "t_ms": 76866
+    },
+    {
+      "name": "ki",
+      "new": 0.05,
+      "old": 0.06,
+      "rev": 44,
+      "source": "watcher:get",
+      "t_ms": 79482
+    },
+    {
+      "name": "ki",
+      "new": 0.04,
+      "old": 0.05,
+      "rev": 45,
+      "source": "watcher:get",
+      "t_ms": 80426
+    },
+    {
+      "name": "ki",
+      "new": 0.03,
+      "old": 0.04,
+      "rev": 46,
+      "source": "watcher:get",
+      "t_ms": 81355
+    },
+    {
+      "name": "ki",
+      "new": 0.02,
+      "old": 0.03,
+      "rev": 47,
+      "source": "watcher:get",
+      "t_ms": 84921
+    },
+    {
+      "name": "turn_speed",
+      "new": 7,
+      "old": 8,
+      "rev": 48,
+      "source": "watcher:get",
+      "t_ms": 88348
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 90,
+      "old": 100,
+      "rev": 49,
+      "source": "watcher:get",
+      "t_ms": 96896
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 80,
+      "old": 90,
+      "rev": 50,
+      "source": "watcher:get",
+      "t_ms": 97789
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 70,
+      "old": 80,
+      "rev": 51,
+      "source": "watcher:get",
+      "t_ms": 98742
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 60,
+      "old": 70,
+      "rev": 52,
+      "source": "watcher:get",
+      "t_ms": 99731
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 50,
+      "old": 60,
+      "rev": 53,
+      "source": "watcher:get",
+      "t_ms": 100478
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 40,
+      "old": 50,
+      "rev": 54,
+      "source": "watcher:get",
+      "t_ms": 101198
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 30,
+      "old": 40,
+      "rev": 55,
+      "source": "watcher:get",
+      "t_ms": 102335
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 20,
+      "old": 30,
+      "rev": 56,
+      "source": "watcher:get",
+      "t_ms": 104022
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 10,
+      "old": 20,
+      "rev": 57,
+      "source": "watcher:get",
+      "t_ms": 105169
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 0,
+      "old": 10,
+      "rev": 58,
+      "source": "watcher:get",
+      "t_ms": 106166
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.64,
+      "old": 0.65,
+      "rev": 59,
+      "source": "watcher:get",
+      "t_ms": 109796
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.65,
+      "old": 0.64,
+      "rev": 60,
+      "source": "watcher:get",
+      "t_ms": 110828
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.66,
+      "old": 0.65,
+      "rev": 61,
+      "source": "watcher:get",
+      "t_ms": 111831
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.67,
+      "old": 0.66,
+      "rev": 62,
+      "source": "watcher:get",
+      "t_ms": 112854
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.68,
+      "old": 0.67,
+      "rev": 63,
+      "source": "watcher:get",
+      "t_ms": 113626
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.69,
+      "old": 0.68,
+      "rev": 64,
+      "source": "watcher:get",
+      "t_ms": 114547
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.7,
+      "old": 0.69,
+      "rev": 65,
+      "source": "watcher:get",
+      "t_ms": 115815
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.71,
+      "old": 0.7,
+      "rev": 66,
+      "source": "watcher:get",
+      "t_ms": 117059
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 30,
+      "old": 40,
+      "rev": 67,
+      "source": "watcher:get",
+      "t_ms": 123512
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 20,
+      "old": 30,
+      "rev": 68,
+      "source": "watcher:get",
+      "t_ms": 125682
+    },
+    {
+      "name": "ki",
+      "new": 0.03,
+      "old": 0.02,
+      "rev": 69,
+      "source": "watcher:get",
+      "t_ms": 190285
+    },
+    {
+      "name": "ki",
+      "new": 0.04,
+      "old": 0.03,
+      "rev": 70,
+      "source": "watcher:get",
+      "t_ms": 191570
+    },
+    {
+      "name": "kp",
+      "new": 0.11,
+      "old": 0.1,
+      "rev": 71,
+      "source": "watcher:get",
+      "t_ms": 197718
+    },
+    {
+      "name": "kp",
+      "new": 0.12,
+      "old": 0.11,
+      "rev": 72,
+      "source": "watcher:get",
+      "t_ms": 199075
+    },
+    {
+      "name": "kp",
+      "new": 0.13,
+      "old": 0.12,
+      "rev": 73,
+      "source": "watcher:get",
+      "t_ms": 200085
+    },
+    {
+      "name": "kp",
+      "new": 0.14,
+      "old": 0.13,
+      "rev": 75,
+      "source": "watcher:get",
+      "t_ms": 202671
+    },
+    {
+      "name": "kp",
+      "new": 0.15,
+      "old": 0.14,
+      "rev": 76,
+      "source": "watcher:get",
+      "t_ms": 203908
+    },
+    {
+      "name": "base_speed",
+      "new": 14,
+      "old": 15,
+      "rev": 77,
+      "source": "watcher:get",
+      "t_ms": 337930
+    },
+    {
+      "name": "base_speed",
+      "new": 13,
+      "old": 14,
+      "rev": 79,
+      "source": "watcher:get",
+      "t_ms": 339413
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.7,
+      "old": 0.71,
+      "rev": 80,
+      "source": "watcher:get",
+      "t_ms": 360417
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 50,
+      "old": 60,
+      "rev": 81,
+      "source": "watcher:get",
+      "t_ms": 371272
+    },
+    {
+      "name": "base_speed",
+      "new": 14,
+      "old": 13,
+      "rev": 82,
+      "source": "watcher:get",
+      "t_ms": 434507
+    },
+    {
+      "name": "base_speed",
+      "new": 15,
+      "old": 14,
+      "rev": 83,
+      "source": "watcher:get",
+      "t_ms": 434787
+    },
+    {
+      "name": "base_speed",
+      "new": 16,
+      "old": 15,
+      "rev": 87,
+      "source": "watcher:get",
+      "t_ms": 436963
+    },
+    {
+      "name": "base_speed",
+      "new": 17,
+      "old": 16,
+      "rev": 88,
+      "source": "watcher:get",
+      "t_ms": 437928
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.5,
+      "old": 6.0,
+      "rev": 89,
+      "source": "watcher:get",
+      "t_ms": 477015
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 7.0,
+      "old": 6.5,
+      "rev": 90,
+      "source": "watcher:get",
+      "t_ms": 478516
+    },
+    {
+      "name": "turn_speed",
+      "new": 8,
+      "old": 7,
+      "rev": 91,
+      "source": "watcher:get",
+      "t_ms": 489951
+    },
+    {
+      "name": "base_speed",
+      "new": 16,
+      "old": 17,
+      "rev": 92,
+      "source": "watcher:get",
+      "t_ms": 492150
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 7.5,
+      "old": 7.0,
+      "rev": 94,
+      "source": "watcher:get",
+      "t_ms": 515705
+    },
+    {
+      "name": "base_speed",
+      "new": 15,
+      "old": 16,
+      "rev": 95,
+      "source": "watcher:get",
+      "t_ms": 570144
+    },
+    {
+      "name": "kp",
+      "new": 0.14,
+      "old": 0.15,
+      "rev": 96,
+      "source": "watcher:get",
+      "t_ms": 660840
+    },
+    {
+      "name": "kp",
+      "new": 0.13,
+      "old": 0.14,
+      "rev": 97,
+      "source": "watcher:get",
+      "t_ms": 661958
+    },
+    {
+      "name": "kp",
+      "new": 0.12,
+      "old": 0.13,
+      "rev": 98,
+      "source": "watcher:get",
+      "t_ms": 663163
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.69,
+      "old": 0.7,
+      "rev": 99,
+      "source": "watcher:get",
+      "t_ms": 722981
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.7,
+      "old": 0.71,
+      "rev": 100,
+      "source": "watcher:get",
+      "t_ms": 723836
+    },
+    {
+      "name": "kp",
+      "new": 0.13,
+      "old": 0.12,
+      "rev": 101,
+      "source": "watcher:get",
+      "t_ms": 775945
+    },
+    {
+      "name": "kp",
+      "new": 0.12,
+      "old": 0.13,
+      "rev": 102,
+      "source": "watcher:get",
+      "t_ms": 794189
+    },
+    {
+      "name": "kp",
+      "new": 0.13,
+      "old": 0.12,
+      "rev": 104,
+      "source": "watcher:get",
+      "t_ms": 795604
+    },
+    {
+      "name": "kp",
+      "new": 0.14,
+      "old": 0.13,
+      "rev": 106,
+      "source": "watcher:get",
+      "t_ms": 798240
+    },
+    {
+      "name": "base_speed",
+      "new": 14,
+      "old": 15,
+      "rev": 107,
+      "source": "watcher:get",
+      "t_ms": 799875
+    },
+    {
+      "name": "base_speed",
+      "new": 13,
+      "old": 14,
+      "rev": 108,
+      "source": "watcher:get",
+      "t_ms": 800808
+    },
+    {
+      "name": "base_speed",
+      "new": 12,
+      "old": 13,
+      "rev": 110,
+      "source": "watcher:get",
+      "t_ms": 802291
+    },
+    {
+      "name": "base_speed",
+      "new": 11,
+      "old": 12,
+      "rev": 111,
+      "source": "watcher:get",
+      "t_ms": 803553
+    },
+    {
+      "name": "base_speed",
+      "new": 10,
+      "old": 11,
+      "rev": 112,
+      "source": "watcher:get",
+      "t_ms": 805159
+    },
+    {
+      "name": "base_speed",
+      "new": 9,
+      "old": 10,
+      "rev": 113,
+      "source": "watcher:get",
+      "t_ms": 807601
+    },
+    {
+      "name": "base_speed",
+      "new": 8,
+      "old": 9,
+      "rev": 114,
+      "source": "watcher:get",
+      "t_ms": 809347
+    },
+    {
+      "name": "base_speed",
+      "new": 7,
+      "old": 8,
+      "rev": 115,
+      "source": "watcher:get",
+      "t_ms": 810355
+    },
+    {
+      "name": "ki",
+      "new": 0.03,
+      "old": 0.04,
+      "rev": 116,
+      "source": "watcher:get",
+      "t_ms": 812066
+    },
+    {
+      "name": "ki",
+      "new": 0.02,
+      "old": 0.03,
+      "rev": 117,
+      "source": "watcher:get",
+      "t_ms": 812859
+    },
+    {
+      "name": "kp",
+      "new": 0.13,
+      "old": 0.14,
+      "rev": 118,
+      "source": "watcher:get",
+      "t_ms": 814207
+    },
+    {
+      "name": "kp",
+      "new": 0.12,
+      "old": 0.13,
+      "rev": 119,
+      "source": "watcher:get",
+      "t_ms": 815318
+    },
+    {
+      "name": "kp",
+      "new": 0.11,
+      "old": 0.12,
+      "rev": 121,
+      "source": "watcher:get",
+      "t_ms": 816490
+    },
+    {
+      "name": "kp",
+      "new": 0.1,
+      "old": 0.11,
+      "rev": 122,
+      "source": "watcher:get",
+      "t_ms": 817709
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 7.0,
+      "old": 7.5,
+      "rev": 123,
+      "source": "watcher:get",
+      "t_ms": 992649
+    },
+    {
+      "name": "base_speed",
+      "new": 6,
+      "old": 7,
+      "rev": 124,
+      "source": "watcher:get",
+      "t_ms": 1222547
+    },
+    {
+      "name": "base_speed",
+      "new": 5,
+      "old": 6,
+      "rev": 126,
+      "source": "watcher:get",
+      "t_ms": 1230524
+    },
+    {
+      "name": "base_speed",
+      "new": 6,
+      "old": 5,
+      "rev": 127,
+      "source": "watcher:get",
+      "t_ms": 1359708
+    },
+    {
+      "name": "base_speed",
+      "new": 7,
+      "old": 6,
+      "rev": 128,
+      "source": "watcher:get",
+      "t_ms": 1360845
+    },
+    {
+      "name": "base_speed",
+      "new": 8,
+      "old": 7,
+      "rev": 129,
+      "source": "watcher:get",
+      "t_ms": 1370959
+    },
+    {
+      "name": "base_speed",
+      "new": 9,
+      "old": 8,
+      "rev": 130,
+      "source": "watcher:get",
+      "t_ms": 1371558
+    },
+    {
+      "name": "base_speed",
+      "new": 10,
+      "old": 9,
+      "rev": 132,
+      "source": "watcher:get",
+      "t_ms": 1372147
+    },
+    {
+      "name": "base_speed",
+      "new": 11,
+      "old": 10,
+      "rev": 134,
+      "source": "watcher:get",
+      "t_ms": 1372647
+    },
+    {
+      "name": "base_speed",
+      "new": 12,
+      "old": 11,
+      "rev": 136,
+      "source": "watcher:get",
+      "t_ms": 1373227
+    },
+    {
+      "name": "base_speed",
+      "new": 13,
+      "old": 12,
+      "rev": 138,
+      "source": "watcher:get",
+      "t_ms": 1373817
+    },
+    {
+      "name": "base_speed",
+      "new": 14,
+      "old": 13,
+      "rev": 139,
+      "source": "watcher:get",
+      "t_ms": 1374235
+    },
+    {
+      "name": "base_speed",
+      "new": 15,
+      "old": 14,
+      "rev": 143,
+      "source": "watcher:get",
+      "t_ms": 1375307
+    },
+    {
+      "name": "base_speed",
+      "new": 16,
+      "old": 15,
+      "rev": 145,
+      "source": "watcher:get",
+      "t_ms": 1375927
+    },
+    {
+      "name": "base_speed",
+      "new": 17,
+      "old": 16,
+      "rev": 147,
+      "source": "watcher:get",
+      "t_ms": 1376352
+    },
+    {
+      "name": "base_speed",
+      "new": 18,
+      "old": 17,
+      "rev": 149,
+      "source": "watcher:get",
+      "t_ms": 1376940
+    },
+    {
+      "name": "base_speed",
+      "new": 19,
+      "old": 18,
+      "rev": 150,
+      "source": "watcher:get",
+      "t_ms": 1377396
+    },
+    {
+      "name": "base_speed",
+      "new": 20,
+      "old": 19,
+      "rev": 153,
+      "source": "watcher:get",
+      "t_ms": 1377929
+    },
+    {
+      "name": "base_speed",
+      "new": 21,
+      "old": 20,
+      "rev": 155,
+      "source": "watcher:get",
+      "t_ms": 1378373
+    },
+    {
+      "name": "base_speed",
+      "new": 22,
+      "old": 21,
+      "rev": 157,
+      "source": "watcher:get",
+      "t_ms": 1378909
+    },
+    {
+      "name": "base_speed",
+      "new": 23,
+      "old": 22,
+      "rev": 159,
+      "source": "watcher:get",
+      "t_ms": 1379399
+    },
+    {
+      "name": "base_speed",
+      "new": 24,
+      "old": 23,
+      "rev": 161,
+      "source": "watcher:get",
+      "t_ms": 1379902
+    },
+    {
+      "name": "base_speed",
+      "new": 25,
+      "old": 24,
+      "rev": 162,
+      "source": "watcher:get",
+      "t_ms": 1380443
+    },
+    {
+      "name": "base_speed",
+      "new": 26,
+      "old": 25,
+      "rev": 165,
+      "source": "watcher:get",
+      "t_ms": 1381031
+    },
+    {
+      "name": "base_speed",
+      "new": 27,
+      "old": 26,
+      "rev": 167,
+      "source": "watcher:get",
+      "t_ms": 1381482
+    },
+    {
+      "name": "base_speed",
+      "new": 28,
+      "old": 27,
+      "rev": 169,
+      "source": "watcher:get",
+      "t_ms": 1381995
+    },
+    {
+      "name": "base_speed",
+      "new": 29,
+      "old": 28,
+      "rev": 170,
+      "source": "watcher:get",
+      "t_ms": 1382478
+    },
+    {
+      "name": "base_speed",
+      "new": 30,
+      "old": 29,
+      "rev": 173,
+      "source": "watcher:get",
+      "t_ms": 1383015
+    },
+    {
+      "name": "base_speed",
+      "new": 31,
+      "old": 30,
+      "rev": 175,
+      "source": "watcher:get",
+      "t_ms": 1383505
+    },
+    {
+      "name": "base_speed",
+      "new": 32,
+      "old": 31,
+      "rev": 177,
+      "source": "watcher:get",
+      "t_ms": 1383960
+    },
+    {
+      "name": "base_speed",
+      "new": 33,
+      "old": 32,
+      "rev": 178,
+      "source": "watcher:get",
+      "t_ms": 1384259
+    },
+    {
+      "name": "base_speed",
+      "new": 34,
+      "old": 33,
+      "rev": 181,
+      "source": "watcher:get",
+      "t_ms": 1384787
+    },
+    {
+      "name": "base_speed",
+      "new": 35,
+      "old": 34,
+      "rev": 183,
+      "source": "watcher:get",
+      "t_ms": 1385330
+    },
+    {
+      "name": "base_speed",
+      "new": 36,
+      "old": 35,
+      "rev": 185,
+      "source": "watcher:get",
+      "t_ms": 1385769
+    },
+    {
+      "name": "base_speed",
+      "new": 37,
+      "old": 36,
+      "rev": 187,
+      "source": "watcher:get",
+      "t_ms": 1386271
+    },
+    {
+      "name": "base_speed",
+      "new": 38,
+      "old": 37,
+      "rev": 189,
+      "source": "watcher:get",
+      "t_ms": 1386748
+    },
+    {
+      "name": "base_speed",
+      "new": 39,
+      "old": 38,
+      "rev": 191,
+      "source": "watcher:get",
+      "t_ms": 1387203
+    },
+    {
+      "name": "base_speed",
+      "new": 40,
+      "old": 39,
+      "rev": 194,
+      "source": "watcher:get",
+      "t_ms": 1388001
+    },
+    {
+      "name": "base_speed",
+      "new": 41,
+      "old": 40,
+      "rev": 197,
+      "source": "watcher:get",
+      "t_ms": 1388569
+    },
+    {
+      "name": "base_speed",
+      "new": 42,
+      "old": 41,
+      "rev": 199,
+      "source": "watcher:get",
+      "t_ms": 1389041
+    },
+    {
+      "name": "base_speed",
+      "new": 43,
+      "old": 42,
+      "rev": 201,
+      "source": "watcher:get",
+      "t_ms": 1389498
+    },
+    {
+      "name": "base_speed",
+      "new": 44,
+      "old": 43,
+      "rev": 203,
+      "source": "watcher:get",
+      "t_ms": 1389925
+    },
+    {
+      "name": "base_speed",
+      "new": 45,
+      "old": 44,
+      "rev": 206,
+      "source": "watcher:get",
+      "t_ms": 1390595
+    },
+    {
+      "name": "base_speed",
+      "new": 46,
+      "old": 45,
+      "rev": 208,
+      "source": "watcher:get",
+      "t_ms": 1391083
+    },
+    {
+      "name": "base_speed",
+      "new": 47,
+      "old": 46,
+      "rev": 210,
+      "source": "watcher:get",
+      "t_ms": 1391580
+    },
+    {
+      "name": "base_speed",
+      "new": 48,
+      "old": 47,
+      "rev": 212,
+      "source": "watcher:get",
+      "t_ms": 1392084
+    },
+    {
+      "name": "base_speed",
+      "new": 49,
+      "old": 48,
+      "rev": 214,
+      "source": "watcher:get",
+      "t_ms": 1392615
+    },
+    {
+      "name": "base_speed",
+      "new": 50,
+      "old": 49,
+      "rev": 216,
+      "source": "watcher:get",
+      "t_ms": 1393212
+    },
+    {
+      "name": "base_speed",
+      "new": 51,
+      "old": 50,
+      "rev": 217,
+      "source": "watcher:get",
+      "t_ms": 1393688
+    },
+    {
+      "name": "base_speed",
+      "new": 52,
+      "old": 51,
+      "rev": 220,
+      "source": "watcher:get",
+      "t_ms": 1394192
+    },
+    {
+      "name": "base_speed",
+      "new": 53,
+      "old": 52,
+      "rev": 222,
+      "source": "watcher:get",
+      "t_ms": 1394725
+    },
+    {
+      "name": "base_speed",
+      "new": 54,
+      "old": 53,
+      "rev": 224,
+      "source": "watcher:get",
+      "t_ms": 1395251
+    },
+    {
+      "name": "base_speed",
+      "new": 55,
+      "old": 54,
+      "rev": 226,
+      "source": "watcher:get",
+      "t_ms": 1395903
+    },
+    {
+      "name": "base_speed",
+      "new": 56,
+      "old": 55,
+      "rev": 227,
+      "source": "watcher:get",
+      "t_ms": 1396389
+    },
+    {
+      "name": "base_speed",
+      "new": 57,
+      "old": 56,
+      "rev": 230,
+      "source": "watcher:get",
+      "t_ms": 1397002
+    },
+    {
+      "name": "base_speed",
+      "new": 58,
+      "old": 57,
+      "rev": 231,
+      "source": "watcher:get",
+      "t_ms": 1397369
+    },
+    {
+      "name": "base_speed",
+      "new": 57,
+      "old": 58,
+      "rev": 233,
+      "source": "watcher:get",
+      "t_ms": 1397837
+    },
+    {
+      "name": "base_speed",
+      "new": 56,
+      "old": 57,
+      "rev": 235,
+      "source": "watcher:get",
+      "t_ms": 1398426
+    },
+    {
+      "name": "base_speed",
+      "new": 55,
+      "old": 56,
+      "rev": 236,
+      "source": "watcher:get",
+      "t_ms": 1398751
+    },
+    {
+      "name": "base_speed",
+      "new": 54,
+      "old": 55,
+      "rev": 239,
+      "source": "watcher:get",
+      "t_ms": 1399217
+    },
+    {
+      "name": "base_speed",
+      "new": 53,
+      "old": 54,
+      "rev": 241,
+      "source": "watcher:get",
+      "t_ms": 1399659
+    },
+    {
+      "name": "base_speed",
+      "new": 52,
+      "old": 53,
+      "rev": 243,
+      "source": "watcher:get",
+      "t_ms": 1400364
+    },
+    {
+      "name": "base_speed",
+      "new": 51,
+      "old": 52,
+      "rev": 245,
+      "source": "watcher:get",
+      "t_ms": 1400807
+    },
+    {
+      "name": "base_speed",
+      "new": 50,
+      "old": 51,
+      "rev": 246,
+      "source": "watcher:get",
+      "t_ms": 1401195
+    },
+    {
+      "name": "base_speed",
+      "new": 49,
+      "old": 50,
+      "rev": 250,
+      "source": "watcher:get",
+      "t_ms": 1402175
+    },
+    {
+      "name": "base_speed",
+      "new": 48,
+      "old": 49,
+      "rev": 252,
+      "source": "watcher:get",
+      "t_ms": 1402771
+    },
+    {
+      "name": "base_speed",
+      "new": 47,
+      "old": 48,
+      "rev": 259,
+      "source": "watcher:get",
+      "t_ms": 1404918
+    },
+    {
+      "name": "base_speed",
+      "new": 46,
+      "old": 47,
+      "rev": 260,
+      "source": "watcher:get",
+      "t_ms": 1407458
+    },
+    {
+      "name": "base_speed",
+      "new": 45,
+      "old": 46,
+      "rev": 262,
+      "source": "watcher:get",
+      "t_ms": 1407970
+    },
+    {
+      "name": "base_speed",
+      "new": 44,
+      "old": 45,
+      "rev": 264,
+      "source": "watcher:get",
+      "t_ms": 1408551
+    },
+    {
+      "name": "base_speed",
+      "new": 43,
+      "old": 44,
+      "rev": 267,
+      "source": "watcher:get",
+      "t_ms": 1409047
+    },
+    {
+      "name": "base_speed",
+      "new": 42,
+      "old": 43,
+      "rev": 268,
+      "source": "watcher:get",
+      "t_ms": 1409382
+    },
+    {
+      "name": "base_speed",
+      "new": 41,
+      "old": 42,
+      "rev": 271,
+      "source": "watcher:get",
+      "t_ms": 1410068
+    },
+    {
+      "name": "base_speed",
+      "new": 40,
+      "old": 41,
+      "rev": 274,
+      "source": "watcher:get",
+      "t_ms": 1410914
+    },
+    {
+      "name": "base_speed",
+      "new": 39,
+      "old": 40,
+      "rev": 277,
+      "source": "watcher:get",
+      "t_ms": 1411449
+    },
+    {
+      "name": "base_speed",
+      "new": 38,
+      "old": 39,
+      "rev": 280,
+      "source": "watcher:get",
+      "t_ms": 1412261
+    },
+    {
+      "name": "base_speed",
+      "new": 37,
+      "old": 38,
+      "rev": 282,
+      "source": "watcher:get",
+      "t_ms": 1412803
+    },
+    {
+      "name": "base_speed",
+      "new": 36,
+      "old": 37,
+      "rev": 284,
+      "source": "watcher:get",
+      "t_ms": 1413279
+    },
+    {
+      "name": "base_speed",
+      "new": 35,
+      "old": 36,
+      "rev": 287,
+      "source": "watcher:get",
+      "t_ms": 1413744
+    },
+    {
+      "name": "base_speed",
+      "new": 34,
+      "old": 35,
+      "rev": 288,
+      "source": "watcher:get",
+      "t_ms": 1414015
+    },
+    {
+      "name": "base_speed",
+      "new": 33,
+      "old": 34,
+      "rev": 291,
+      "source": "watcher:get",
+      "t_ms": 1414791
+    },
+    {
+      "name": "base_speed",
+      "new": 32,
+      "old": 33,
+      "rev": 292,
+      "source": "watcher:get",
+      "t_ms": 1415268
+    },
+    {
+      "name": "base_speed",
+      "new": 31,
+      "old": 32,
+      "rev": 295,
+      "source": "watcher:get",
+      "t_ms": 1416262
+    },
+    {
+      "name": "base_speed",
+      "new": 30,
+      "old": 31,
+      "rev": 296,
+      "source": "watcher:get",
+      "t_ms": 1417975
+    },
+    {
+      "name": "base_speed",
+      "new": 29,
+      "old": 30,
+      "rev": 297,
+      "source": "watcher:get",
+      "t_ms": 1418859
+    },
+    {
+      "name": "base_speed",
+      "new": 28,
+      "old": 29,
+      "rev": 298,
+      "source": "watcher:get",
+      "t_ms": 1419767
+    },
+    {
+      "name": "base_speed",
+      "new": 27,
+      "old": 28,
+      "rev": 300,
+      "source": "watcher:get",
+      "t_ms": 1420681
+    },
+    {
+      "name": "base_speed",
+      "new": 26,
+      "old": 27,
+      "rev": 301,
+      "source": "watcher:get",
+      "t_ms": 1421207
+    },
+    {
+      "name": "base_speed",
+      "new": 25,
+      "old": 26,
+      "rev": 303,
+      "source": "watcher:get",
+      "t_ms": 1422625
+    },
+    {
+      "name": "base_speed",
+      "new": 24,
+      "old": 25,
+      "rev": 305,
+      "source": "watcher:get",
+      "t_ms": 1423746
+    },
+    {
+      "name": "base_speed",
+      "new": 23,
+      "old": 24,
+      "rev": 307,
+      "source": "watcher:get",
+      "t_ms": 1424937
+    },
+    {
+      "name": "base_speed",
+      "new": 22,
+      "old": 23,
+      "rev": 309,
+      "source": "watcher:get",
+      "t_ms": 1426110
+    },
+    {
+      "name": "base_speed",
+      "new": 21,
+      "old": 22,
+      "rev": 310,
+      "source": "watcher:get",
+      "t_ms": 1426759
+    },
+    {
+      "name": "base_speed",
+      "new": 20,
+      "old": 21,
+      "rev": 312,
+      "source": "watcher:get",
+      "t_ms": 1427989
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 7.5,
+      "old": 7.0,
+      "rev": 313,
+      "source": "watcher:get",
+      "t_ms": 1433449
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 8.0,
+      "old": 7.5,
+      "rev": 314,
+      "source": "watcher:get",
+      "t_ms": 1528408
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 7.5,
+      "old": 8.0,
+      "rev": 316,
+      "source": "watcher:get",
+      "t_ms": 1547826
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 7.0,
+      "old": 7.5,
+      "rev": 317,
+      "source": "watcher:get",
+      "t_ms": 1548456
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.5,
+      "old": 7.0,
+      "rev": 319,
+      "source": "watcher:get",
+      "t_ms": 1552717
     }
   ],
   "initial": {},

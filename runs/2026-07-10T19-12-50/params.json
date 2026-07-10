@@ -1,0 +1,367 @@
+{
+  "changes": [
+    {
+      "name": "base_speed",
+      "new": 14,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "cal_l_black",
+      "new": 0,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "cal_l_white",
+      "new": 100,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "cal_r_black",
+      "new": 0,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "cal_r_white",
+      "new": 100,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "goal_backup_mm",
+      "new": 80,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.0,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "grip_speed",
+      "new": 50,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "kd",
+      "new": 0.06,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "ki",
+      "new": 0.02,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "kp",
+      "new": 0.1,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "left_th_node",
+      "new": 35,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "left_th_steer",
+      "new": 66,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "lost_max_recover",
+      "new": 3,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 200,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 50,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "node_confirm_mm",
+      "new": 3.0,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "right_th_node",
+      "new": 30,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "right_th_steer",
+      "new": 63,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.71,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.71,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "turn_ramp_ms",
+      "new": 250,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "turn_speed",
+      "new": 7,
+      "old": null,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 6132
+    },
+    {
+      "name": "base_speed",
+      "new": 15,
+      "old": 14,
+      "rev": 4,
+      "source": "watcher:get",
+      "t_ms": 9696
+    },
+    {
+      "name": "base_speed",
+      "new": 14,
+      "old": 15,
+      "rev": 5,
+      "source": "watcher:get",
+      "t_ms": 89468
+    },
+    {
+      "name": "base_speed",
+      "new": 13,
+      "old": 14,
+      "rev": 7,
+      "source": "watcher:get",
+      "t_ms": 90065
+    },
+    {
+      "name": "base_speed",
+      "new": 12,
+      "old": 13,
+      "rev": 10,
+      "source": "watcher:get",
+      "t_ms": 91308
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.7,
+      "old": 0.71,
+      "rev": 11,
+      "source": "watcher:get",
+      "t_ms": 102831
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.69,
+      "old": 0.7,
+      "rev": 12,
+      "source": "watcher:get",
+      "t_ms": 104021
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.7,
+      "old": 0.71,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 105344
+    },
+    {
+      "name": "node_confirm_mm",
+      "new": 2.0,
+      "old": 3.0,
+      "rev": 14,
+      "source": "watcher:get",
+      "t_ms": 115986
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.5,
+      "old": 6.0,
+      "rev": 15,
+      "source": "watcher:get",
+      "t_ms": 423759
+    },
+    {
+      "name": "left_th_node",
+      "new": 34,
+      "old": 35,
+      "rev": 18,
+      "source": "watcher:get",
+      "t_ms": 437281
+    },
+    {
+      "name": "left_th_node",
+      "new": 33,
+      "old": 34,
+      "rev": 20,
+      "source": "watcher:get",
+      "t_ms": 437882
+    },
+    {
+      "name": "left_th_node",
+      "new": 32,
+      "old": 33,
+      "rev": 22,
+      "source": "watcher:get",
+      "t_ms": 438527
+    },
+    {
+      "name": "left_th_node",
+      "new": 31,
+      "old": 32,
+      "rev": 25,
+      "source": "watcher:get",
+      "t_ms": 439284
+    },
+    {
+      "name": "left_th_node",
+      "new": 30,
+      "old": 31,
+      "rev": 28,
+      "source": "watcher:get",
+      "t_ms": 439938
+    },
+    {
+      "name": "left_th_node",
+      "new": 29,
+      "old": 30,
+      "rev": 31,
+      "source": "watcher:get",
+      "t_ms": 440769
+    },
+    {
+      "name": "left_th_node",
+      "new": 28,
+      "old": 29,
+      "rev": 42,
+      "source": "watcher:get",
+      "t_ms": 445956
+    },
+    {
+      "name": "right_th_node",
+      "new": 29,
+      "old": 30,
+      "rev": 43,
+      "source": "watcher:get",
+      "t_ms": 447610
+    },
+    {
+      "name": "right_th_node",
+      "new": 28,
+      "old": 29,
+      "rev": 45,
+      "source": "watcher:get",
+      "t_ms": 448214
+    },
+    {
+      "name": "right_th_node",
+      "new": 27,
+      "old": 28,
+      "rev": 47,
+      "source": "watcher:get",
+      "t_ms": 448795
+    },
+    {
+      "name": "right_th_node",
+      "new": 26,
+      "old": 27,
+      "rev": 49,
+      "source": "watcher:get",
+      "t_ms": 449281
+    },
+    {
+      "name": "right_th_node",
+      "new": 25,
+      "old": 26,
+      "rev": 54,
+      "source": "watcher:get",
+      "t_ms": 450635
+    },
+    {
+      "name": "left_th_node",
+      "new": 27,
+      "old": 28,
+      "rev": 55,
+      "source": "watcher:get",
+      "t_ms": 451790
+    }
+  ],
+  "initial": {},
+  "stage": "gg4",
+  "started": "2026-07-10T19-12-50"
+}

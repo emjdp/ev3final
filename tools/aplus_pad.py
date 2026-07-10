@@ -15,8 +15,10 @@
   [a] 좌회전 90                  [d] 우회전 90
   [q] 왼쪽 대각선 약간 진행      [e] 오른쪽 대각선 약간 진행
   [p] 그리퍼 강제 닫기           [o] 그리퍼 열기
+  [7] 도착 처리(초록 마커 미인식 폴백: 전진→내려놓기→후진→180도 회전)
   [x] 명령 큐 비우기             [t] GO(출발)
   [n] 캘리브레이션  [f] 반사광 판독  [h] 컬러 판독
+  [1]~[6] "red N" 음성 재생(로봇 쪽 비동기 큐 — 연타 시 순서대로)
   [Space] pause/resume  [r] reset(확인)  [S] STOP(확인)  [Esc] 종료
 
 실행: python3 tools/aplus_pad.py --host <브릭IP>
@@ -50,11 +52,20 @@ KEY_ACTIONS = {
     "e": "diag_right",
     "p": "grip_close",
     "o": "grip_open",
+    # 도착 폴백: 초록 미인식 시 도착 절차(전진→내려놓기→후진→유턴) 수동 시행.
+    "7": "goal_drop",
     "x": "clear",
     "t": "go",
     "n": "calibrate",
     "f": "read_reflect",
     "h": "read_color",
+    # 수동 음성: 로봇이 "red N" 을 비동기 큐로 재생(연타 시 순서대로).
+    "1": "say_red_1",
+    "2": "say_red_2",
+    "3": "say_red_3",
+    "4": "say_red_4",
+    "5": "say_red_5",
+    "6": "say_red_6",
 }
 CONFIRM_KEYS = {"r": "reset", "S": "stop"}      # 파괴적 — y/n 확인을 거친다
 MOVE_ACTIONS = ("fwd", "uturn", "left", "right", "diag_left", "diag_right")
@@ -260,9 +271,9 @@ def render_lines(frame: dict[str, Any], age: float | None, rtt_ms: float | None,
     lines.append(f"last: {_fmt(frame.get('last_reason'))}")
     lines.append("-" * width)
     lines.append("[w]fwd [a]left90 [d]right90 [s]uturn180 [q]diagL [e]diagR "
-                 "[p]GRIP [o]open [x]clear")
-    lines.append("[t]GO [n]calibrate [f]reflect [h]color [Space]pause "
-                 "[r]reset [S]STOP [Esc]quit")
+                 "[p]GRIP [o]open [x]clear [7]goal-drop")
+    lines.append("[t]GO [n]calibrate [f]reflect [h]color [1-6]red N "
+                 "[Space]pause [r]reset [S]STOP [Esc]quit")
     if pending_confirm:
         lines.append(f"confirm {pending_confirm.upper()}? press y to run, n/Esc to cancel")
     else:
