@@ -149,6 +149,22 @@ class OnDoDispatchCase(unittest.TestCase):
         self.assertEqual(self.runner._pending, ["goal_drop"])
         self.assertEqual(self.runner.cmd.peek_all(), [])
 
+    def test_home_drop_queues_pending(self):
+        """[8] 복귀 도착 폴백도 모터 액션 — 제어 루프 FIFO 로 간다."""
+        resp = self.runner.on_do("home_drop", {})
+        self.assertEqual(resp["queued"], "home_drop")
+        self.assertEqual(self.runner._pending, ["home_drop"])
+        self.assertEqual(self.runner.cmd.peek_all(), [])
+
+    def test_hold_action_sets_flag(self):
+        """[Space]/[g] 대기 전환 — 플래그만 세우고 FIFO/펜딩은 안 건드린다."""
+        self.assertFalse(self.runner.hold_on)
+        resp = self.runner.on_do("hold", {})
+        self.assertEqual(resp["queued"], "hold")
+        self.assertTrue(self.runner.hold_on)
+        self.assertEqual(self.runner._pending, [])
+        self.assertEqual(self.runner.cmd.peek_all(), [])
+
 
 class SayRedCase(unittest.TestCase):
     """패드 [1]~[6] 수동 음성 — 네트워크 스레드에서 즉시 오디오 큐로 재생,
@@ -210,6 +226,8 @@ class ActionManifestCase(unittest.TestCase):
         self.assertEqual(keys["diag_right"], "e")
         self.assertEqual(keys["grip_close"], "p")
         self.assertEqual(keys["goal_drop"], "7")
+        self.assertEqual(keys["home_drop"], "8")
+        self.assertEqual(keys["hold"], "g")
 
     def test_all_actions_have_unique_keys(self):
         keys = [a.get("key") for a in ACTIONS]
@@ -383,6 +401,47 @@ class ManualGoalCase(unittest.TestCase):
         first = self.runner.out_elapsed
         self._run_via_pending()     # 조종자가 보스 — 두 번째도 그대로 시행
         self.assertEqual(self.runner.out_elapsed, first)
+
+
+class ManualHomeCase(unittest.TestCase):
+    """[8] 수동 복귀 도착 처리 — 노랑 미인식 폴백이 완주 절차를 그대로 시행:
+    감속 정지 → BACK 시간 기록 → 그립 해제 → 완주(done)."""
+
+    def setUp(self):
+        import time
+        tele = Telemetry()
+        self.hw = ManualGoalCase._FakeMotionHw()
+        self.runner = Runner(self.hw, ManualGoalCase._FakeParams(), tele,
+                             DecisionLog(telemetry=tele))
+        self.runner.timer_start = time.monotonic() - 7.0
+
+    def _run_via_pending(self):
+        self.runner.on_do("home_drop", {})
+        self.runner.handle_pending()
+
+    def test_sequence_and_state(self):
+        self.runner.grabbed = True
+        self._run_via_pending()
+        # 그립 해제 + 완주 상태 + BACK 시간 기록.
+        self.assertIn(("grip_open",), self.hw.calls)
+        self.assertTrue(self.runner.done)
+        self.assertFalse(self.runner.grabbed)
+        self.assertIsNotNone(self.runner.return_elapsed)
+        self.assertGreaterEqual(self.runner.return_elapsed, 7.0)
+
+    def test_back_time_not_overwritten_on_second_run(self):
+        self._run_via_pending()
+        first = self.runner.return_elapsed
+        self._run_via_pending()     # 조종자가 보스 — 두 번째도 그대로 시행
+        self.assertEqual(self.runner.return_elapsed, first)
+
+    def test_hold_cleared_when_awaiting(self):
+        """대기 진입 시 hold 플래그 흡수 — 대기 중 Space 연타로 재대기 방지."""
+        self.runner.on_do("hold", {})
+        self.runner.on_do("fwd", {})            # 대기 즉시 소비될 이동 명령
+        move = self.runner.await_command("hold", False, False, False, None)
+        self.assertEqual(move, "S")
+        self.assertFalse(self.runner.hold_on)
 
 
 class AdaptiveBaseCase(unittest.TestCase):

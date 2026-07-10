@@ -16,10 +16,12 @@
   [q] 왼쪽 대각선 약간 진행      [e] 오른쪽 대각선 약간 진행
   [p] 그리퍼 강제 닫기           [o] 그리퍼 열기
   [7] 도착 처리(초록 마커 미인식 폴백: 전진→내려놓기→후진→180도 회전)
+  [8] 복귀 도착 처리(노랑 마커 미인식 폴백: BACK 시간→그립 해제→완주)
   [x] 명령 큐 비우기             [t] GO(출발)
   [n] 캘리브레이션  [f] 반사광 판독  [h] 컬러 판독
   [1]~[6] "red N" 음성 재생(로봇 쪽 비동기 큐 — 연타 시 순서대로)
-  [Space] pause/resume  [r] reset(확인)  [S] STOP(확인)  [Esc] 종료
+  [Space]/[g] 대기 전환(일시정지가 아니라 분기/커브처럼 정지 후 명령 대기)
+  [r] reset(확인)  [S] STOP(확인)  [Esc] 종료
 
 실행: python3 tools/aplus_pad.py --host <브릭IP>
 스모크: python3 tools/aplus_pad.py --once   (연결 1회 시도 후 stdout 렌더)
@@ -54,6 +56,10 @@ KEY_ACTIONS = {
     "o": "grip_open",
     # 도착 폴백: 초록 미인식 시 도착 절차(전진→내려놓기→후진→유턴) 수동 시행.
     "7": "goal_drop",
+    # 복귀 도착 폴백: 노랑 미인식 시 완주 절차(BACK 시간→그립 해제) 수동 시행.
+    "8": "home_drop",
+    # 대기 전환 — 분기/커브에서처럼 정지 후 명령 대기(Space 도 같은 액션).
+    "g": "hold",
     "x": "clear",
     "t": "go",
     "n": "calibrate",
@@ -271,9 +277,9 @@ def render_lines(frame: dict[str, Any], age: float | None, rtt_ms: float | None,
     lines.append(f"last: {_fmt(frame.get('last_reason'))}")
     lines.append("-" * width)
     lines.append("[w]fwd [a]left90 [d]right90 [s]uturn180 [q]diagL [e]diagR "
-                 "[p]GRIP [o]open [x]clear [7]goal-drop")
-    lines.append("[t]GO [n]calibrate [f]reflect [h]color [1-6]red N "
-                 "[Space]pause [r]reset [S]STOP [Esc]quit")
+                 "[p]GRIP [o]open [7]goal-drop [8]home-drop")
+    lines.append("[t]GO [x]clear [n]calibrate [f]reflect [h]color [1-6]red N "
+                 "[Space/g]hold [r]reset [S]STOP [Esc]quit")
     if pending_confirm:
         lines.append(f"confirm {pending_confirm.upper()}? press y to run, n/Esc to cancel")
     else:
@@ -281,8 +287,8 @@ def render_lines(frame: dict[str, Any], age: float | None, rtt_ms: float | None,
     return [line[:width] for line in lines]
 
 
-def handle_key(key: int, frame: dict[str, Any], fresh: bool,
-               sender: Sender, pending_confirm: str) -> tuple[bool, str]:
+def handle_key(key: int, sender: Sender,
+               pending_confirm: str) -> tuple[bool, str]:
     """키 1개 처리 — (quit 여부, 새 pending_confirm) 반환."""
     if pending_confirm:
         if key in (ord("y"), ord("Y")):
@@ -299,10 +305,9 @@ def handle_key(key: int, frame: dict[str, Any], fresh: bool,
     if key == 27:                           # Esc
         return True, ""
     if key == ord(" "):
-        paused = fresh and _as_bool(frame.get("paused"))
-        sender.submit({"cmd": "pause", "paused": not paused,
-                       "source": "aplus_pad"},
-                      "resume" if paused else "pause")
+        # 일시정지 토글이 아니라 대기 전환 — 로봇이 분기/커브에서처럼
+        # 정지 후 명령 대기(await_cmd)로 들어간다([g] 와 동일 액션).
+        sender.submit({"cmd": "do", "action": "hold", "args": {}}, "do hold")
         return False, ""
     if 0 <= key < 256:
         ch = chr(key)
@@ -366,7 +371,7 @@ def _curses_main(stdscr: Any, args: argparse.Namespace) -> int:
             if key == -1:
                 continue
             quit_now, pending_confirm = handle_key(
-                key, frame, fresh, sender, pending_confirm)
+                key, sender, pending_confirm)
             if quit_now:
                 return 0
     finally:
