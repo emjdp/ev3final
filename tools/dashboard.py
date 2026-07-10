@@ -592,7 +592,7 @@ def _command_banner(frame: dict[str, Any]) -> str:
             f"{pending_txt}  -- press [1]L [2]S [3]R [4]U <<<"
         )
     if pending_txt:
-        return f"cmd queue:{pending_txt} (consumed at next junction/marker, [5] to clear)"
+        return f"cmd queue:{pending_txt} (consumed at next stop: curve/junction/marker, [5] to clear)"
     return ""
 
 
