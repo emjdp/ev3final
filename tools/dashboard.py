@@ -238,6 +238,9 @@ def render_lines(model: DashboardModel, width: int = 100, height: int = 32) -> l
 
     lines.append(sep)
     lines.append(_fit(_format_actions(model.actions), width))
+    if _manual_wait_active(model):
+        manual = ["[{}] {}".format(a.key, a.label) for a in model.actions if a.name.startswith("manual_")]
+        lines.append(_fit("** MANUAL WAIT — robot is waiting for you: " + "   ".join(manual), width))
     lines.append(_fit("keys: [Space] pause/resume  [r] reset  [.] repeat  [a] auto-rerun  [c] coarse/fine  [g] refresh  [S] save  [R] rollback  [q] quit", width))
     if model.pending_confirm:
         lines.append(_fit(f"confirm {model.pending_confirm}: press y to run, n/Esc to cancel", width))
@@ -284,6 +287,15 @@ def handle_key(
             session.status = f"{session.pending_confirm} canceled"
             session.pending_confirm = ""
         return should_quit, refresh_describe
+
+    # 원격 판단(fxck1): 로봇이 의심지점 대기(manual_wait) 중이면 manual_*
+    # 액션 키(a/d/w/s/x)가 내장 키보다 우선한다 — 로봇이 정지해 있는 동안만
+    # 이므로 그 외 상황의 [s] STOP / [a] auto-rerun 의미는 그대로다.
+    if _manual_wait_active(model) and 0 <= key < 256:
+        manual = _action_for_key(chr(key), model.actions)
+        if manual.startswith("manual_"):
+            session.status = _run_action(manual, session, host, port, timeout)
+            return should_quit, refresh_describe
 
     if key in (ord("q"), ord("Q")):
         should_quit = True
@@ -480,6 +492,10 @@ def _extract_actions(describe: dict[str, Any]) -> list[ActionBinding]:
 
 
 def _choose_action_key(action: dict[str, Any], used: set[str], index: int) -> str:
+    # 스테이지가 describe 에서 지정한 키를 우선한다(fxck1 manual_* 등).
+    explicit = action.get("key")
+    if isinstance(explicit, str) and len(explicit) == 1 and explicit not in used:
+        return explicit
     for key in ACTION_KEYS[index:index + 1] + ACTION_KEYS:
         if key not in used:
             return key
@@ -519,6 +535,10 @@ def _adjust_selected(model: DashboardModel, direction: int, host: str, port: int
         step = step * 5
     new_value = _normalize_number(current + direction * step, row.value)
     response, status = _send_and_status({"cmd": "set", "name": row.name, "value": new_value}, host, port, timeout)
+    if _manual_wait_active(model):
+        # 의심지점 대기 중 화살표는 파라미터 수정만 — auto-rerun 으로
+        # calibrate 등 로봇을 움직이는 액션이 튀어나오면 안 된다.
+        return status
     if response.get("ok") and model.auto_rerun and model.last_action:
         action_status = _send_and_describe(
             {"cmd": "do", "action": model.last_action, "args": {}},
@@ -549,9 +569,24 @@ def _action_for_key(key: str, actions: list[ActionBinding]) -> str:
     return ""
 
 
+def _manual_wait_active(model: DashboardModel) -> bool:
+    """로봇이 의심지점 원격 판단 대기(manual_wait) 중인가.
+
+    이때만 a/d/w/s/x 가 manual_* 액션으로 나간다. 상태 파일이 없거나
+    오래됐으면(stale) 과거 프레임을 믿고 오발사하지 않도록 비활성."""
+    if model.state_error or model.state_age_s is None:
+        return False
+    if model.state_age_s > PARAM_VALUE_STALE_SECONDS:
+        return False
+    return str(model.frame.get("mode", "")) == "manual_wait"
+
+
 def _run_action(action: str, session: DashboardSession, host: str, port: int, timeout: float) -> str:
     response, status = _send_and_status({"cmd": "do", "action": action, "args": {}}, host, port, timeout)
-    if response.get("ok"):
+    # manual_*(의심지점 1회성 판단)와 reset(그리퍼 open + 세션 초기화)은
+    # last_action 으로 기록하지 않는다 — 화살표 파라미터 조정의 auto-rerun /
+    # [.] repeat 가 로봇을 움직이는 액션을 재발사하면 안 된다.
+    if response.get("ok") and not (action.startswith("manual_") or action == "reset"):
         session.last_action = action
     return status
 

@@ -30,7 +30,7 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
-from stages.final_run9 import (Explorer, PidSteer, classify_rgb, node_bits,
+from old_stages.final_run9 import (Explorer, PidSteer, classify_rgb, node_bits,
                                turn_heading, INITIAL_PARAMS,
                                COL_BLACK, COL_GREEN, COL_YELLOW, COL_RED,
                                COL_WHITE, COL_NONE)
@@ -198,7 +198,7 @@ class HtmlMazeCase(unittest.TestCase):
         """복귀 스텝 = 2×간선 − 트렁크 간선(최소거리 공식)."""
         adj = self.ex.route_adj
         edges = sum(len(adj[n]) for n in adj) // 2
-        from stages.final_run9 import shortest_path
+        from old_stages.final_run9 import shortest_path
         greens = [n for n in self.ex.route_mark
                   if self.ex.route_mark[n] == "green"]
         trunk = shortest_path(adj, greens[0], "home")

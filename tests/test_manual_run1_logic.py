@@ -21,13 +21,13 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
-from stages.manual_run1 import (ACTIONS, CommandBox, INITIAL_PARAMS,
+from old_stages.manual_run1 import (ACTIONS, CommandBox, INITIAL_PARAMS,
                                 MOVE_ACTIONS, MOVE_BY_ACTION, Runner,
                                 COL_WHITE, node_bits, normalize, on_line)
 from lib.shared_params import SharedParams
 from lib.telemetry import Telemetry
 from lib.decision_log import DecisionLog
-from stages.manual_run1 import PARAM_LIMITS, MAX_STEP
+from old_stages.manual_run1 import PARAM_LIMITS, MAX_STEP
 
 
 COL_BLACK = 1

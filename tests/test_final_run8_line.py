@@ -19,7 +19,7 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from stages.final_run8 import (node_bits, on_line, LOST_BITS, NODE_CANDIDATES,
+from old_stages.final_run8 import (node_bits, on_line, LOST_BITS, NODE_CANDIDATES,
                                INITIAL_PARAMS, COL_NONE, COL_BLACK, COL_GREEN,
                                COL_YELLOW, COL_RED, COL_WHITE, COL_BROWN)
 

@@ -2,7 +2,7 @@
 # EV3 실기 세션을 한 번에 준비한다.
 #
 # 기본 동작:
-#   1) stages/lib/tools/config 를 scp 로 브릭 ~/ev3final/ 아래에 업로드
+#   1) stages/old_stages/lib/tools/config 를 scp 로 브릭 ~/ev3final/ 아래에 업로드
 #   2) 브릭 stage 실행 터미널
 #   3) SSH 포트포워딩 터미널
 #   4) telemetry watcher 터미널
@@ -36,7 +36,7 @@ fi
 
 ROBOT_HOST="ev3"
 REMOTE_DIR="~/ev3final"
-STAGE_INPUT="stages/run_maze_v12.py"
+STAGE_INPUT="stages/gg8.py"
 LOCAL_PORT="8765"
 REMOTE_PORT="8765"
 TERMINAL="auto"
@@ -45,6 +45,8 @@ OPEN_ROBOTCTL="1"
 DRY_RUN="0"
 TMUX_SESSION=""
 STAGE_FROM_ARG="0"
+DASHBOARD_KIND="dashboard"
+PAD_HZ="10"
 
 usage() {
   cat <<'EOF'
@@ -62,8 +64,8 @@ Branch-safe launcher:
   이후 다른 브랜치에 이 파일이 없어도 ev3sess run_maze 처럼 실행할 수 있다.
 
 Options:
-  -s, --stage PATH_OR_NAME   실행할 stage 파일. 기본: stages/run_maze_v12.py
-                             예: stages/run_maze_v12.py, run_maze_v12
+  -s, --stage PATH_OR_NAME   실행할 stage 파일. 기본: stages/gg8.py
+                             예: stages/gg8.py, gg8, old_stages/run_maze_v12.py
   -h, --host HOST            SSH/scp 대상. 기본: ev3
   -r, --remote-dir DIR       브릭 작업 디렉토리. 기본: ~/ev3final
   -p, --port PORT            로컬/브릭 튜닝 포트. 기본: 8765
@@ -73,6 +75,8 @@ Options:
                              mate-terminal, kitty, alacritty, xterm, tmux 중 하나
       --tmux-session NAME    tmux 세션 이름. 기본: ev3final-<stage>
   -n, --no-upload            scp 업로드를 건너뛴다
+      --dashboard KIND       조종 UI. dashboard, aplus-pad, both. 기본: dashboard
+      --pad-hz HZ            aplus-pad 텔레메트리 폴링 Hz. 기본: 10
       --no-robotctl          robotctl 대기 터미널을 열지 않는다
       --dry-run              실행할 업로드/터미널 명령만 출력한다
       --help                 도움말 출력
@@ -141,6 +145,16 @@ while (($#)); do
       UPLOAD="0"
       shift
       ;;
+    --dashboard)
+      [[ $# -ge 2 ]] || die "--dashboard 값이 필요합니다"
+      DASHBOARD_KIND="$2"
+      shift 2
+      ;;
+    --pad-hz)
+      [[ $# -ge 2 ]] || die "--pad-hz 값이 필요합니다"
+      PAD_HZ="$2"
+      shift 2
+      ;;
     --no-robotctl)
       OPEN_ROBOTCTL="0"
       shift
@@ -170,6 +184,13 @@ done
 case "${LOCAL_PORT}:${REMOTE_PORT}" in
   *[!0-9:]*|:*|*:) die "포트는 숫자여야 합니다: local=${LOCAL_PORT}, remote=${REMOTE_PORT}" ;;
 esac
+case "${DASHBOARD_KIND}" in
+  dashboard|aplus-pad|both) ;;
+  *) die "--dashboard 는 dashboard, aplus-pad, both 중 하나여야 합니다: ${DASHBOARD_KIND}" ;;
+esac
+case "${PAD_HZ}" in
+  *[!0-9.]*|""|.*|*.) die "--pad-hz 는 숫자여야 합니다: ${PAD_HZ}" ;;
+esac
 
 resolve_stage_path() {
   local input="$1"
@@ -197,16 +218,30 @@ resolve_stage_path() {
     return
   fi
 
+  candidate="old_stages/${input}"
+  if [[ -f "${REPO_ROOT}/${candidate}" ]]; then
+    printf '%s\n' "${REPO_ROOT}/${candidate}"
+    return
+  fi
+
+  candidate="old_stages/${input}.py"
+  if [[ "${input}" != *.py && -f "${REPO_ROOT}/${candidate}" ]]; then
+    printf '%s\n' "${REPO_ROOT}/${candidate}"
+    return
+  fi
+
   return 1
 }
 
 STAGE_PATH="$(resolve_stage_path "${STAGE_INPUT}")" || die "stage 파일을 찾을 수 없습니다: ${STAGE_INPUT}"
+STAGE_REL="${STAGE_PATH#"${REPO_ROOT}/"}"
 STAGE_FILE="$(basename "${STAGE_PATH}")"
 STAGE_NAME="${STAGE_FILE%.py}"
 
 case "${STAGE_PATH}" in
   "${REPO_ROOT}/stages/"*) ;;
-  *) die "stage 파일은 stages/ 아래에 있어야 합니다: ${STAGE_PATH}" ;;
+  "${REPO_ROOT}/old_stages/"*) ;;
+  *) die "stage 파일은 stages/ 또는 old_stages/ 아래에 있어야 합니다: ${STAGE_PATH}" ;;
 esac
 
 case "${REMOTE_DIR}" in
@@ -249,7 +284,7 @@ if [[ "${SELECTED_TERMINAL}" == "tmux" ]] && ! has_command tmux; then
 fi
 
 REMOTE_BASE="${REMOTE_DIR%/}"
-REMOTE_STAGE_CMD="cd ${REMOTE_BASE} && python3 stages/${STAGE_FILE}"
+REMOTE_STAGE_CMD="cd ${REMOTE_BASE} && python3 ${STAGE_REL}"
 TUNNEL_SPEC="${LOCAL_PORT}:127.0.0.1:${REMOTE_PORT}"
 TMP_DIR=""
 RUNNERS=()
@@ -293,6 +328,7 @@ run_or_print() {
 
 upload_files() {
   local stage_files=("${REPO_ROOT}/stages/"*.py)
+  local old_stage_files=("${REPO_ROOT}/old_stages/"*.py)
   local lib_files=("${REPO_ROOT}/lib/"*.py)
   local tool_files=("${REPO_ROOT}/tools/"*.py)
   local tool_shell_files=("${REPO_ROOT}/tools/"*.sh)
@@ -300,6 +336,7 @@ upload_files() {
 
   shopt -s nullglob
   stage_files=("${REPO_ROOT}/stages/"*.py)
+  old_stage_files=("${REPO_ROOT}/old_stages/"*.py)
   lib_files=("${REPO_ROOT}/lib/"*.py)
   tool_files=("${REPO_ROOT}/tools/"*.py)
   tool_shell_files=("${REPO_ROOT}/tools/"*.sh)
@@ -311,8 +348,11 @@ upload_files() {
   [[ "${#tool_files[@]}" -gt 0 ]] || die "업로드할 tools/*.py 파일이 없습니다: ${REPO_ROOT}/tools"
 
   echo "[ev3-session] 업로드 대상: ${ROBOT_HOST}:${REMOTE_BASE}"
-  run_or_print ssh "${ROBOT_HOST}" "mkdir -p ${REMOTE_BASE}/stages ${REMOTE_BASE}/lib ${REMOTE_BASE}/tools ${REMOTE_BASE}/config"
+  run_or_print ssh "${ROBOT_HOST}" "mkdir -p ${REMOTE_BASE}/stages ${REMOTE_BASE}/old_stages ${REMOTE_BASE}/lib ${REMOTE_BASE}/tools ${REMOTE_BASE}/config"
   run_or_print scp "${stage_files[@]}" "${ROBOT_HOST}:${REMOTE_BASE}/stages/"
+  if [[ "${#old_stage_files[@]}" -gt 0 ]]; then
+    run_or_print scp "${old_stage_files[@]}" "${ROBOT_HOST}:${REMOTE_BASE}/old_stages/"
+  fi
   run_or_print scp "${lib_files[@]}" "${ROBOT_HOST}:${REMOTE_BASE}/lib/"
   if [[ "${#tool_shell_files[@]}" -gt 0 ]]; then
     run_or_print scp "${tool_files[@]}" "${tool_shell_files[@]}" "${ROBOT_HOST}:${REMOTE_BASE}/tools/"
@@ -381,7 +421,23 @@ launch_tmux_window() {
 stage_body="ssh -t $(q "${ROBOT_HOST}") $(q "${REMOTE_STAGE_CMD}")"
 tunnel_body="ssh -N -o ExitOnForwardFailure=yes -L $(q "${TUNNEL_SPEC}") $(q "${ROBOT_HOST}")"
 watcher_body="sleep 2; python3 tools/telemetry_watcher.py --host 127.0.0.1 --port $(q "${LOCAL_PORT}") --stage $(q "${STAGE_NAME}")"
-dashboard_body="sleep 3; python3 tools/dashboard.py --host 127.0.0.1 --port $(q "${LOCAL_PORT}")"
+case "${DASHBOARD_KIND}" in
+  dashboard)
+    dashboard_titles=("EV3 dashboard")
+    dashboard_bodies=("sleep 3; python3 tools/dashboard.py --host 127.0.0.1 --port $(q "${LOCAL_PORT}")")
+    ;;
+  aplus-pad)
+    dashboard_titles=("EV3 aplus pad")
+    dashboard_bodies=("sleep 3; python3 tools/aplus_pad.py --host 127.0.0.1 --port $(q "${LOCAL_PORT}") --hz $(q "${PAD_HZ}")")
+    ;;
+  both)
+    dashboard_titles=("EV3 aplus pad" "EV3 dashboard")
+    dashboard_bodies=(
+      "sleep 3; python3 tools/aplus_pad.py --host 127.0.0.1 --port $(q "${LOCAL_PORT}") --hz $(q "${PAD_HZ}")"
+      "sleep 3; python3 tools/dashboard.py --host 127.0.0.1 --port $(q "${LOCAL_PORT}")"
+    )
+    ;;
+esac
 robotctl_body=$(cat <<EOF
 echo "자주 쓰는 명령:"
 echo "  python3 tools/robotctl.py describe"
@@ -401,7 +457,7 @@ else
   echo "[ev3-session] --no-upload: scp 업로드를 건너뜁니다"
 fi
 
-echo "[ev3-session] stage=${STAGE_NAME}, host=${ROBOT_HOST}, terminal=${SELECTED_TERMINAL}, port=${LOCAL_PORT}->${REMOTE_PORT}"
+echo "[ev3-session] stage=${STAGE_NAME}, host=${ROBOT_HOST}, terminal=${SELECTED_TERMINAL}, port=${LOCAL_PORT}->${REMOTE_PORT}, dashboard=${DASHBOARD_KIND}"
 
 make_runner "EV3 ${STAGE_NAME}" "${stage_body}"
 stage_runner="${RUNNER_RESULT}"
@@ -409,13 +465,18 @@ make_runner "EV3 tunnel ${LOCAL_PORT}" "${tunnel_body}"
 tunnel_runner="${RUNNER_RESULT}"
 make_runner "EV3 watcher" "${watcher_body}"
 watcher_runner="${RUNNER_RESULT}"
-make_runner "EV3 dashboard" "${dashboard_body}"
-dashboard_runner="${RUNNER_RESULT}"
+dashboard_runners=()
+for i in "${!dashboard_titles[@]}"; do
+  make_runner "${dashboard_titles[$i]}" "${dashboard_bodies[$i]}"
+  dashboard_runners+=("${RUNNER_RESULT}")
+done
 
 launch_terminal "EV3 ${STAGE_NAME}" "${stage_runner}"
 launch_terminal "EV3 tunnel ${LOCAL_PORT}" "${tunnel_runner}"
 launch_terminal "EV3 watcher" "${watcher_runner}"
-launch_terminal "EV3 dashboard" "${dashboard_runner}"
+for i in "${!dashboard_titles[@]}"; do
+  launch_terminal "${dashboard_titles[$i]}" "${dashboard_runners[$i]}"
+done
 
 if [[ "${OPEN_ROBOTCTL}" == "1" ]]; then
   make_runner "EV3 robotctl" "${robotctl_body}"

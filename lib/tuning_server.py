@@ -226,7 +226,9 @@ class TuningServer(object):
             # 대시보드가 순서 기반으로 배정한다(기존 동작 그대로).
             key = item.get("key")
             if key:
-                entry["key"] = str(key)[:1]
+                key = str(key)[:1]
+                if key:
+                    entry["key"] = key
             normalized.append(entry)
         return normalized
 

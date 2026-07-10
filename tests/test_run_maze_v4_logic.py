@@ -23,7 +23,7 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
-from stages.final_run3 import (Explorer, build_return_route, shortest_path,
+from old_stages.final_run3 import (Explorer, build_return_route, shortest_path,
                                explorer_to_graph, turn_heading)
 
 COURSE_ADJ = {

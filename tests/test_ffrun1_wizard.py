@@ -24,7 +24,7 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
-import stages.ffrun1 as ff                                          # noqa: E402
+import old_stages.ffrun1 as ff                                          # noqa: E402
 from lib.decision_log import DecisionLog                            # noqa: E402
 from lib.shared_params import SharedParams                          # noqa: E402
 from lib.telemetry import Telemetry                                 # noqa: E402
