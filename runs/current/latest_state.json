@@ -1,13 +1,51 @@
 {
-  "error": "[Errno 104] Connection reset by peer",
-  "frame": {},
-  "ok": false,
-  "params": {
-    "values": {}
+  "frame": {
+    "ex_mode": "TO_FIRST",
+    "grabbed": false,
+    "home_revisit": 0,
+    "home_total": 0,
+    "last_reason": "SESSION_READY",
+    "mode": "waiting_start",
+    "param_rev": 17,
+    "paused": false,
+    "running": true,
+    "session": 1,
+    "t_ms": 29698,
+    "visits": 0
   },
-  "poll_time": 1783676626.4420927,
+  "ok": true,
+  "params": {
+    "values": {
+      "accel_ramp_ms": 700,
+      "base_speed": 24,
+      "cal_l_black": 0,
+      "cal_l_white": 100,
+      "cal_r_black": 0,
+      "cal_r_white": 100,
+      "corner_gain": 0.5,
+      "deadband": 3.0,
+      "goal_advance_mm": 100,
+      "grab_dist_cm": 6.0,
+      "grip_speed": 50,
+      "ki": 0.06,
+      "kp": 0.17,
+      "left_th_node": 35,
+      "left_th_steer": 66,
+      "lost_max_recover": 3,
+      "lost_persist_ms": 200,
+      "node_advance_mm": 60,
+      "node_confirm_ms": 40,
+      "right_th_node": 30,
+      "right_th_steer": 63,
+      "turn_180_factor": 0.71,
+      "turn_90_factor": 0.65,
+      "turn_ramp_ms": 250,
+      "turn_speed": 8
+    }
+  },
+  "poll_time": 1783676661.6382346,
   "recent_events": [],
   "run_dir": "runs/2026-07-10T18-43-28",
   "stage": "gg5",
-  "updated_at": "2026-07-10T18:43:46"
+  "updated_at": "2026-07-10T18:44:21"
 }
