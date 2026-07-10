@@ -14,6 +14,8 @@
     - 노드 의심점: 정지 → 저속 직진(미끄러지며) confirm → 정지 재판정
     - 유실(000): 지속 필터 → 정지 재판정 → 후진+소각 재정렬 복구
     - 물체 자동 파지(초음파 grab_dist 이내, 그립 비었을 때)
+    - 마커 음성(gg3 승계, 비동기): 빨강 확정마다 "red N"(1~6, 7번째부터
+      다시 1 — 복귀 길), 초록 확정 시 good_job.wav
   사람(대시보드) — 모든 '결정':
     - 결정 지점 = 커브(출구 1개)/분기(출구 2+)/마커(빨강·초록·노랑 확정)/
       막다른길 — 노드로 확정된 곳은 전부 멈추고 명령을 기다린다(자동
@@ -167,6 +169,21 @@ CAL_MIN_SPAN = 20
 GRAB_TONE = (880, 150)      # 물체 파지
 AWAIT_TONE = (660, 250)     # 결정 대기 진입(명령 주세요)
 CMD_TONE = (990, 80)        # 명령 소비(실행 시작)
+
+# 빨강 방문 음성(gg3 승계) — red.wav + 숫자.wav 를 aplay 큐로 연속 재생.
+# 방문 1~6 은 그대로, 7번째(복귀 길 첫 빨강)부터는 다시 1부터 센다.
+SOUND_ROOT = os.path.join(_ROOT, "sounds")
+SOUND_RED = os.path.join(SOUND_ROOT, "red.wav")
+SOUND_GOOD_JOB = os.path.join(SOUND_ROOT, "good_job.wav")
+NUMBER_SOUNDS = {
+    1: os.path.join(SOUND_ROOT, "num_1.wav"),
+    2: os.path.join(SOUND_ROOT, "num_2.wav"),
+    3: os.path.join(SOUND_ROOT, "num_3.wav"),
+    4: os.path.join(SOUND_ROOT, "num_4.wav"),
+    5: os.path.join(SOUND_ROOT, "num_5.wav"),
+    6: os.path.join(SOUND_ROOT, "num_6.wav"),
+}
+RED_SAY_MAX = 6             # "red N" 은 1~6 — 초과 방문은 다시 1부터(복귀 길)
 
 
 # ---------------------------------------------------------------------
@@ -537,6 +554,19 @@ class Runner(object):
                 self.publish("read_reflect", reflect_l=rl, reflect_r=rr,
                              norm_l=round(nl, 1), norm_r=round(nr, 1))
 
+    def announce_red(self):
+        """빨강 방문 음성 "red N"(gg3 승계, 비동기 큐 — 주행/대기를 막지 않는다).
+
+        visits 1~6 → 1~6, 7~12(복귀 길) → 다시 1~6. wav 가 없으면 beep 폴백."""
+        number = ((self.visits - 1) % RED_SAY_MAX) + 1
+        self.hw.play_wav(SOUND_RED)
+        path = NUMBER_SOUNDS.get(number)
+        if path is None:
+            self.hw.beep_ok()
+        else:
+            self.hw.play_wav(path)
+        self.log.log("RED_SPOKEN", "VISIT", number=number, visits=self.visits)
+
     def soft_stop(self):
         """감속 정지 — 순항 속도에서 급브레이크 대신 SLOW 로 한 템포 줄여
         관성을 빼고 선다(앞쏠림/미끄러짐으로 마커를 지나치는 것 방지).
@@ -819,6 +849,9 @@ class Runner(object):
         name = MARKER_NAMES[color]
         if color == COL_RED:
             self.visits += 1
+            self.announce_red()             # "red N" 음성(비동기)
+        elif color == COL_GREEN:
+            self.hw.play_wav(SOUND_GOOD_JOB)    # 초록 도착(비동기)
         self.log.log("MARKER", "COLOR_{}_CONFIRMED".format(name.upper()),
                      color=color, context=context, visits=self.visits,
                      session=self.session)
