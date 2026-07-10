@@ -5,7 +5,7 @@
 aplus 는 자율 판단이 없다 — 남은 순수 로직을 검증한다:
   - CommandQueue: FIFO 다칸 큐(연속 입력) / 가득 차면 거부 / clear / peek 비소비.
   - on_do 디스패치: 이동 명령은 큐, GO/clear/reset 은 즉시, 모터 액션은 FIFO.
-  - MOVE_ACTIONS/ACTIONS 정합: w/s/a/d/q/e/p 키 규약(사용자 지정 키맵).
+  - MOVE_ACTIONS/ACTIONS 정합: w/u/a/d/q/e/s/p 키 규약(사용자 지정 키맵).
   - confirm/slow 속도: base_speed 비례 + 하한(fxck2 승계) — base 15 기준.
   - adaptive_base / PidSteer 속도 비례 조향 / node_bits / on_line(gg5 승계).
   - 조종 패드(tools/aplus_pad.py) 키맵이 로봇 manifest 와 1:1 인지.
@@ -26,10 +26,11 @@ from stages.aplus import (CommandQueue, PidSteer, Runner, adaptive_base,
                           corner_min_speed, accel_start_speed,
                           straight_decel_speed, STRAIGHT_DECEL_MM,
                           STRAIGHT_DECEL_MIN,
-                          INITIAL_PARAMS, MOVE_ACTIONS, DIAG_MOVES, ACTIONS,
+                          INITIAL_PARAMS, MOVE_ACTIONS, DIAG_MOVES, STAY_MOVES,
+                          ACTIONS,
                           SPEED_REF, STEER_SCALE_MAX, PID_TURN_LIMIT,
                           SOUND_RED, SOUND_GOOD_JOB, NUMBER_SOUNDS,
-                          RED_SAY_MAX,
+                          RED_SAY_MAX, FIXED_NUMBER,
                           COL_BLACK, COL_GREEN, COL_YELLOW, COL_RED,
                           COL_WHITE, COL_BROWN)
 from lib.decision_log import DecisionLog
@@ -108,6 +109,11 @@ class OnDoDispatchCase(unittest.TestCase):
         self.runner.on_do("diag_left", {})
         self.runner.on_do("diag_right", {})
         self.assertEqual(self.runner.cmd.peek_all(), ["DL", "DR"])
+
+    def test_back_action_queues_token(self):
+        """[s] 약간 후진 — 이동 FIFO 로 가는 stay 이동(B)."""
+        self.assertEqual(self.runner.on_do("back", {})["queued_move"], "B")
+        self.assertEqual(self.runner.cmd.peek_all(), ["B"])
 
     def test_queue_full_rejected(self):
         for _i in range(CommandQueue.MAXLEN):
@@ -219,7 +225,8 @@ class ActionManifestCase(unittest.TestCase):
     def test_user_specified_keys(self):
         keys = dict((a["name"], a.get("key")) for a in ACTIONS)
         self.assertEqual(keys["fwd"], "w")
-        self.assertEqual(keys["uturn"], "s")
+        self.assertEqual(keys["uturn"], "u")    # 예전 s — s 는 약간 후진으로
+        self.assertEqual(keys["back"], "s")
         self.assertEqual(keys["left"], "a")
         self.assertEqual(keys["right"], "d")
         self.assertEqual(keys["diag_left"], "q")
@@ -237,8 +244,9 @@ class ActionManifestCase(unittest.TestCase):
     def test_move_actions_map(self):
         self.assertEqual(MOVE_ACTIONS,
                          {"fwd": "S", "left": "L", "right": "R", "uturn": "U",
-                          "diag_left": "DL", "diag_right": "DR"})
+                          "diag_left": "DL", "diag_right": "DR", "back": "B"})
         self.assertEqual(DIAG_MOVES, ("DL", "DR"))
+        self.assertEqual(STAY_MOVES, ("DL", "DR", "B"))
 
     def test_move_actions_all_in_manifest(self):
         names = set(a["name"] for a in ACTIONS)
@@ -442,6 +450,70 @@ class ManualHomeCase(unittest.TestCase):
         move = self.runner.await_command("hold", False, False, False, None)
         self.assertEqual(move, "S")
         self.assertFalse(self.runner.hold_on)
+
+
+class HoldInterruptCase(unittest.TestCase):
+    """[Space] 대기 전환이 모션 프리미티브(직진/회전) 실행 중간에도 끊는다 —
+    끊긴 뒤 플래그는 남아 있어 상위 루프가 대기 진입 때 흡수한다."""
+
+    def setUp(self):
+        tele = Telemetry()
+        self.hw = ManualGoalCase._FakeMotionHw()
+        self.runner = Runner(self.hw, ManualGoalCase._FakeParams(), tele,
+                             DecisionLog(telemetry=tele))
+
+    def test_motion_break_includes_hold(self):
+        self.assertFalse(self.runner.motion_break())
+        self.runner.on_do("hold", {})
+        self.assertTrue(self.runner.motion_break())
+
+    def test_hold_breaks_straight_early(self):
+        self.runner.on_do("hold", {})
+        moved = self.runner.straight(1000, 15)
+        self.assertLess(moved, 100)             # 1000mm 목표를 초입에서 포기
+        self.assertTrue(self.runner.hold_on)    # 플래그는 상위 루프가 흡수
+
+    def test_hold_breaks_turn_early(self):
+        self.runner.on_do("hold", {})
+        self.runner.turn("L")
+        # 목표(약 125도)에 못 미친 채 즉시 빠져나온다(fake enc 40도/호출).
+        self.assertLess(self.hw.enc, 125.0)
+
+
+class BackNudgeCase(unittest.TestCase):
+    """[s] 약간 후진 — diag_step_mm 만큼 직선 후진(stay: 실행 후 계속 대기)."""
+
+    def setUp(self):
+        tele = Telemetry()
+        self.hw = ManualGoalCase._FakeMotionHw()
+        self.runner = Runner(self.hw, ManualGoalCase._FakeParams(), tele,
+                             DecisionLog(telemetry=tele))
+
+    def test_drives_backward(self):
+        self.runner.back_nudge()
+        backs = [c for c in self.hw.calls
+                 if c[0] == "drive" and c[1] < 0 and c[2] < 0]
+        self.assertTrue(backs)
+
+
+class FixedNumberCase(unittest.TestCase):
+    """발표 숫자 임시 고정 — 갈 때(START)/올 때(GREEN) 둘 다 2."""
+
+    def setUp(self):
+        tele = Telemetry()
+        self.hw = ManualGoalCase._FakeMotionHw()
+        self.runner = Runner(self.hw, ManualGoalCase._FakeParams(), tele,
+                             DecisionLog(telemetry=tele))
+
+    def test_fixed_to_two_both_ways(self):
+        self.assertEqual(FIXED_NUMBER, 2)
+        self.runner.choose_random_number("START")
+        self.assertEqual(self.runner.bottom_number, 2)
+        self.runner.choose_random_number("GREEN")
+        self.assertEqual(self.runner.bottom_number, 2)
+        # 숫자음도 매번 num_2.wav.
+        wavs = [c for c in self.hw.calls if c[0] == "wav"]
+        self.assertEqual(wavs, [("wav", NUMBER_SOUNDS[2])] * 2)
 
 
 class AdaptiveBaseCase(unittest.TestCase):

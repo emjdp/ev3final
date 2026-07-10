@@ -11,16 +11,17 @@
     전체가 노란 바탕으로 바뀐다(로봇 쪽도 tone 없음).
 
 키(로봇 stages/aplus.py 의 액션과 1:1):
-  [w] 계속 직진(라인추종 재개)   [s] 180도 유턴
+  [w] 계속 직진(라인추종 재개)   [u] 180도 유턴
   [a] 좌회전 90                  [d] 우회전 90
   [q] 왼쪽 대각선 약간 진행      [e] 오른쪽 대각선 약간 진행
-  [p] 그리퍼 강제 닫기           [o] 그리퍼 열기
+  [s] 약간 후진(위치 교정)       [p] 그리퍼 강제 닫기  [o] 그리퍼 열기
   [7] 도착 처리(초록 마커 미인식 폴백: 전진→내려놓기→후진→180도 회전)
   [8] 복귀 도착 처리(노랑 마커 미인식 폴백: BACK 시간→그립 해제→완주)
   [x] 명령 큐 비우기             [t] GO(출발)
   [n] 캘리브레이션  [f] 반사광 판독  [h] 컬러 판독
   [1]~[6] "red N" 음성 재생(로봇 쪽 비동기 큐 — 연타 시 순서대로)
-  [Space]/[g] 대기 전환(일시정지가 아니라 분기/커브처럼 정지 후 명령 대기)
+  [Space]/[g] 대기 전환(분기/커브처럼 정지 후 명령 대기 — 회전/직진
+              실행 중간에도 즉시 끊고 들어간다)
   [r] reset(확인)  [S] STOP(확인)  [Esc] 종료
 
 실행: python3 tools/aplus_pad.py --host <브릭IP>
@@ -47,11 +48,13 @@ FRAME_STALE_S = 2.0         # 이보다 오래된 프레임은 믿지 않는다(
 # 로봇 쪽 manifest 도 같이 맞춰야 한다.
 KEY_ACTIONS = {
     "w": "fwd",
-    "s": "uturn",
+    "u": "uturn",
     "a": "left",
     "d": "right",
     "q": "diag_left",
     "e": "diag_right",
+    # 약간 후진(위치 교정, 실행 후 그 자리 대기) — 예전 s(유턴)는 u 로 이동.
+    "s": "back",
     "p": "grip_close",
     "o": "grip_open",
     # 도착 폴백: 초록 미인식 시 도착 절차(전진→내려놓기→후진→유턴) 수동 시행.
@@ -74,7 +77,8 @@ KEY_ACTIONS = {
     "6": "say_red_6",
 }
 CONFIRM_KEYS = {"r": "reset", "S": "stop"}      # 파괴적 — y/n 확인을 거친다
-MOVE_ACTIONS = ("fwd", "uturn", "left", "right", "diag_left", "diag_right")
+MOVE_ACTIONS = ("fwd", "uturn", "left", "right", "diag_left", "diag_right",
+                "back")
 
 
 class Link:
@@ -276,8 +280,8 @@ def render_lines(frame: dict[str, Any], age: float | None, rtt_ms: float | None,
                  f"base {_fmt(frame.get('base'))}")
     lines.append(f"last: {_fmt(frame.get('last_reason'))}")
     lines.append("-" * width)
-    lines.append("[w]fwd [a]left90 [d]right90 [s]uturn180 [q]diagL [e]diagR "
-                 "[p]GRIP [o]open [7]goal-drop [8]home-drop")
+    lines.append("[w]fwd [a]left90 [d]right90 [u]uturn180 [s]back [q]diagL "
+                 "[e]diagR [p]GRIP [o]open [7]goal [8]home")
     lines.append("[t]GO [x]clear [n]calibrate [f]reflect [h]color [1-6]red N "
                  "[Space/g]hold [r]reset [S]STOP [Esc]quit")
     if pending_confirm:
