@@ -210,6 +210,9 @@ def render_lines(model: DashboardModel, width: int = 100, height: int = 32) -> l
         )
     )
     lines.append(_fit(_telemetry_summary(frame), width))
+    banner = _command_banner(frame)
+    if banner:
+        lines.append(_fit(banner, width))
     lines.append(sep)
     lines.append(_fit("params           value        limit          step      max_step  unit", width))
 
@@ -570,11 +573,35 @@ def _compact_response(response: dict[str, Any]) -> str:
     return json.dumps(response, ensure_ascii=False, separators=(",", ":"))[:160]
 
 
+def _command_banner(frame: dict[str, Any]) -> str:
+    """gg8 수동 조종 배너 — 결정 대기 중이거나 명령이 큐에 있으면 크게 알린다."""
+    mode = str(frame.get("mode") or "")
+    pending = frame.get("pending_cmd")
+    pending_txt = "" if pending in (None, "-", "") else f"  queued={pending}"
+    if mode.startswith("await_cmd"):
+        kind = frame.get("await_kind", "?")
+        exits = "".join(
+            label
+            for label, key in (("L", "has_left"), ("S", "has_straight"), ("R", "has_right"))
+            if _as_bool(frame.get(key))
+        ) or "-"
+        color = frame.get("color")
+        color_txt = "" if color in (None, "-", "") else f" color={color}"
+        return (
+            f">>> AWAITING COMMAND ({kind}{color_txt}) exits={exits}"
+            f"{pending_txt}  -- press [1]L [2]S [3]R [4]U <<<"
+        )
+    if pending_txt:
+        return f"cmd queue:{pending_txt} (consumed at next junction/marker, [5] to clear)"
+    return ""
+
+
 def _telemetry_summary(frame: dict[str, Any]) -> str:
     # Stage 3 친화적 우선순위(있는 키만 표시 → Stage 1/2 표시는 그대로 유지).
     # Stage 3: bits/mode/reflect_l·c·r/node flags/error·line_error3/turn/속도가 앞에 온다.
     # Stage 1: reflect/error/turn/left_speed/right_speed (Stage 3 키는 없어 건너뜀).
     priority = [
+        "pending_cmd", "await_kind",
         "bits", "mode",
         "reflect_l", "reflect_c", "reflect_r",
         "node_candidate", "node_confirmed",
