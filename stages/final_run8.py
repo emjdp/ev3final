@@ -25,6 +25,16 @@ final_run3 대비 변경(순수 판단층 Explorer/build_return_route/PID/node_b
   D) 스무스 턴(final_run6): turn() 이 reset_encoders 전에 coast() 로 hold 를
      풀고, 회전 동안만 set_ramp(turn_ramp_ms)로 가속 램프 → 회전 시작 '틱틱'
      튐 제거. finally 에서 ramp 0 복원(라인추종 조향엔 영향 없음).
+  E) 중앙 '라인 위' 판정을 검정 → "흰색만 아니면"으로 완화(on_line()).
+     증상: 라인 위인데 중앙이 검정으로 안 읽히면 유실 처리로 후진하고 다른
+     길을 찾아버린다. 실측(follow 3919 샘플) 중앙색 분포는 BLACK 92.4% /
+     WHITE 4.6% / BROWN 2.0% / BLUE 0.9% / NONE 0.03% 인데, BROWN·BLUE·NONE 은
+     EV3 컬러센서가 검정↔흰색 경계나 포화 검정에서 내는 오분류이지 흰 바닥이
+     아니다. bits 000(=LOST_BITS)으로 읽힌 follow 프레임 221개 중 90개(41%)가
+     이 BROWN/BLUE 였다. on_line(color) = (color != COL_WHITE) 하나로 6곳을
+     통일한다 — node_bits 중앙 bit / backup_to_line 선 발견 / 회전 후 재획득 /
+     handle_node 의 has_straight / _pivot_scan / realign_to_line.
+     진짜 유실(양쪽 반사광 흰색 + 중앙 WHITE)은 그대로 잡힌다.
 
 규약: Python 3.5(f-string 금지) / ev3dev2 는 run() 안에서만 import /
       정지는 네트워크 stop 또는 Ctrl-C, 재시작은 네트워크 reset.
@@ -154,10 +164,13 @@ from lib.tuning_server import TuningServer                          # noqa: E402
 # 상수 — 색/노드 패턴/기하/고정 주행값 (정리.md, run_maze_v13_notes.md)
 # ---------------------------------------------------------------------
 
+COL_NONE = 0
 COL_BLACK = 1
 COL_GREEN = 3
 COL_YELLOW = 4
 COL_RED = 5
+COL_WHITE = 6
+COL_BROWN = 7
 
 MARKER_COLORS = (COL_RED, COL_YELLOW, COL_GREEN)
 MARKER_NAMES = {COL_RED: "red", COL_YELLOW: "yellow", COL_GREEN: "green"}
@@ -301,14 +314,32 @@ def normalize(raw, black, white):
     return clamp(100.0 * (float(raw) - float(black)) / span, 0.0, 100.0)
 
 
+def on_line(center_color):
+    """중앙 컬러센서가 '라인 위'인가 — 흰 바닥이 아니면 전부 라인으로 본다.
+
+    검정(COL_BLACK)만 라인으로 치면 안 된다. 실측(follow 3919 샘플): 중앙이
+    BLACK 92.4% / WHITE 4.6% / BROWN 2.0% / BLUE 0.9% / NONE 0.03%. BROWN·BLUE·
+    NONE 은 EV3 컬러센서가 검정↔흰색 경계나 포화 검정에서 내는 오분류이지 흰
+    바닥이 아니다. 그런데 bits 000(=LOST_BITS) 로 읽힌 follow 프레임 221개 중
+    90개(41%)가 바로 이 BROWN/BLUE 였다 — 라인 위인데 유실로 판정해 후진하고
+    다른 길을 찾아버리던 원인.
+
+    마커색(빨강/노랑/초록)도 라인 위다(스티커는 경로 위에 있다). 마커 처리는
+    호출부가 bits 보다 먼저 handle_marker 로 하므로 여기선 '라인'이면 충분하고,
+    마커 디바운스로 handle_marker 가 넘긴 프레임이 유실로 빠지지도 않는다.
+    """
+    return center_color != COL_WHITE
+
+
 def node_bits(reflect_l, center_color, reflect_r, snap):
-    """노드 판정 bits(좌,중,우) — 좌/우는 반사광 '원시값', 중앙은 컬러 black 여부.
+    """노드 판정 bits(좌,중,우) — 좌/우는 반사광 '원시값', 중앙은 라인 위 여부.
 
     임계값(left/right_th_node)이 이미 원시값 기준으로 실기 튜닝돼 있으므로
     조향 정규화와 분리해 원시값을 유지한다(헤더 주석 참조).
+    중앙은 on_line() — '검정이어야' 가 아니라 '흰색만 아니면' 라인이다.
     """
     return (1 if reflect_l < snap["left_th_node"] else 0,
-            1 if center_color == COL_BLACK else 0,
+            1 if on_line(center_color) else 0,
             1 if reflect_r < snap["right_th_node"] else 0)
 
 
@@ -1029,7 +1060,7 @@ class Runner(object):
                 color = self.hw.read_center_color_now()
                 rl = self.hw.read_left_reflect()
                 rr = self.hw.read_right_reflect()
-                if (color == COL_BLACK or rl < snap["left_th_steer"] or
+                if (on_line(color) or rl < snap["left_th_steer"] or
                         rr < snap["right_th_steer"]):
                     found = True
                     break
@@ -1090,7 +1121,9 @@ class Runner(object):
         # 000 유실 체인으로 빠지기 전에 소각 스캔으로 라인에 올라탄다.
         if not self.interrupted():
             color = self.hw.read_center_color_now()
-            if color != COL_BLACK and color not in MARKER_COLORS:
+            if not on_line(color):
+                # 흰 바닥일 때만 재획득 — 경계 오분류(BROWN/BLUE)나 마커 위에서
+                # 쓸데없이 소각 스캔하지 않는다(마커색도 라인 위다).
                 self.log.log("TURN_ACQUIRE", "CENTER_OFF_LINE_AFTER_TURN",
                              move=move, color=color)
                 self.realign_to_line(self.params.snapshot())
@@ -1295,7 +1328,7 @@ class Runner(object):
 
         has_left = bits[0] == 1
         has_right = bits[2] == 1
-        has_straight = color == COL_BLACK
+        has_straight = on_line(color)
         n_exits = int(has_left) + int(has_right) + int(has_straight)
 
         if n_exits == 0:
@@ -1365,7 +1398,7 @@ class Runner(object):
         return "lost"
 
     def _pivot_scan(self, direction, max_deg):
-        """중앙 컬러가 black 이 될 때까지 소각 피벗(L/R). (found, 진행 enc deg)."""
+        """중앙이 라인 위(흰색 아님)가 될 때까지 소각 피벗(L/R). (found, 진행 enc deg)."""
         if max_deg <= 0:
             return False, 0.0
         left_dir, right_dir = (-1, 1) if direction == "L" else (1, -1)
@@ -1376,7 +1409,7 @@ class Runner(object):
             while self.hw.enc_avg() < max_deg:
                 if self.interrupted():
                     break
-                if self.hw.read_center_color_now() == COL_BLACK:
+                if on_line(self.hw.read_center_color_now()):
                     found = True
                     break
                 time.sleep(0.005)
@@ -1389,7 +1422,7 @@ class Runner(object):
 
         어두운 쪽부터 스캔하고, 양쪽 다 실패하면 원래 방향으로 복원 후
         False(호출부가 막다른길 처리). 소각이라 heading 격자는 안 바꾼다."""
-        if self.hw.read_center_color_now() == COL_BLACK:
+        if on_line(self.hw.read_center_color_now()):
             self.log.log("REALIGN", "ALREADY_ON_LINE")
             return True
         rl = self.hw.read_left_reflect()
