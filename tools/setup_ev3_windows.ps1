@@ -1,4 +1,4 @@
-<#
+﻿<#
 ============================================================================
   setup_ev3_windows.ps1  —  윈도우 팀원용 1회 설치 스크립트
 ============================================================================
@@ -108,6 +108,7 @@ if ($hasSsh -and (Test-Path $pubPath)) {
   $remoteCmd = "mkdir -p ~/.ssh && chmod 700 ~/.ssh && grep -qxF '$($pub.Trim())' ~/.ssh/authorized_keys 2>/dev/null || echo '$($pub.Trim())' >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
   try {
     & ssh $RobotHost $remoteCmd
+    if ($LASTEXITCODE -ne 0) { throw "ssh exited with code $LASTEXITCODE" }
     Ok "공개키 등록 완료. 이제 비밀번호 없이 접속됩니다."
   } catch {
     Warn "키 등록 실패(브릭 연결/주소 확인). 나중에 다시 실행하거나 수동 등록하세요."

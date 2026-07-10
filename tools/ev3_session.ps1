@@ -1,4 +1,4 @@
-<#
+﻿<#
   ev3_session.ps1  —  Windows(PowerShell)용 EV3 실기 세션 런처.
 
   리눅스의 tools/ev3_session.sh (ev3sess) 와 같은 일을 한다:

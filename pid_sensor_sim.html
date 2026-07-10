@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>final_run3 PID/Sensor Simulator</title>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --panel: #ffffff;
+      --ink: #1f2428;
+      --muted: #65717d;
+      --line: #d8d2c6;
+      --accent: #246b60;
+      --accent-2: #b25035;
+      --blue: #2f68b8;
+      --green: #2f7d46;
+      --yellow: #a97911;
+      --red: #c5443c;
+      --shadow: 0 10px 30px rgba(31, 36, 40, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    header {
+      padding: 18px 22px 10px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .72);
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    header p {
+      max-width: 980px;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(330px, 430px) minmax(520px, 1fr);
+      gap: 16px;
+      padding: 16px;
+    }
+
+    section,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .controls {
+      padding: 14px;
+      align-self: start;
+      position: sticky;
+      top: 88px;
+      max-height: calc(100vh - 104px);
+      overflow: auto;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 18px 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 112px 1fr 62px;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+    }
+
+    label {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    input[type="range"] { width: 100%; }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 6px 7px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+      font-size: 13px;
+    }
+
+    .value {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 2px;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 7px 10px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    button.primary {
+      border-color: #1c5e54;
+      background: var(--accent);
+      color: white;
+    }
+
+    button.warn {
+      border-color: #98412d;
+      color: #98412d;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .sensor-grid {
+      display: grid;
+      grid-template-columns: 84px repeat(4, 1fr);
+      gap: 6px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .sensor-grid span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .sensor-grid label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .sensor-grid input {
+      padding: 5px;
+      font-size: 12px;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-rows: auto auto auto;
+      gap: 16px;
+    }
+
+    .canvas-wrap {
+      padding: 14px;
+    }
+
+    .canvas-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .canvas-head div {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf7;
+    }
+
+    #world { aspect-ratio: 16 / 7; }
+    #chart { aspect-ratio: 16 / 6; }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 10px;
+      padding: 12px 14px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      min-height: 78px;
+      background: #fff;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.15;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .notes {
+      padding: 12px 14px 14px;
+    }
+
+    .note-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(240px, 1fr));
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .note-list li {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 10px;
+      color: var(--muted);
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .swatch {
+      display: inline-block;
+      width: 14px;
+      height: 3px;
+      margin-right: 5px;
+      vertical-align: middle;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 980px) {
+      main { grid-template-columns: 1fr; }
+      .controls {
+        position: static;
+        max-height: none;
+      }
+      .metrics { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+      .note-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>final_run3 PID / 센서 보정 시뮬레이터</h1>
+    <p>
+      코드의 `normalize()`와 `PidSteer.step()` 계산을 그대로 따라갑니다.
+      실제 트랙 전체가 아니라, 직선 라인에서 센서 보정값, PID, 모터 편차가 라인 추종에 주는 영향을 미리 보는 용도입니다.
+    </p>
+  </header>
+
+  <main>
+    <section class="controls">
+      <h2>조정값</h2>
+      <div class="buttons">
+        <button class="primary" id="runBtn">재계산</button>
+        <button id="playBtn">재생</button>
+        <button id="holdBtn">현재값 기준 저장</button>
+      </div>
+      <div class="buttons">
+        <button id="presetLatest">최근 주행값</button>
+        <button id="presetSoft">보정 2/3 부드럽게</button>
+        <button id="presetWeakD">D 약하게</button>
+        <button class="warn" id="presetNoCal">미보정 0/100</button>
+      </div>
+
+      <h3>PID</h3>
+      <div class="row"><label for="kp">kp</label><input id="kp" type="range" min="0" max="0.35" step="0.005"><span class="value" data-out="kp"></span></div>
+      <div class="row"><label for="ki">ki</label><input id="ki" type="range" min="0" max="0.18" step="0.005"><span class="value" data-out="ki"></span></div>
+      <div class="row"><label for="deadband">deadband</label><input id="deadband" type="range" min="0" max="10" step="0.25"><span class="value" data-out="deadband"></span></div>
+      <div class="row"><label for="kd">PID_KD</label><input id="kd" type="range" min="0" max="0.08" step="0.0025"><span class="value" data-out="kd"></span></div>
+      <div class="row"><label for="baseSpeed">base_speed</label><input id="baseSpeed" type="range" min="5" max="25" step="1"><span class="value" data-out="baseSpeed"></span></div>
+      <div class="row"><label for="turnLimit">turn limit</label><input id="turnLimit" type="range" min="4" max="24" step="1"><span class="value" data-out="turnLimit"></span></div>
+
+      <h3>로봇 / 라인</h3>
+      <div class="row"><label for="startOffset">시작 치우침</label><input id="startOffset" type="range" min="-55" max="55" step="1"><span class="value" data-out="startOffset"></span></div>
+      <div class="row"><label for="startHeading">시작 각도</label><input id="startHeading" type="range" min="-18" max="18" step="1"><span class="value" data-out="startHeading"></span></div>
+      <div class="row"><label for="motorBias">모터 편차</label><input id="motorBias" type="range" min="-20" max="20" step="1"><span class="value" data-out="motorBias"></span></div>
+      <div class="row"><label for="sensorGap">센서 간격</label><input id="sensorGap" type="range" min="28" max="76" step="2"><span class="value" data-out="sensorGap"></span></div>
+      <div class="row"><label for="lineWidth">검은 선 폭</label><input id="lineWidth" type="range" min="14" max="42" step="2"><span class="value" data-out="lineWidth"></span></div>
+      <div class="row"><label for="noise">센서 노이즈</label><input id="noise" type="range" min="0" max="8" step="0.5"><span class="value" data-out="noise"></span></div>
+
+      <h3>센서 raw 범위</h3>
+      <p class="small">Actual은 실제 센서가 내는 값, Cal은 코드가 정규화에 쓰는 값입니다. Cal이 Actual과 다르면 중앙이 틀어져 보입니다.</p>
+      <div class="sensor-grid">
+        <span></span><label>L black</label><label>L white</label><label>R black</label><label>R white</label>
+        <span>Actual</span>
+        <input id="actLBlack" type="number" min="0" max="100" step="1">
+        <input id="actLWhite" type="number" min="0" max="100" step="1">
+        <input id="actRBlack" type="number" min="0" max="100" step="1">
+        <input id="actRWhite" type="number" min="0" max="100" step="1">
+        <span>Cal</span>
+        <input id="calLBlack" type="number" min="0" max="100" step="1">
+        <input id="calLWhite" type="number" min="0" max="100" step="1">
+        <input id="calRBlack" type="number" min="0" max="100" step="1">
+        <input id="calRWhite" type="number" min="0" max="100" step="1">
+      </div>
+      <div class="buttons">
+        <button id="copyActualToCal">Actual → Cal</button>
+        <button id="copyCalToActual">Cal → Actual</button>
+      </div>
+    </section>
+
+    <div class="stage">
+      <section class="canvas-wrap">
+        <div class="canvas-head">
+          <h2>직선 라인 추종</h2>
+          <div id="simStatus">0.00 s</div>
+        </div>
+        <canvas id="world"></canvas>
+      </section>
+
+      <section class="canvas-wrap">
+        <div class="canvas-head">
+          <h2>시간 그래프</h2>
+          <div class="legend">
+            <span style="color: var(--blue)"><i class="swatch"></i>offset</span>
+            <span style="color: var(--red)"><i class="swatch"></i>turn</span>
+            <span style="color: var(--yellow)"><i class="swatch"></i>error</span>
+            <span style="color: var(--green)"><i class="swatch"></i>I trim</span>
+          </div>
+        </div>
+        <canvas id="chart"></canvas>
+      </section>
+
+      <section class="panel">
+        <div class="metrics" id="metrics"></div>
+      </section>
+
+      <section class="panel notes">
+        <h2>예상 변화</h2>
+        <ul class="note-list" id="notes"></ul>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const CAL_MIN_SPAN = 20;
+    const PID_DERIV_LIMIT = 220;
+    const PID_D_EMA_ALPHA = 0.35;
+    const INTEG_BAND = 25.0;
+    const INTEG_TURN_LIMIT = 8.0;
+    const DT = 0.015;
+    const DURATION = 7.0;
+    const STEPS = Math.round(DURATION / DT);
+
+    const defaults = {
+      kp: 0.16,
+      ki: 0.04,
+      deadband: 3.0,
+      kd: 0.05,
+      baseSpeed: 10,
+      turnLimit: 16,
+      startOffset: 18,
+      startHeading: 0,
+      motorBias: 6,
+      sensorGap: 48,
+      lineWidth: 24,
+      noise: 1.0,
+      actLBlack: 7,
+      actLWhite: 78,
+      actRBlack: 8,
+      actRWhite: 77,
+      calLBlack: 7,
+      calLWhite: 78,
+      calRBlack: 8,
+      calRWhite: 77
+    };
+
+    const ids = Object.keys(defaults);
+    const rangeIds = [
+      "kp", "ki", "deadband", "kd", "baseSpeed", "turnLimit",
+      "startOffset", "startHeading", "motorBias", "sensorGap", "lineWidth", "noise"
+    ];
+    const numberIds = ids.filter(id => !rangeIds.includes(id));
+    let result = null;
+    let baseline = null;
+    let playing = false;
+    let playT = 0;
+    let lastTs = 0;
+
+    const world = document.getElementById("world");
+    const chart = document.getElementById("chart");
+    const wctx = world.getContext("2d");
+    const cctx = chart.getContext("2d");
+
+    function clamp(v, lo, hi) {
+      return Math.max(lo, Math.min(hi, v));
+    }
+
+    function normalize(raw, black, white) {
+      const span = Number(white) - Number(black);
+      if (span < CAL_MIN_SPAN) return clamp(Number(raw), 0, 100);
+      return clamp(100 * (Number(raw) - Number(black)) / span, 0, 100);
+    }
+
+    function setValues(values) {
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        el.value = values[id];
+      });
+      syncLabels();
+      recompute();
+    }
+
+    function getValues() {
+      const values = {};
+      ids.forEach(id => values[id] = Number(document.getElementById(id).value));
+      return values;
+    }
+
+    function syncLabels() {
+      rangeIds.forEach(id => {
+        const out = document.querySelector(`[data-out="${id}"]`);
+        if (!out) return;
+        const v = Number(document.getElementById(id).value);
+        if (["kp", "ki", "kd"].includes(id)) out.textContent = v.toFixed(3);
+        else if (id === "deadband" || id === "noise") out.textContent = v.toFixed(1);
+        else if (id === "motorBias") out.textContent = `${v > 0 ? "+" : ""}${v}%`;
+        else if (id === "startHeading") out.textContent = `${v > 0 ? "+" : ""}${v} deg`;
+        else out.textContent = String(v);
+      });
+    }
+
+    function deterministicNoise(i, salt) {
+      const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
+      return (x - Math.floor(x)) * 2 - 1;
+    }
+
+    function surfaceBrightness(distanceMm, lineWidthMm) {
+      const half = lineWidthMm / 2;
+      const edge = 6;
+      const d = Math.abs(distanceMm);
+      if (d <= half) return 0;
+      if (d >= half + edge) return 100;
+      return 100 * (d - half) / edge;
+    }
+
+    function sensorRaw(trueBrightness, black, white, noise, i, salt) {
+      const raw = black + (white - black) * trueBrightness / 100;
+      return clamp(raw + deterministicNoise(i, salt) * noise, 0, 100);
+    }
+
+    function simulate(p) {
+      const samples = [];
+      let y = p.startOffset;
+      let theta = p.startHeading * Math.PI / 180;
+      let x = 0;
+      let prevError = 0;
+      let hasPrev = false;
+      let deriv = 0;
+      let integ = 0;
+      let maxAbsOffset = Math.abs(y);
+      let maxAbsTurn = 0;
+      let satCount = 0;
+      let zeroCross = 0;
+      let prevY = y;
+      let turnSignChanges = 0;
+      let prevTurnSign = 0;
+      let maxAbsError = 0;
+      let rmsOffsetSum = 0;
+
+      for (let i = 0; i <= STEPS; i++) {
+        const t = i * DT;
+        const leftSensorY = y + p.sensorGap / 2;
+        const rightSensorY = y - p.sensorGap / 2;
+        const trueL = surfaceBrightness(leftSensorY, p.lineWidth);
+        const trueR = surfaceBrightness(rightSensorY, p.lineWidth);
+        const rawL = sensorRaw(trueL, p.actLBlack, p.actLWhite, p.noise, i, 1);
+        const rawR = sensorRaw(trueR, p.actRBlack, p.actRWhite, p.noise, i, 2);
+        const normL = normalize(rawL, p.calLBlack, p.calLWhite);
+        const normR = normalize(rawR, p.calRBlack, p.calRWhite);
+        const error = normR - normL;
+
+        let pError = 0;
+        if (error > p.deadband) pError = error - p.deadband;
+        else if (error < -p.deadband) pError = error + p.deadband;
+
+        if (hasPrev) {
+          const rawDeriv = clamp((error - prevError) / DT, -PID_DERIV_LIMIT, PID_DERIV_LIMIT);
+          deriv = PID_D_EMA_ALPHA * rawDeriv + (1 - PID_D_EMA_ALPHA) * deriv;
+          if (p.ki > 0 && Math.abs(error) <= INTEG_BAND) {
+            const limit = INTEG_TURN_LIMIT / p.ki;
+            integ = clamp(integ + error * DT, -limit, limit);
+          }
+        }
+
+        const trim = p.ki > 0 ? p.ki * integ : 0;
+        const turn = clamp(p.kp * pError + trim + p.kd * deriv, -p.turnLimit, p.turnLimit);
+        const leftCmd = p.baseSpeed - turn;
+        const rightCmd = p.baseSpeed + turn;
+
+        const bias = p.motorBias / 100;
+        const leftEff = leftCmd * (1 - bias);
+        const rightEff = rightCmd * (1 + bias);
+        const v = (leftEff + rightEff) / 2;
+        const omega = (rightEff - leftEff) / 42;
+
+        samples.push({
+          t, x, y, theta, rawL, rawR, normL, normR, error,
+          pError, deriv, trim, turn, leftCmd, rightCmd, leftEff, rightEff
+        });
+
+        maxAbsOffset = Math.max(maxAbsOffset, Math.abs(y));
+        maxAbsTurn = Math.max(maxAbsTurn, Math.abs(turn));
+        maxAbsError = Math.max(maxAbsError, Math.abs(error));
+        rmsOffsetSum += y * y;
+        if (Math.abs(turn) >= p.turnLimit * 0.98) satCount++;
+        if (i > 20 && Math.sign(y) !== 0 && Math.sign(prevY) !== 0 && Math.sign(y) !== Math.sign(prevY)) zeroCross++;
+        const turnSign = Math.abs(turn) < 0.25 ? 0 : Math.sign(turn);
+        if (i > 20 && turnSign && prevTurnSign && turnSign !== prevTurnSign) turnSignChanges++;
+        if (turnSign) prevTurnSign = turnSign;
+        prevY = y;
+        prevError = error;
+        hasPrev = true;
+
+        y += Math.sin(theta) * v * 1.55 * DT;
+        x += Math.cos(theta) * v * 1.55 * DT;
+        theta += omega * 2.15 * DT;
+      }
+
+      const final = samples[samples.length - 1];
+      const rmsOffset = Math.sqrt(rmsOffsetSum / samples.length);
+      const stableSample = samples.find(s => s.t > 0.4 && Math.abs(s.y) < 4 && Math.abs(s.theta) < 0.10);
+      return {
+        params: p,
+        samples,
+        metrics: {
+          finalOffset: final.y,
+          finalHeading: final.theta * 180 / Math.PI,
+          maxAbsOffset,
+          rmsOffset,
+          maxAbsTurn,
+          maxAbsError,
+          saturationPct: satCount * 100 / samples.length,
+          zeroCross,
+          turnSignChanges,
+          recoverTime: stableSample ? stableSample.t : null
+        }
+      };
+    }
+
+    function metric(label, value, sub) {
+      return `<div class="metric"><strong>${value}</strong><span>${label}${sub ? `<br>${sub}` : ""}</span></div>`;
+    }
+
+    function renderMetrics(res) {
+      const m = res.metrics;
+      const recover = m.recoverTime == null ? "실패" : `${m.recoverTime.toFixed(2)}s`;
+      document.getElementById("metrics").innerHTML = [
+        metric("최종 치우침", `${m.finalOffset.toFixed(1)} mm`, "0에 가까울수록 좋음"),
+        metric("RMS 치우침", `${m.rmsOffset.toFixed(1)} mm`, "전체 흔들림 평균"),
+        metric("최대 turn", `${m.maxAbsTurn.toFixed(1)}`, `limit ${res.params.turnLimit}`),
+        metric("포화 비율", `${m.saturationPct.toFixed(1)}%`, "높으면 너무 세게 꺾음"),
+        metric("위빙 지표", `${m.turnSignChanges}`, "turn 방향 전환 횟수")
+      ].join("");
+    }
+
+    function renderNotes(res) {
+      const p = res.params;
+      const m = res.metrics;
+      const notes = [];
+      if (m.saturationPct > 8) notes.push("turn limit에 자주 닿습니다. 큰 오차에서 휙 꺾이는 느낌이면 kp나 PID_KD를 낮추는 쪽이 맞습니다.");
+      if (m.turnSignChanges > 14 || m.zeroCross > 3) notes.push("좌우 보정 방향이 자주 바뀝니다. 위빙이 보이면 kp를 낮추거나 PID_KD를 0.03 근처로 낮춰 비교해보세요.");
+      if (p.deadband >= 3 && Math.abs(p.startOffset) > 10) notes.push("deadband가 크면 작은 치우침을 늦게 잡습니다. 미리 중앙으로 오게 하려면 1.0~1.5 쪽을 시험해볼 만합니다.");
+      if (p.ki > 0.09) notes.push("ki가 높은 편입니다. 모터 편차는 빨리 잡지만, 누적 보정이 늦은 출렁임을 만들 수 있습니다.");
+      if (p.kd > 0.045 && p.noise >= 2) notes.push("D항이 센서 노이즈에도 반응합니다. 센서값이 튀는 상황에서는 PID_KD 0.05가 순간 꺾임을 만들 수 있습니다.");
+      const calMismatch =
+        Math.abs((p.actLBlack - p.calLBlack) + (p.actLWhite - p.calLWhite)) +
+        Math.abs((p.actRBlack - p.calRBlack) + (p.actRWhite - p.calRWhite));
+      if (calMismatch > 8) notes.push("Actual과 Cal이 다릅니다. 이 상태는 실제 중앙을 코드가 중앙으로 보지 못하는 센서 보정 오류 상황입니다.");
+      if (m.recoverTime == null) notes.push("7초 안에 안정 조건에 못 들어왔습니다. kp를 약간 올리거나 deadband를 줄이고, turnLimit이 너무 낮지 않은지 보세요.");
+      if (!notes.length) notes.push("현재 조합은 직선 기준으로 과보정이 심하지 않습니다. 실제 주행에서는 노드/커브 진입에서 D항 스파이크도 같이 확인하세요.");
+      notes.push("대시보드에서 바로 바꿀 수 있는 값은 kp, ki, deadband, base_speed입니다. PID_KD와 turn limit은 코드 상수라 코드 수정이 필요합니다.");
+      document.getElementById("notes").innerHTML = notes.map(n => `<li>${n}</li>`).join("");
+    }
+
+    function fitCanvas(canvas) {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const w = Math.max(320, Math.round(rect.width * dpr));
+      const h = Math.max(180, Math.round(rect.height * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
+      return { w, h, dpr };
+    }
+
+    function drawWorld(res, t) {
+      const { w, h } = fitCanvas(world);
+      const ctx = wctx;
+      ctx.clearRect(0, 0, w, h);
+      const cy = h / 2;
+      const pad = 36;
+      const scale = Math.min((h - pad * 2) / 150, (w - pad * 2) / 280);
+      const sample = res.samples[Math.min(res.samples.length - 1, Math.max(0, Math.round(t / DT)))];
+      const p = res.params;
+
+      ctx.fillStyle = "#fbfaf7";
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = "#d8d2c6";
+      ctx.lineWidth = 1;
+      for (let yy = cy - 80 * scale; yy <= cy + 80 * scale; yy += 20 * scale) {
+        ctx.beginPath();
+        ctx.moveTo(0, yy);
+        ctx.lineTo(w, yy);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = "#202326";
+      ctx.fillRect(0, cy - p.lineWidth * scale / 2, w, p.lineWidth * scale);
+      ctx.fillStyle = "rgba(36,107,96,.12)";
+      ctx.fillRect(0, cy - 2, w, 4);
+
+      if (baseline) drawGhostPath(ctx, baseline, w, cy, scale, "#8a9298");
+      drawGhostPath(ctx, res, w, cy, scale, "#246b60");
+
+      const rx = w * 0.48;
+      const ry = cy - sample.y * scale;
+      const th = -sample.theta;
+      ctx.save();
+      ctx.translate(rx, ry);
+      ctx.rotate(th);
+      ctx.fillStyle = "#246b60";
+      roundRect(ctx, -30 * scale, -22 * scale, 60 * scale, 44 * scale, 7 * scale);
+      ctx.fill();
+      ctx.fillStyle = "#dbeee9";
+      ctx.fillRect(-24 * scale, -12 * scale, 48 * scale, 24 * scale);
+      ctx.fillStyle = "#1a403b";
+      ctx.beginPath();
+      ctx.moveTo(34 * scale, 0);
+      ctx.lineTo(20 * scale, -10 * scale);
+      ctx.lineTo(20 * scale, 10 * scale);
+      ctx.closePath();
+      ctx.fill();
+
+      const sensorX = 20 * scale;
+      const leftY = -p.sensorGap * scale / 2;
+      const rightY = p.sensorGap * scale / 2;
+      drawSensor(ctx, sensorX, leftY, sample.rawL, "L");
+      drawSensor(ctx, sensorX, rightY, sample.rawR, "R");
+      ctx.restore();
+
+      ctx.fillStyle = "#1f2428";
+      ctx.font = `${13 * (window.devicePixelRatio || 1)}px system-ui, sans-serif`;
+      ctx.fillText(`offset ${sample.y.toFixed(1)} mm`, 16, 24);
+      ctx.fillText(`error ${sample.error.toFixed(1)} / turn ${sample.turn.toFixed(1)} / trim ${sample.trim.toFixed(2)}`, 16, 44);
+      document.getElementById("simStatus").textContent = `${sample.t.toFixed(2)} s`;
+    }
+
+    function drawGhostPath(ctx, res, w, cy, scale, color) {
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.globalAlpha = color === "#8a9298" ? 0.38 : 0.70;
+      ctx.lineWidth = color === "#8a9298" ? 2 : 3;
+      ctx.setLineDash(color === "#8a9298" ? [8, 8] : []);
+      ctx.beginPath();
+      res.samples.forEach((s, i) => {
+        const x = 32 + (w - 64) * i / (res.samples.length - 1);
+        const y = cy - s.y * scale;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawSensor(ctx, x, y, raw, label) {
+      const shade = Math.round(255 - raw * 1.8);
+      ctx.fillStyle = `rgb(${shade},${shade},${shade})`;
+      ctx.strokeStyle = "#111";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(x, y, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#fff";
+      ctx.font = "8px system-ui, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(label, x, y);
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function drawChart(res) {
+      const { w, h } = fitCanvas(chart);
+      const ctx = cctx;
+      ctx.clearRect(0, 0, w, h);
+      const padL = 42;
+      const padR = 18;
+      const padT = 18;
+      const padB = 28;
+      const cw = w - padL - padR;
+      const ch = h - padT - padB;
+
+      ctx.fillStyle = "#fbfaf7";
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = "#d8d2c6";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.rect(padL, padT, cw, ch);
+      ctx.stroke();
+      for (let i = 1; i < 4; i++) {
+        const y = padT + ch * i / 4;
+        ctx.beginPath();
+        ctx.moveTo(padL, y);
+        ctx.lineTo(w - padR, y);
+        ctx.stroke();
+      }
+      const zeroY = padT + ch / 2;
+      ctx.strokeStyle = "#bfc5c9";
+      ctx.beginPath();
+      ctx.moveTo(padL, zeroY);
+      ctx.lineTo(w - padR, zeroY);
+      ctx.stroke();
+
+      if (baseline) {
+        drawSeries(ctx, baseline.samples, "y", padL, padT, cw, ch, 70, "#8a9298", true);
+        drawSeries(ctx, baseline.samples, "turn", padL, padT, cw, ch, 18, "#8a9298", true);
+      }
+
+      drawSeries(ctx, res.samples, "y", padL, padT, cw, ch, 70, "#2f68b8", false);
+      drawSeries(ctx, res.samples, "turn", padL, padT, cw, ch, 18, "#c5443c", false);
+      drawSeries(ctx, res.samples, "error", padL, padT, cw, ch, 110, "#a97911", false);
+      drawSeries(ctx, res.samples, "trim", padL, padT, cw, ch, 10, "#2f7d46", false);
+
+      ctx.fillStyle = "#65717d";
+      ctx.font = `${11 * (window.devicePixelRatio || 1)}px system-ui, sans-serif`;
+      ctx.textAlign = "left";
+      ctx.fillText("0", 10, zeroY + 4);
+      ctx.textAlign = "right";
+      ctx.fillText(`${DURATION.toFixed(0)}s`, w - padR, h - 8);
+    }
+
+    function drawSeries(ctx, samples, key, x, y, w, h, scale, color, dashed) {
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = dashed ? 1.5 : 2.2;
+      ctx.globalAlpha = dashed ? 0.45 : 0.95;
+      ctx.setLineDash(dashed ? [7, 6] : []);
+      ctx.beginPath();
+      samples.forEach((s, i) => {
+        const px = x + w * i / (samples.length - 1);
+        const py = y + h / 2 - clamp(s[key], -scale, scale) / scale * h * 0.46;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function recompute() {
+      syncLabels();
+      result = simulate(getValues());
+      renderMetrics(result);
+      renderNotes(result);
+      playT = 0;
+      drawWorld(result, playT);
+      drawChart(result);
+    }
+
+    function animate(ts) {
+      if (!lastTs) lastTs = ts;
+      const dt = (ts - lastTs) / 1000;
+      lastTs = ts;
+      if (playing && result) {
+        playT += dt;
+        if (playT > DURATION) playT = 0;
+        drawWorld(result, playT);
+      }
+      requestAnimationFrame(animate);
+    }
+
+    function bind() {
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        el.addEventListener("input", recompute);
+        el.addEventListener("change", recompute);
+      });
+      document.getElementById("runBtn").onclick = recompute;
+      document.getElementById("playBtn").onclick = () => {
+        playing = !playing;
+        document.getElementById("playBtn").textContent = playing ? "정지" : "재생";
+      };
+      document.getElementById("holdBtn").onclick = () => {
+        baseline = simulate(getValues());
+        drawWorld(result, playT);
+        drawChart(result);
+      };
+      document.getElementById("presetLatest").onclick = () => setValues(defaults);
+      document.getElementById("presetSoft").onclick = () => {
+        const p = getValues();
+        p.kp = round3(p.kp * 2 / 3);
+        p.kd = round3(p.kd * 2 / 3);
+        p.deadband = Math.min(p.deadband, 1.5);
+        setValues(p);
+      };
+      document.getElementById("presetWeakD").onclick = () => {
+        const p = getValues();
+        p.kd = 0.03;
+        setValues(p);
+      };
+      document.getElementById("presetNoCal").onclick = () => {
+        const p = getValues();
+        p.calLBlack = 0;
+        p.calLWhite = 100;
+        p.calRBlack = 0;
+        p.calRWhite = 100;
+        setValues(p);
+      };
+      document.getElementById("copyActualToCal").onclick = () => {
+        const p = getValues();
+        p.calLBlack = p.actLBlack;
+        p.calLWhite = p.actLWhite;
+        p.calRBlack = p.actRBlack;
+        p.calRWhite = p.actRWhite;
+        setValues(p);
+      };
+      document.getElementById("copyCalToActual").onclick = () => {
+        const p = getValues();
+        p.actLBlack = p.calLBlack;
+        p.actLWhite = p.calLWhite;
+        p.actRBlack = p.calRBlack;
+        p.actRWhite = p.calRWhite;
+        setValues(p);
+      };
+      window.addEventListener("resize", () => {
+        if (result) {
+          drawWorld(result, playT);
+          drawChart(result);
+        }
+      });
+    }
+
+    function round3(v) {
+      return Math.round(v * 1000) / 1000;
+    }
+
+    bind();
+    setValues(defaults);
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
