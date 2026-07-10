@@ -34,6 +34,28 @@ classify_rgb)은 한 줄도 건드리지 않았다. 구동 계층만 바뀐다.
      turn_ramp_ms(250)를 그대로 쓰면 실효 15ms 뿐이다. 그래서 피벗/직진용
      램프 상수를 따로 둔다(PIVOT_RAMP_MS/STRAIGHT_RAMP_MS).
 
+  G) 라인추종 정밀화 + 노드 판정과의 분리(사용자: "살짝 선 물고 간다").
+     세 값만 바꾼다 — 판단 코드(node_bits/NODE_CANDIDATES/confirm_node/
+     handle_node/handle_lost/turn/backup_to_line)는 한 줄도 안 건드린다.
+
+       edge_target    50 → 58   경계보다 살짝 흰쪽에 앉아 라인을 덜 문다.
+       deadband      2.0 → 1.0  더 작은 오차에도 조향(정밀).
+       center_th_node 50 → 70   ← 이게 핵심.
+
+     center_th_node 가 edge_target 과 같은 50 이었다는 게 진짜 결함이다.
+     엣지 추종이 잘 될수록 norm_c 는 50 근처에 머무는데, 그게 정확히 중앙
+     노드 bit 가 뒤집히는 지점이다. 좌/우가 흰색인 정상 주행에서 중앙 bit 가
+     0 으로 넘어가는 순간 bits == (0,0,0) == LOST_BITS(유실 의심)이 된다.
+     lost_persist_ms(200ms) 지속 필터가 겨우 막고 있었을 뿐이고, 추종을
+     정밀하게 만들수록(=norm_c 가 50 에 더 오래 머물수록) 오판이 더 잘 난다.
+     추종 밴드(edge_target±EDGE_ACQUIRE_TOL = 50~66) 전체가 '라인 보임(1)'이
+     되도록 70 으로 올려 두 역할을 분리한다.
+
+     부수 수정 — center_th_node 를 밴드 위로 올리면 norm_c 가 66~70 인 구간
+     ('밴드보다 밝지만 라인은 보임')이 새로 생긴다. acquire_edge 는 밴드를
+     어두운 쪽에서 접근한다고 가정하므로 거기서 흰쪽으로 피벗해 더 멀어진다.
+     그 구간에선 라인 쪽으로 되돌아 피벗하도록 방향을 뒤집는다.
+
 실행(브릭):   python3 stages/final_run11.py
 문법 점검(PC): python3 -m py_compile stages/final_run11.py lib/*.py
 단위 테스트:  python3 tests/test_final_run11_maze.py (ev3dev2 불필요)
@@ -289,9 +311,11 @@ PARAM_TABLE = (
     ("base_speed",      10,    5,   45,   5,    1,    "%"),
     ("kp",              0.30,  0.0, 3.0,  0.1,  0.01, ""),   # 엣지 팔로잉 에러(±edge_target)
     ("ki",              0.06,  0.0, 0.5,  0.05, 0.01, ""),
-    ("deadband",        2.0,   0.0, 20.0, 2.0,  0.5,  ""),   # 경계값 근처 미세 헌팅 억제
+    ("deadband",        1.0,   0.0, 20.0, 2.0,  0.5,  ""),   # 2.0→1.0(§run11 G): 더 작은 오차에도 조향
     # 엣지 팔로잉(§변경 B): 중앙 밝기 목표 경계값 + 조향 방향 부호.
-    ("edge_target",     50,    20,  80,   10,   5,    "%"),  # 검/백 중간(경계)
+    # 58 = 경계에서 흰쪽으로 살짝(§run11 G) — 50(검/백 중간)이면 센서가 라인
+    # 가장자리를 계속 물어 동체 절반이 라인 위에 얹힌다("선 물고 감").
+    ("edge_target",     58,    20,  80,   10,   5,    "%"),  # 경계보다 살짝 흰쪽
     ("steer_sign",      1,     -1,  1,    2,    2,    ""),    # 폭주하면 뒤집는다(±1)
     ("turn_speed",      10,    5,   40,   5,    1,    "%"),
     ("turn_ramp_ms",    250,   0,   600,  100,  50,   "ms"),  # 회전 가속 램프(시작 틱틱 튐 방지, v6)
@@ -304,7 +328,12 @@ PARAM_TABLE = (
     ("left_th_node",    35,    0,   100,  3,    1,    "%"),
     ("right_th_node",   30,    0,   100,  3,    1,    "%"),
     # 중앙 노드 bit: RGB 밝기 정규화값(norm_c)이 이 미만이면 검정(1).
-    ("center_th_node",  50,    0,   100,  5,    1,    "%"),
+    # 50→70(§run11 G): edge_target 과 같은 값이면 정상 엣지 추종 중 norm_c 가
+    # 이 임계값 위아래로 진동해 중앙 bit 가 상시 깜빡이고, 좌/우가 흰색인
+    # 정상 주행이 bits 000(=LOST_BITS, 유실 의심)으로 읽힌다. 추종 밴드
+    # (edge_target±EDGE_ACQUIRE_TOL = 50~66) 전체가 '라인 보임(1)'이 되도록
+    # 밴드 위로 올린다. 판정 로직/후보 패턴/임계값 의미는 그대로.
+    ("center_th_node",  70,    0,   100,  5,    1,    "%"),
     ("cal_l_black",     0,     0,   100,  100,  1,    "%"),   # calibrate 가 기록
     ("cal_l_white",     100,   0,   100,  100,  1,    "%"),
     ("cal_r_black",     0,     0,   100,  100,  1,    "%"),
@@ -1839,7 +1868,13 @@ class Runner(object):
                 self.log.log("EDGE_ACQUIRE", "LINE_NOT_FOUND", context=context,
                              norm_c=round(norm_c, 1))
                 return False
+            _color, norm_c = self.read_color(snap)   # realign 이 피벗했다 — 재판독
         exit_dir = edge_exit_dir(snap["steer_sign"])
+        if norm_c > snap["edge_target"] + EDGE_ACQUIRE_TOL:
+            # 밴드보다 밝지만 아직 라인이 보이는 구간(center_th_node 를 밴드 위로
+            # 올린 §run11 G 이후 생긴다). 여기서 exit_dir(흰쪽)로 피벗하면 밴드에서
+            # 더 멀어지므로 라인 쪽으로 되돌아 피벗한다.
+            exit_dir = "L" if exit_dir == "R" else "R"
         found, deg = self._pivot_to_edge(exit_dir, EDGE_ACQUIRE_MAX_DEG, snap)
         time.sleep(POST_TURN_SETTLE_S)
         self.reset_steer()

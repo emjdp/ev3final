@@ -34,7 +34,8 @@ if _ROOT not in sys.path:
 from stages.final_run11 import (Explorer, PidSteer, classify_rgb, node_bits,
                                 edge_exit_dir, turn_heading, INITIAL_PARAMS,
                                 COL_BLACK, COL_GREEN, COL_YELLOW, COL_RED,
-                                COL_WHITE, COL_NONE)
+                                COL_WHITE, COL_NONE,
+                                EDGE_ACQUIRE_TOL, LOST_BITS, NODE_CANDIDATES)
 
 # --- 픽스처 1: HTML 미로(화면좌표 y아래 → S=아래) ---------------------------
 
@@ -267,8 +268,9 @@ class PidEdgeFollowCase(unittest.TestCase):
         return error
 
     def test_on_edge_zero(self):
-        # 중앙이 경계값(edge_target=50) 위 = 에러 0(조향 없음).
-        self.assertAlmostEqual(self.error_of(50), 0.0)
+        # 중앙이 경계값(edge_target) 위 = 에러 0(조향 없음). 리터럴이 아니라
+        # 파라미터를 참조한다 — 튜닝으로 값이 바뀌어도 불변식은 그대로다.
+        self.assertAlmostEqual(self.error_of(INITIAL_PARAMS["edge_target"]), 0.0)
 
     def test_on_white_positive(self):
         # 흰 바닥 쪽(밝음)으로 벗어남 → error > 0(steer_sign=+1 기본).
@@ -286,7 +288,61 @@ class PidEdgeFollowCase(unittest.TestCase):
 
     def test_uses_only_center(self):
         # 좌/우 값과 무관하게 중앙만으로 결정됨을 시그니처로 보장(인자 1개).
-        self.assertAlmostEqual(self.error_of(50), 0.0)
+        self.assertAlmostEqual(self.error_of(INITIAL_PARAMS["edge_target"]), 0.0)
+
+
+class FollowBandVsNodeBitsCase(unittest.TestCase):
+    """추종 밴드와 중앙 노드 임계값의 분리(§run11 G).
+
+    center_th_node 가 edge_target 과 같으면, 엣지 추종이 잘 될수록 norm_c 가
+    바로 그 임계값 근처에 머물러 중앙 bit 가 깜빡인다. 좌/우가 흰색인 정상
+    주행이 bits 000(=LOST_BITS, 유실 의심)으로 읽히고, 노드에서는 직진로가
+    있는데도 has_straight 가 False 로 떨어져 분기를 커브로 오판한다.
+    """
+
+    WHITE = 77      # 좌/우 반사광 일반주행 실측 중앙값(follow 로그)
+
+    def band(self, snap):
+        et = snap["edge_target"]
+        return et - EDGE_ACQUIRE_TOL, et + EDGE_ACQUIRE_TOL
+
+    def test_follow_band_never_reads_lost(self):
+        snap = dict(INITIAL_PARAMS)
+        lo, hi = self.band(snap)
+        for nc in range(int(lo), int(hi) + 1):
+            bits = node_bits(self.WHITE, nc, self.WHITE, snap)
+            self.assertNotEqual(bits, LOST_BITS,
+                                "norm_c=%d 가 유실로 읽힘" % nc)
+
+    def test_follow_band_never_reads_node(self):
+        snap = dict(INITIAL_PARAMS)
+        lo, hi = self.band(snap)
+        for nc in range(int(lo), int(hi) + 1):
+            bits = node_bits(self.WHITE, nc, self.WHITE, snap)
+            self.assertNotIn(bits, NODE_CANDIDATES,
+                             "norm_c=%d 가 노드 후보로 읽힘" % nc)
+
+    def test_follow_band_counts_as_straight(self):
+        # 노드 전진 후 중앙이 엣지 위(추종 밴드)면 직진로가 '있다'로 읽혀야
+        # 한다 — 아니면 분기를 커브로 오판해 강제 회전한다.
+        snap = dict(INITIAL_PARAMS)
+        lo, hi = self.band(snap)
+        for nc in range(int(lo), int(hi) + 1):
+            self.assertTrue(nc < snap["center_th_node"],
+                            "norm_c=%d 에서 has_straight 가 False" % nc)
+
+    def test_real_loss_still_detected(self):
+        snap = dict(INITIAL_PARAMS)
+        bits = node_bits(self.WHITE, 100, self.WHITE, snap)
+        self.assertEqual(bits, LOST_BITS)
+
+    def test_branches_still_detected(self):
+        snap = dict(INITIAL_PARAMS)
+        for left, center, right in ((10, 10, self.WHITE),     # 좌분기
+                                    (self.WHITE, 10, 10),     # 우분기
+                                    (10, 10, 10),             # 십자
+                                    (10, 100, 10)):           # T(직진 없음)
+            self.assertIn(node_bits(left, center, right, snap), NODE_CANDIDATES)
 
 
 class EdgeExitDirCase(unittest.TestCase):
