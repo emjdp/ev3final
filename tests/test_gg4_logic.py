@@ -37,7 +37,9 @@ if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
 from stages.gg4 import (Explorer, PidSteer, node_bits, on_line,
-                        should_escalate, shortest_path, turn_heading,
+                        should_escalate, should_stop_escalated_creep,
+                        shortest_path, turn_heading,
+                        update_escalate_arm,
                         INITIAL_PARAMS, HOME_CURVE_ASSUME_MAX, COL_BLACK,
                         COL_GREEN, COL_YELLOW, COL_RED, COL_WHITE, COL_BROWN)
 
@@ -394,19 +396,45 @@ class NodeGuardEscalationCase(unittest.TestCase):
         self.snap = dict(INITIAL_PARAMS)
 
     def test_right_deep_drop_during_guard_escalates(self):
-        self.assertTrue(should_escalate((0, 0, 1), 72, 10, True, self.snap))
+        self.assertTrue(should_escalate((0, 0, 1), 72, 10, True, True,
+                                        self.snap))
 
     def test_left_deep_drop_during_guard_escalates(self):
-        self.assertTrue(should_escalate((1, 0, 0), 9, 61, True, self.snap))
+        self.assertTrue(should_escalate((1, 0, 0), 9, 61, True, True,
+                                        self.snap))
 
     def test_deep_drop_without_guard_does_not_escalate(self):
-        self.assertFalse(should_escalate((0, 0, 1), 72, 10, False, self.snap))
+        self.assertFalse(should_escalate((0, 0, 1), 72, 10, False, True,
+                                         self.snap))
+
+    def test_deep_drop_disarmed_does_not_escalate(self):
+        self.assertFalse(should_escalate((0, 0, 1), 72, 10, True, False,
+                                         self.snap))
 
     def test_margin_only_does_not_escalate(self):
-        self.assertFalse(should_escalate((0, 1, 0), 41, 61, True, self.snap))
+        self.assertFalse(should_escalate((0, 1, 0), 41, 61, True, True,
+                                         self.snap))
 
     def test_lost_bits_does_not_escalate(self):
-        self.assertFalse(should_escalate((0, 0, 0), 73, 36, True, self.snap))
+        self.assertFalse(should_escalate((0, 0, 0), 73, 36, True, True,
+                                         self.snap))
+
+    def test_clear_side_reflectance_rearms_escalation(self):
+        armed = True
+        self.assertTrue(should_escalate((0, 0, 1), 72, 10, True, armed,
+                                        self.snap))
+        armed = False
+        armed = update_escalate_arm(armed, 60, 70, self.snap)
+        self.assertTrue(armed)
+        self.assertTrue(should_escalate((0, 0, 1), 72, 10, True, armed,
+                                        self.snap))
+
+    def test_escalated_creep_stops_when_node_candidate_appears(self):
+        self.assertTrue(should_stop_escalated_creep((0, 1, 1), True))
+
+    def test_escalated_creep_keeps_waiting_without_candidate(self):
+        self.assertFalse(should_stop_escalated_creep((0, 0, 1), True))
+        self.assertFalse(should_stop_escalated_creep((0, 1, 1), False))
 
 
 class PidSteerCase(unittest.TestCase):

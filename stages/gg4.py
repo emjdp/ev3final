@@ -171,6 +171,8 @@ MARKER_DEBOUNCE_MS = 1500   # 같은 마커 재감지 방지
 MARKER_PAUSE_S = 0.08       # 마커 정지 후 잠깐 멈춤
 CONFIRM_SETTLE_S = 0.08     # 재판정 전 정지 안정화
 NODE_CONFIRM_TIMEOUT_S = 1.5  # confirm creep 시간 상한(거리 미달 스톨/걸림 안전망)
+# 승격 confirm 은 비스듬한 가로선 진입에서 중앙 센서가 가로선에 닿을 만큼 기다린다.
+ESCALATED_CONFIRM_MM = 25.0
 GRIP_SEC = 0.8              # 그리퍼 열기/닫기 구동 시간
 LOOP_DELAY_S = 0.015
 FOLLOW_LOG_S = 0.25         # LINE_FOLLOW 로그 최소 간격
@@ -322,14 +324,28 @@ def node_bits(reflect_l, center_color, reflect_r, snap):
             1 if reflect_r < snap["right_th_node"] else 0)
 
 
-def should_escalate(bits, reflect_l, reflect_r, guard_active, snap):
+def update_escalate_arm(armed, reflect_l, reflect_r, snap):
+    """양쪽 측면 센서가 near-node 영역을 완전히 벗어나면 승격을 재장전한다."""
+    clear_l = reflect_l >= snap["left_th_node"] + NODE_GUARD_MARGIN
+    clear_r = reflect_r >= snap["right_th_node"] + NODE_GUARD_MARGIN
+    if clear_l and clear_r:
+        return True
+    return armed
+
+
+def should_escalate(bits, reflect_l, reflect_r, guard_active, armed, snap):
     """NODE_GUARD 중 측면 deep drop 을 node confirm 으로 승격할지 판단한다."""
-    if not guard_active:
+    if not guard_active or not armed:
         return False
     if bits == LOST_BITS or bits in NODE_CANDIDATES:
         return False
     return (reflect_l < snap["left_th_node"] or
             reflect_r < snap["right_th_node"])
+
+
+def should_stop_escalated_creep(bits, escalated):
+    """승격 confirm 중 중앙 후보가 보이면 즉시 정지 재판정으로 넘긴다."""
+    return escalated and bits in NODE_CANDIDATES
 
 
 def bits_str(bits):
@@ -927,6 +943,7 @@ class Runner(object):
         self.last_recover_t = -1e9
         self.lost_since = None      # 000 연속 시작 시각(지속 필터)
         self.guard_since = None     # 가로선 접근 가드 시작 시각
+        self.escalate_armed = True  # 측면 deep-drop 승격은 near-node 이탈 후 1회만
         self.lost_streak = 0        # 윈도 내 연속 복구 횟수
         self.node_debounce_ms = 0   # 직전 confirm 결과에 따른 재감지 간격
         # UI 상태(gg3) — 판단/주행에는 쓰이지 않는다.
@@ -1409,9 +1426,13 @@ class Runner(object):
         self.hw.reset_encoders()
         self.log.log("NODE_CANDIDATE", "PD_OFF_SLOW_STRAIGHT",
                      bits=bits_str(first_bits),
-                     confirm_mm=snap["node_confirm_mm"], speed=CONFIRM_SPEED,
+                     confirm_mm=(ESCALATED_CONFIRM_MM if escalated
+                                 else snap["node_confirm_mm"]),
+                     speed=CONFIRM_SPEED,
                      escalated=escalated)
-        target_deg = snap["node_confirm_mm"] / MM_PER_DEG
+        confirm_mm = (ESCALATED_CONFIRM_MM if escalated
+                      else snap["node_confirm_mm"])
+        target_deg = confirm_mm / MM_PER_DEG
         deadline = time.monotonic() + NODE_CONFIRM_TIMEOUT_S
         self.hw.drive(CONFIRM_SPEED, CONFIRM_SPEED)
         while self.hw.enc_avg() < target_deg:
@@ -1428,6 +1449,11 @@ class Runner(object):
             bits, color, rl, rr = self.read_bits(snap)
             if self.handle_marker(color, "node_confirm"):
                 return None, 0.0
+            if should_stop_escalated_creep(bits, escalated):
+                self.publish("node_confirm", bits=bits_str(bits),
+                             reflect_l=rl, reflect_r=rr, color=color,
+                             escalated=escalated)
+                break
             if bits not in NODE_CANDIDATES and not escalated:
                 self.hw.stop()
                 creep_mm = self.hw.enc_avg() * MM_PER_DEG
@@ -1726,6 +1752,8 @@ class Runner(object):
             rr = self.hw.read_right_reflect()
             bits = node_bits(rl, color, rr, snap)
             now = time.monotonic()
+            self.escalate_armed = update_escalate_arm(
+                self.escalate_armed, rl, rr, snap)
 
             if bits == LOST_BITS:
                 # 000 은 노드 후보가 아니라 유실 의심 — 지속시간 필터.
@@ -1744,9 +1772,12 @@ class Runner(object):
             else:
                 self.lost_since = None
                 escalated = should_escalate(
-                    bits, rl, rr, self.guard_since is not None, snap)
+                    bits, rl, rr, self.guard_since is not None,
+                    self.escalate_armed, snap)
                 if ((bits in NODE_CANDIDATES or escalated) and
                         (now - self.last_node_t) * 1000 >= self.node_debounce_ms):
+                    if escalated:
+                        self.escalate_armed = False
                     confirmed, creep_mm = self.confirm_node(
                         bits, snap, escalated=escalated)
                     self.last_node_t = time.monotonic()
