@@ -28,10 +28,13 @@ final_run9 대비 변경(§run10 — 엣지 획득, 사용자 요구):
           정지한다. 항상 같은 쪽으로 나가므로 회전 후에도 타는 엣지가 유지된다.
      목적: 매 회전 직후 동체가 라인과 평행하게 서서 곧게 출발(사용자 요구 —
      "회전을 했을 때도 중앙센서가 엣지를 찾아갈 수 있어야 한다").
-  G) 오디오 보류(사용자 확인 — 브릭 espeak 미동작): AUDIO_ENABLED=False 로
-     espeak 생성/wav·tone 재생/통 감지 경보음을 전부 끈다. LCD 표시(숫자/
-     소요시간)와 미션 로직(red_say_count 등 카운트)은 그대로 — 오디오만
-     보류. 나중에 켤 땐 AUDIO_ENABLED 한 줄만 바꾼다.
+  G) 오디오 재작업(espeak 폐기 → 블록코딩 공식 음성): 브릭 espeak 미동작이
+     확인돼 한때 AUDIO_ENABLED=False 로 보류했으나, 블록코딩 프로그램(LEGO
+     MINDSTORMS Edu EV3) 리소스에서 공식 음성(.rsf: One~Ten/Red/Good job)을
+     PC 에서 wav 로 변환(tools/rsf2wav.py)해 저장소 sounds/ 에 커밋했다.
+     브릭에는 scp -r sounds 로 올리고 aplay 큐로 재생 — espeak 불필요, 블록
+     코딩과 동일한 목소리. "red N" 은 red.wav+num_N.wav 연속 재생(큐 순서
+     보장). wav 가 없으면 tone 폴백. AUDIO_ENABLED=True 재활성.
 
 final_run8 대비 변경(run9 에서 승계):
   A) 센서 구성 변경(사용자 요구: 3개 다 반사광 + 색판정은 색상센서):
@@ -126,7 +129,6 @@ rgb_* 판정 파라미터를 맞춘다(빨강/초록/노랑 스티커 각각 위
 
 import os
 import random
-import subprocess
 import sys
 import threading
 import time
@@ -218,15 +220,16 @@ CAL_SPEED = 6               # 스윕 피벗 속도(%)
 CAL_HALF_DEG = 60           # 한쪽 스윕 enc deg(로봇 약 40~45도)
 CAL_MIN_SPAN = 20           # white-black 이 이보다 좁으면 실패(라인을 못 봤다)
 
-# 오디오(§변경 D) — espeak 로 시작 시 1회 생성(캐시)하는 wav 문구들.
+# 오디오(§변경 D, run10 재작업) — 블록코딩 프로그램(LEGO MINDSTORMS Edu EV3)
+# 리소스에서 추출·변환한 공식 음성 wav 를 재생한다(브릭 espeak 불필요!).
+#   PC 1회: python tools/rsf2wav.py  →  sounds/num_1..10.wav, red.wav, good_job.wav
+#   업로드: scp -r sounds robot@ev3dev.local:~/ev3test/
 # 재생은 Ev3Hardware 의 백그라운드 큐(aplay)라 주행을 막지 않는다.
-# espeak/wav 가 없으면 tone 폴백(아래 TONE_*).
-AUDIO_ENABLED = False       # 브릭에 espeak 미동작 확인(사용자) — 오디오 없이 우선 검증(§run10)
+# "red N" 은 블록코딩과 동일하게 red.wav + num_N.wav 연속 재생(큐가 순서 보장).
+# wav 가 없으면 tone 폴백(아래 TONE_*).
+AUDIO_ENABLED = True        # 공식 wav 방식은 espeak 미동작과 무관 — 재활성(§run10 오디오 재작업)
 SOUND_DIR = os.path.join(_ROOT, "sounds")
-NUMBER_WORDS = {1: "one", 2: "two", 3: "three", 4: "four"}
-RED_WORDS = ("one", "two", "three", "four", "five", "six",
-             "seven", "eight", "nine", "ten", "eleven", "twelve")
-ESPEAK_ARGS = ("-a", "200", "-s", "120", "-v", "en-us")
+SOUND_NUM_MAX = 10          # 공식 숫자음은 One~Ten — red 카운트 11부터는 tone 폴백
 TONE_GRAB_ALARM = ((1500, 300),)            # 통 감지 경보음(삐)
 TONE_NUMBER_FALLBACK = 500                  # 500+80*n Hz, 250ms
 TONE_GOOD_JOB = ((900, 120), (1200, 160), (900, 120))
@@ -1004,52 +1007,23 @@ class Runner(object):
         return os.path.join(SOUND_DIR, key + ".wav")
 
     def ensure_sounds(self):
-        """시작 시 1회: 미션 문구 wav 를 espeak 로 생성(이미 있으면 재사용).
+        """시작 시 1회: 공식 wav(sounds/)가 브릭에 올라와 있는지 점검만 한다.
 
-        브릭에 espeak 가 없거나 실패하면 그 문구는 tone 폴백으로 재생된다.
-        (사용자 문제 3 — 블록코딩의 오디오 코덱 위치를 파이썬에선 못 찾는
-        문제를, 파일을 우리가 직접 만들어 두는 방식으로 해결.)
-
-        AUDIO_ENABLED=False 면 espeak 시도조차 하지 않는다(§run10 — 브릭에서
-        espeak 가 안 돼 생성 시도 자체가 무의미하다고 확인, 오디오 없이 우선
-        주행 검증). 다시 켤 땐 AUDIO_ENABLED 한 줄만 바꾼다.
+        wav 는 블록코딩 프로그램 리소스(.rsf)에서 PC 의 tools/rsf2wav.py 로
+        변환해 저장소 sounds/ 에 커밋돼 있고, scp -r sounds 로 업로드한다 —
+        브릭에서 생성(espeak)이 전혀 필요 없다(사용자 문제 3 의 해답: 코덱은
+        브릭이 아니라 PC 블록코딩 프로그램 Resources 안에 있었다).
+        빠진 파일은 재생 시점에 tone 폴백으로 처리되므로 여기선 로그만 남긴다.
         """
         if not AUDIO_ENABLED:
             self.log.log("AUDIO_DIAG", "AUDIO_DISABLED")
             return
-        phrases = {"good_job": "good job"}
-        for n in NUMBER_WORDS:
-            phrases["num_{}".format(n)] = NUMBER_WORDS[n]
-        for i, w in enumerate(RED_WORDS):
-            phrases["red_{}".format(i + 1)] = "red " + w
-        try:
-            if not os.path.isdir(SOUND_DIR):
-                os.makedirs(SOUND_DIR)
-        except Exception as exc:
-            self.log.log("AUDIO_DIAG", "SOUND_DIR_FAIL", error=repr(exc))
-            return
-        made = 0
-        cached = 0
-        failed = 0
-        for key in sorted(phrases):
-            path = self._sound_file(key)
-            if os.path.isfile(path):
-                cached += 1
-                continue
-            try:
-                code = subprocess.call(("espeak",) + ESPEAK_ARGS +
-                                       ("-w", path, phrases[key]))
-            except Exception:
-                code = -1
-            if code == 0 and os.path.isfile(path):
-                made += 1
-            else:
-                failed += 1
-                if failed == 1:
-                    self.log.log("AUDIO_DIAG", "ESPEAK_FAIL",
-                                 key=key, code=code)
-        self.log.log("AUDIO_DIAG", "SOUND_FILES",
-                     made=made, cached=cached, failed=failed, dir=SOUND_DIR)
+        keys = ["good_job", "red"]
+        keys += ["num_{}".format(n) for n in range(1, SOUND_NUM_MAX + 1)]
+        missing = [k for k in keys if not os.path.isfile(self._sound_file(k))]
+        self.log.log("AUDIO_DIAG", "OFFICIAL_WAV_CHECK",
+                     found=len(keys) - len(missing), missing=missing,
+                     dir=SOUND_DIR)
 
     def _play_key(self, key, fallback_tones):
         """wav 가 있으면 비블로킹 큐 재생, 없으면 tone 폴백. 주행을 막지 않는다.
@@ -1073,11 +1047,15 @@ class Runner(object):
                        ((TONE_NUMBER_FALLBACK + 80 * int(number), 250),))
 
     def say_red(self):
-        """빨강 방문 누적 카운트 증가 + "red one/two/..." 재생(명세 5)."""
+        """빨강 방문 누적 카운트 증가 + "red one/two/..." 재생(명세 5).
+
+        블록코딩과 동일하게 red.wav → num_N.wav 를 연속 재생한다(오디오 큐가
+        순서를 보장). 공식 숫자음은 Ten 까지라 11회째부터 숫자는 tone 폴백."""
         self.red_say_count += 1
-        idx = min(self.red_say_count, len(RED_WORDS))
-        self._play_key("red_{}".format(idx),
-                       TONE_RED_FALLBACK +
+        idx = self.red_say_count
+        self._play_key("red", TONE_RED_FALLBACK)
+        # 공식 숫자음은 num_1~num_10 — 11회째부터는 파일이 없어 tone 폴백.
+        self._play_key("num_{}".format(idx),
                        ((TONE_NUMBER_FALLBACK + 80 * idx, 250),))
 
     def say_good_job(self):
@@ -2036,7 +2014,7 @@ def run():
                           actions=ACTIONS, stage=STAGE_NAME)
     server.start()
 
-    runner.ensure_sounds()      # AUDIO_ENABLED=False 면 즉시 반환(§run10, 오디오 보류)
+    runner.ensure_sounds()      # 공식 wav(sounds/) 업로드 여부 점검(§G)
 
     print("final_run10 ready. 1) dashboard 'calibrate' on the line / 'read_rgb' on "
           "each sticker, 2) press CENTER button to start (random number + voice). "

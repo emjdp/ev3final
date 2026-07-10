@@ -1,8 +1,24 @@
-# final_run10 — 회전 후 엣지 획득 노트
+# final_run10 — 회전 후 엣지 획득 + 공식 음성 오디오 노트
 
 한 줄 요약: **run9 의 중앙 엣지 팔로잉에 빠져 있던 마지막 조각 — 회전/노드 통과/
-유실 복구/출발 직후의 "엣지 획득(acquire_edge)"** 을 추가했다. 미로/마커/오디오
-논리는 run9 그대로(PC 테스트 19개 통과), 엣지 획득 자체는 **실기 검증 필요**.
+유실 복구/출발 직후의 "엣지 획득(acquire_edge)"** 을 추가했다. 미로/마커 논리는
+run9 그대로(PC 테스트 19개 통과), 엣지 획득 자체는 **실기 검증 필요**.
+
+## 오디오 재작업 (2026-07-10 — espeak 폐기, 블록코딩 공식 음성 사용)
+
+브릭 espeak 미동작으로 한때 AUDIO_ENABLED=False 보류했으나, **블록코딩 프로그램
+(LEGO MINDSTORMS Edu EV3) 리소스에 공식 음성 원본(.rsf)이 들어 있는 것을 확인**
+— 사용자 문제 3("오디오 코덱 위치를 못 찾음")의 해답은 브릭이 아니라 PC 프로그램
+`Resources/BrickResources/Education/Sounds/files/` 였다.
+
+- PC 1회: `python tools/rsf2wav.py` → `sounds/` 에 num_1~10.wav, red.wav,
+  good_job.wav (RSF = 8kHz 8-bit PCM, 헤더만 바꿔 wav 로 래핑 — 음질 손실 없음,
+  블록코딩과 완전히 같은 목소리). 저장소에 커밋돼 있어 다시 돌릴 필요 없음.
+- 브릭 업로드: `scp -r sounds robot@ev3dev.local:~/ev3test/` (아래 업로드 절 참조)
+- "red N" = red.wav + num_N.wav 연속 재생(오디오 큐가 순서 보장 — 블록코딩과
+  동일한 구성). 공식 숫자음은 Ten 까지라 red 11·12회째 숫자는 tone 폴백.
+- wav 가 없으면 항목별 tone 폴백. 시작 시 AUDIO_DIAG OFFICIAL_WAV_CHECK 로그로
+  업로드 누락을 확인할 것.
 
 ## 왜 (사용자 문제 제기)
 
@@ -49,8 +65,9 @@ start_exit). 라이브 파라미터는 **추가 없음**(EDGE_ACQUIRE_TOL/MAX_DE
 
 ## 실기 튜닝 절차 (run9 절차에 추가되는 것)
 
-run9 노트의 1~5(rgb_sum_white → 스티커 판정 → calibrate → steer_sign 확인 →
-소리)는 동일. 추가 확인:
+run9 노트의 1~4(rgb_sum_white → 스티커 판정 → calibrate → steer_sign 확인)는
+동일하되, 소리(run9 의 5: espeak)는 위 "오디오 재작업" 절로 대체 — espeak 설치
+불필요, `scp -r sounds` 업로드 + AUDIO_DIAG 로그 확인만 하면 된다. 추가 확인:
 
 1. **회전 직후 로그**: 매 회전 뒤 `EDGE_ACQUIRE` 가 ON_EDGE_* 또는
    ALREADY_ON_EDGE 로 끝나는지. LINE_NOT_FOUND 가 반복되면 피벗각
@@ -74,6 +91,7 @@ ssh robot@ev3dev.local 'mkdir -p ~/ev3test/stages ~/ev3test/lib ~/ev3test/tools 
 scp stages/final_run10.py robot@ev3dev.local:~/ev3test/stages/
 scp lib/*.py robot@ev3dev.local:~/ev3test/lib/
 scp tools/*.py robot@ev3dev.local:~/ev3test/tools/
+scp -r sounds robot@ev3dev.local:~/ev3test/   # 공식 음성 wav(§오디오 재작업)
 ```
 
 - 브릭 실행: `ssh robot@ev3dev.local` → `cd ~/ev3test && python3 stages/final_run10.py`
