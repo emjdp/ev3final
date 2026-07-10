@@ -17,11 +17,15 @@
 미션 분기, 그리퍼, 초음파 파지, 노랑 출발 대기. 바닥의 색 스티커는
 on_line()에서 '라인 위'로만 취급된다(흰색만 아니면 라인).
 
-대시보드 조작(tools/dashboard.py — describe 로 자동 키 바인딩, 수정 불필요):
-  [1] left  [2] straight  [3] right  [4] uturn   ← 교차로 방향 명령
-  [5] go(주행 시작)  [6] calibrate  [7] read_color  [8] read_reflect
-  [r] reset(대기 복귀, confirm)  [Space] pause  [s] STOP
+대시보드 조작(tools/dashboard.py 수정 불필요 — manifest key 필드로 핫키 명시,
+gg8 과 같은 배치라 조작감 동일):
+  [j] left  [k] straight  [l] right  [u] uturn   ← 교차로 방향 명령
+  [x] clear cmd  [t] go(주행 시작)  [d] calibrate  [h] read_color
+  [e] read_reflect  [z] reset([r] 공용 키도 됨)  [Space] pause  [s] STOP
 robotctl 로도 동일: python3 tools/robotctl.py do left 등.
+대기 프레임은 gg8 과 같은 규약(mode=await_cmd, pending_cmd/await_kind/
+has_left·straight·right)으로 publish 해 대시보드 AWAITING COMMAND 배너를
+그대로 쓴다.
 
 방향 명령 규칙:
   - 단일 슬롯 큐 — 주행 중 언제 눌러도 저장되고, 최신 명령이 이전 것을 덮는다.
@@ -151,16 +155,18 @@ STAGE_NAME = "manual_run1"
 MOVE_ACTIONS = (("left", "L"), ("straight", "S"), ("right", "R"), ("uturn", "U"))
 MOVE_BY_ACTION = dict(MOVE_ACTIONS)
 
+# key 필드 = 대시보드 명시 핫키(gg8 과 동일 배치 — 조작감 통일).
 ACTIONS = [
-    {"name": "left", "label": "Turn LEFT"},
-    {"name": "straight", "label": "Go STRAIGHT"},
-    {"name": "right", "label": "Turn RIGHT"},
-    {"name": "uturn", "label": "U-TURN"},
-    {"name": "go", "label": "GO (start driving)"},
-    {"name": "calibrate", "label": "Calibrate L/R on line (sweep)"},
-    {"name": "read_color", "label": "Read Center Color"},
-    {"name": "read_reflect", "label": "Read L/R Reflect (raw+norm)"},
-    {"name": "reset", "label": "Reset (back to idle)"},
+    {"name": "left", "label": "Turn LEFT", "key": "j"},
+    {"name": "straight", "label": "Go STRAIGHT", "key": "k"},
+    {"name": "right", "label": "Turn RIGHT", "key": "l"},
+    {"name": "uturn", "label": "U-TURN", "key": "u"},
+    {"name": "clear", "label": "Clear queued cmd", "key": "x"},
+    {"name": "go", "label": "GO (start driving)", "key": "t"},
+    {"name": "calibrate", "label": "Calibrate L/R on line (sweep)", "key": "d"},
+    {"name": "read_color", "label": "Read Center Color", "key": "h"},
+    {"name": "read_reflect", "label": "Read L/R Reflect (raw+norm)", "key": "e"},
+    {"name": "reset", "label": "Reset (back to idle)", "key": "z"},
 ]
 
 
@@ -344,6 +350,10 @@ class Runner(object):
             self.log.log("COMMAND", "QUEUED", move=move,
                          replaced=prev if prev is not None else "-")
             return {"queued": action, "move": move}
+        if action == "clear":
+            self.cmd.clear()
+            self.log.log("COMMAND", "CLEARED", source="dashboard")
+            return {"queued": "clear"}
         if action == "go":
             self.go_on = True
             return {"queued": "go"}
@@ -369,7 +379,7 @@ class Runner(object):
             "paused": self.paused,
             "session": self.session,
             "junctions": self.junctions,
-            "queued": self.cmd.peek() or "-",
+            "pending_cmd": self.cmd.peek() or "-",
         }
         frame.update(extra)
         last_reason = self.log.last_reason()
@@ -608,10 +618,13 @@ class Runner(object):
                 if self.interrupted():
                     return
                 if self.paused:
-                    self._hold_while_paused("await_turn")
+                    self._hold_while_paused("await_cmd")
                     continue
                 self.handle_pending()
-                self.publish("await_turn", exits_lsr=exits, context=context)
+                # gg8 과 같은 프레임 규약 — 대시보드 AWAITING COMMAND 배너용.
+                self.publish("await_cmd", await_kind=context,
+                             has_left=has_left, has_straight=has_straight,
+                             has_right=has_right, exits_lsr=exits)
                 move = self.cmd.take()
                 if move is None:
                     time.sleep(AWAIT_POLL_S)
@@ -1001,7 +1014,7 @@ def run():
     server.start()
 
     print("manual_run1 ready — REMOTE JUNCTION CONTROL. dashboard keys: "
-          "[1]left [2]straight [3]right [4]uturn [5]go [6]calibrate. "
+          "[j]left [k]straight [l]right [u]uturn [x]clear [t]go [d]calibrate. "
           "robot line-follows, slows at junctions, and waits for your "
           "direction command. (Ctrl-C or robotctl stop to quit)")
     try:

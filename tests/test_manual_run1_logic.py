@@ -98,6 +98,12 @@ class TestOnDo(unittest.TestCase):
         self.assertEqual(runner._pending, "calibrate")
         self.assertIsNone(runner.cmd.peek())
 
+    def test_clear_action_empties_slot(self):
+        runner = make_runner()
+        runner.on_do("left", {})
+        runner.on_do("clear", {})
+        self.assertIsNone(runner.cmd.peek())
+
 
 class TestActionManifest(unittest.TestCase):
 
@@ -110,6 +116,22 @@ class TestActionManifest(unittest.TestCase):
 
     def test_move_mapping_complete(self):
         self.assertEqual(sorted(MOVE_BY_ACTION.values()), ["L", "R", "S", "U"])
+
+    def test_explicit_hotkeys_gg8_layout(self):
+        # gg8 과 같은 배치(j/k/l/u/x/t) — 조작감 통일. 예약키·중복 금지.
+        keys = dict((a["name"], a.get("key")) for a in ACTIONS)
+        self.assertEqual(keys["left"], "j")
+        self.assertEqual(keys["straight"], "k")
+        self.assertEqual(keys["right"], "l")
+        self.assertEqual(keys["uturn"], "u")
+        self.assertEqual(keys["clear"], "x")
+        self.assertEqual(keys["go"], "t")
+        values = [k for k in keys.values() if k]
+        self.assertEqual(len(values), len(set(values)))   # 중복 없음
+        reserved = {"q", "s", "r", "a", "c", "g", "S", "R", "G", "Q",
+                    " ", ".", "+", "-", "="}               # dashboard RESERVED_KEYS
+        for k in values:
+            self.assertNotIn(k, reserved)
 
 
 class TestPureHelpers(unittest.TestCase):
