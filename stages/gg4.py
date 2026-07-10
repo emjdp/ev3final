@@ -59,7 +59,9 @@ UI 층(gg3 신설 — 판단/주행 로직에 영향 없음, 전부 비동기·b
     떨어지면(가로선 스침 시작) PID 를 끄고 감속 직진으로 자세 유지 —
     bits 확정 전 하강 구간에서 좌우 차이+D 스파이크로 한계 조향이 나와
     차체가 틀어진 채 진입(대각선/위빙)하는 것을 막는다. NODE_GUARD_MAX_MS
-    초과 지속이면 가로선이 아니므로 PID 복귀.
+    초과 지속이면 가로선이 아니므로 PID 복귀. 가드 중 측면 반사광이 노드
+    임계 아래로 깊게 떨어지면 001/100 도 confirm 으로 승격해 중앙 WHITE
+    오분류 진입을 보정한다(2026-07-10T18-38-47 실기 로그 근거).
 
 복귀(판단층은 순수 함수 — PC 단독 테스트 가능):
   - explorer_to_graph: Explorer 트리 지도 → 그래프(adj, mark). DONE 팔 끝
@@ -318,6 +320,16 @@ def node_bits(reflect_l, center_color, reflect_r, snap):
     return (1 if reflect_l < snap["left_th_node"] else 0,
             1 if on_line(center_color) else 0,
             1 if reflect_r < snap["right_th_node"] else 0)
+
+
+def should_escalate(bits, reflect_l, reflect_r, guard_active, snap):
+    """NODE_GUARD 중 측면 deep drop 을 node confirm 으로 승격할지 판단한다."""
+    if not guard_active:
+        return False
+    if bits == LOST_BITS or bits in NODE_CANDIDATES:
+        return False
+    return (reflect_l < snap["left_th_node"] or
+            reflect_r < snap["right_th_node"])
 
 
 def bits_str(bits):
@@ -1385,7 +1397,7 @@ class Runner(object):
             self.grabbed = False
             self.log.log("DROP_HOME", "COLOR_YELLOW")
 
-    def confirm_node(self, first_bits, snap):
+    def confirm_node(self, first_bits, snap, escalated=False):
         """의심지점: PID off → 저속 직진(node_confirm_mm 만큼) → 정지 후 재판정.
         (확정 bits 또는 None, 그동안 전진한 mm) 반환. 마커를 만나면 처리 후 None.
         재판정 위치를 '감지 지점 + node_confirm_mm'로 결정적으로 잡는다 —
@@ -1397,7 +1409,8 @@ class Runner(object):
         self.hw.reset_encoders()
         self.log.log("NODE_CANDIDATE", "PD_OFF_SLOW_STRAIGHT",
                      bits=bits_str(first_bits),
-                     confirm_mm=snap["node_confirm_mm"], speed=CONFIRM_SPEED)
+                     confirm_mm=snap["node_confirm_mm"], speed=CONFIRM_SPEED,
+                     escalated=escalated)
         target_deg = snap["node_confirm_mm"] / MM_PER_DEG
         deadline = time.monotonic() + NODE_CONFIRM_TIMEOUT_S
         self.hw.drive(CONFIRM_SPEED, CONFIRM_SPEED)
@@ -1415,7 +1428,7 @@ class Runner(object):
             bits, color, rl, rr = self.read_bits(snap)
             if self.handle_marker(color, "node_confirm"):
                 return None, 0.0
-            if bits not in NODE_CANDIDATES:
+            if bits not in NODE_CANDIDATES and not escalated:
                 self.hw.stop()
                 creep_mm = self.hw.enc_avg() * MM_PER_DEG
                 if bits == LOST_BITS and first_bits[0] == 1 and first_bits[2] == 1:
@@ -1424,14 +1437,17 @@ class Runner(object):
                     self.log.log("NODE_CONFIRMED", "PASSED_OVER_DURING_CREEP",
                                  first_bits=bits_str(first_bits),
                                  reflect_l=rl, reflect_r=rr, color=color,
-                                 creep_mm=round(creep_mm, 1))
+                                 creep_mm=round(creep_mm, 1),
+                                 escalated=escalated)
                     return first_bits, creep_mm
                 self.log.log("NODE_CANDIDATE", "CANCELLED_DURING_CREEP",
                              first_bits=bits_str(first_bits), bits=bits_str(bits),
-                             reflect_l=rl, reflect_r=rr, color=color)
+                             reflect_l=rl, reflect_r=rr, color=color,
+                             escalated=escalated)
                 return None, creep_mm
             self.publish("node_confirm", bits=bits_str(bits),
-                         reflect_l=rl, reflect_r=rr, color=color)
+                         reflect_l=rl, reflect_r=rr, color=color,
+                         escalated=escalated)
             time.sleep(LOOP_DELAY_S)
 
         timeout = time.monotonic() >= deadline
@@ -1445,18 +1461,21 @@ class Runner(object):
             self.log.log("NODE_CONFIRMED", "SLOW_STRAIGHT_STOP",
                          first_bits=bits_str(first_bits), bits=bits_str(bits),
                          reflect_l=rl, reflect_r=rr, color=color,
-                         creep_mm=round(creep_mm, 1), timeout=timeout)
+                         creep_mm=round(creep_mm, 1), timeout=timeout,
+                         escalated=escalated)
             return bits, creep_mm
         if bits == LOST_BITS and first_bits[0] == 1 and first_bits[2] == 1:
             # 정지 재판정에서 전백 — 위 creep 케이스와 같은 passed-over.
             self.log.log("NODE_CONFIRMED", "PASSED_OVER_AT_STOP",
                          first_bits=bits_str(first_bits),
                          reflect_l=rl, reflect_r=rr, color=color,
-                         creep_mm=round(creep_mm, 1), timeout=timeout)
+                         creep_mm=round(creep_mm, 1), timeout=timeout,
+                         escalated=escalated)
             return first_bits, creep_mm
         self.log.log("NODE_CANDIDATE", "CANCELLED_AT_STOP",
                      first_bits=bits_str(first_bits), bits=bits_str(bits),
-                     reflect_l=rl, reflect_r=rr, color=color, timeout=timeout)
+                     reflect_l=rl, reflect_r=rr, color=color, timeout=timeout,
+                     escalated=escalated)
         return None, creep_mm
 
     def handle_node(self, bits, creep_mm):
@@ -1724,9 +1743,12 @@ class Runner(object):
                     continue
             else:
                 self.lost_since = None
-                if (bits in NODE_CANDIDATES and
+                escalated = should_escalate(
+                    bits, rl, rr, self.guard_since is not None, snap)
+                if ((bits in NODE_CANDIDATES or escalated) and
                         (now - self.last_node_t) * 1000 >= self.node_debounce_ms):
-                    confirmed, creep_mm = self.confirm_node(bits, snap)
+                    confirmed, creep_mm = self.confirm_node(
+                        bits, snap, escalated=escalated)
                     self.last_node_t = time.monotonic()
                     # 취소는 150ms 만 쉰다 — 900ms 감지 블라인드가 분기점을
                     # 타넘는 가짜 데드엔드를 만들기 때문.

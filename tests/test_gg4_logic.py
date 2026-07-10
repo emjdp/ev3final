@@ -36,10 +36,10 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
-from stages.gg4 import (Explorer, PidSteer, node_bits, on_line, shortest_path,
-                        turn_heading, INITIAL_PARAMS, HOME_CURVE_ASSUME_MAX,
-                        COL_BLACK, COL_GREEN, COL_YELLOW, COL_RED, COL_WHITE,
-                        COL_BROWN)
+from stages.gg4 import (Explorer, PidSteer, node_bits, on_line,
+                        should_escalate, shortest_path, turn_heading,
+                        INITIAL_PARAMS, HOME_CURVE_ASSUME_MAX, COL_BLACK,
+                        COL_GREEN, COL_YELLOW, COL_RED, COL_WHITE, COL_BROWN)
 
 # --- 픽스처 1: HTML 미로(화면좌표 y아래 → S=아래) ---------------------------
 
@@ -385,6 +385,28 @@ class NodeBitsCase(unittest.TestCase):
 
     def test_all_white_is_lost(self):
         self.assertEqual(node_bits(80, COL_WHITE, 80, self.snap), (0, 0, 0))
+
+
+class NodeGuardEscalationCase(unittest.TestCase):
+    """NODE_GUARD deep-drop 승격 판단 회귀 테스트."""
+
+    def setUp(self):
+        self.snap = dict(INITIAL_PARAMS)
+
+    def test_right_deep_drop_during_guard_escalates(self):
+        self.assertTrue(should_escalate((0, 0, 1), 72, 10, True, self.snap))
+
+    def test_left_deep_drop_during_guard_escalates(self):
+        self.assertTrue(should_escalate((1, 0, 0), 9, 61, True, self.snap))
+
+    def test_deep_drop_without_guard_does_not_escalate(self):
+        self.assertFalse(should_escalate((0, 0, 1), 72, 10, False, self.snap))
+
+    def test_margin_only_does_not_escalate(self):
+        self.assertFalse(should_escalate((0, 1, 0), 41, 61, True, self.snap))
+
+    def test_lost_bits_does_not_escalate(self):
+        self.assertFalse(should_escalate((0, 0, 0), 73, 36, True, self.snap))
 
 
 class PidSteerCase(unittest.TestCase):
