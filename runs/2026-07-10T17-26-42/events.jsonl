@@ -1,0 +1,2 @@
+{"event": "SESSION_READY", "last_reason": "SESSION_READY", "param_rev": 0, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 8132}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 0, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 14296}
