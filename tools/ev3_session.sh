@@ -72,7 +72,7 @@ Options:
   -t, --terminal NAME        auto, gnome-terminal, konsole, xfce4-terminal,
                              mate-terminal, kitty, alacritty, xterm, tmux 중 하나
       --tmux-session NAME    tmux 세션 이름. 기본: ev3final-<stage>
-      --no-upload            scp 업로드를 건너뛴다
+  -n, --no-upload            scp 업로드를 건너뛴다
       --no-robotctl          robotctl 대기 터미널을 열지 않는다
       --dry-run              실행할 업로드/터미널 명령만 출력한다
       --help                 도움말 출력
@@ -137,7 +137,7 @@ while (($#)); do
       TMUX_SESSION="$2"
       shift 2
       ;;
-    --no-upload)
+    -n|--no-upload)
       UPLOAD="0"
       shift
       ;;

@@ -1,0 +1,39 @@
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 1, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 56012}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 5, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 62646}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 9, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 68826}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 13, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 80460}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 17, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 87096}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 21, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 95244}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 25, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 101895}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 29, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 110528}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 33, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 118394}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 37, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 128084}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 41, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 133790}
+{"event": "CAL_OK", "l_black": 8, "l_white": 78, "last_reason": "CAL_OK", "param_rev": 45, "r_black": 9, "r_white": 79, "reason": "SWEEP_MIN_MAX", "running": true, "save_msg": "/home/robot/ev3final/config/final_run3.json", "saved": true, "t_ms": 138296}
+{"bits": "010", "error": -1.43, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 97.1, "param_rev": 45, "reason": "PID", "reflect_l": 77, "reflect_r": 77, "running": true, "t_ms": 147284, "trim": -0.07, "turn": 0.16}
+{"bits": "000", "error": -2.86, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 95.7, "param_rev": 45, "reason": "PID", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 147638, "trim": -0.1, "turn": -0.47}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.1, "norm_r": 97.1, "param_rev": 45, "reason": "PID", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 148944, "trim": 0.04, "turn": -0.16}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.1, "norm_r": 97.1, "param_rev": 45, "reason": "PID", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 149213, "trim": 0.04, "turn": -0.07}
+{"bits": "010", "error": 1.43, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.1, "norm_r": 98.6, "param_rev": 45, "reason": "PID", "reflect_l": 76, "reflect_r": 78, "running": true, "t_ms": 149533, "trim": 0.05, "turn": 0.34}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 98.6, "param_rev": 45, "reason": "PID", "reflect_l": 77, "reflect_r": 78, "running": true, "t_ms": 151438, "trim": 0.02, "turn": 0.04}
+{"bits": "010", "error": 1.43, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 100.0, "param_rev": 45, "reason": "PID", "reflect_l": 77, "reflect_r": 79, "running": true, "t_ms": 153298, "trim": 0.14, "turn": 0.37}
+{"bits": "010", "error": 0.0, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.1, "norm_r": 97.1, "param_rev": 45, "reason": "PID", "reflect_l": 76, "reflect_r": 77, "running": true, "t_ms": 153555, "trim": 0.14, "turn": 0.1}
+{"bits": "011", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 45, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 154646}
+{"event": "LOST_SUSPECT", "last_reason": "LINE_FOLLOW", "param_rev": 45, "persist_ms": 200, "reason": "PERSIST_STOP_RECHECK", "running": true, "samples": 3, "t_ms": 160929}
+{"event": "LINE_LOST", "last_reason": "LINE_FOLLOW", "param_rev": 45, "reason": "CONFIRMED_ALL_WHITE", "running": true, "samples": 3, "t_ms": 161050}
+{"backup_mm": 100, "event": "LINE_LOST", "last_reason": "LINE_FOLLOW", "param_rev": 45, "reason": "ALL_WHITE_BACKUP", "running": true, "streak": 0, "t_ms": 161056}
+{"deg": 19.0, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 45, "reason": "SCAN_L", "running": true, "t_ms": 161748}
+{"dist_mm": 5.6, "event": "LINE_RECOVER", "last_reason": "LINE_FOLLOW", "param_rev": 45, "reason": "BACKUP_REALIGN_OK", "running": true, "streak": 1, "t_ms": 161749}
+{"bits": "010", "error": -2.86, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 98.6, "norm_r": 95.7, "param_rev": 45, "reason": "PID", "reflect_l": 77, "reflect_r": 76, "running": true, "t_ms": 161822, "trim": 0.01, "turn": 0.01}
+{"bits": "010", "error": -1.43, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.1, "norm_r": 95.7, "param_rev": 45, "reason": "PID", "reflect_l": 76, "reflect_r": 76, "running": true, "t_ms": 162101, "trim": -0.03, "turn": 0.41}
+{"bits": "010", "error": -1.43, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 97.1, "norm_r": 95.7, "param_rev": 45, "reason": "PID", "reflect_l": 76, "reflect_r": 76, "running": true, "t_ms": 162376, "trim": -0.05, "turn": 0.04}
+{"bits": "100", "error": 85.71, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 1.4, "norm_r": 87.1, "param_rev": 45, "reason": "PID", "reflect_l": 9, "reflect_r": 70, "running": true, "t_ms": 163017, "trim": -0.22, "turn": 16}
+{"bits": "110", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 45, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 163194}
+{"enc_avg": 129.5, "error_deg": 2.1, "event": "TURN", "last_reason": "LINE_FOLLOW", "param_rev": 45, "reason": "TURN_RIGHT", "running": true, "stopped_early": false, "t_ms": 166506, "target_deg": 127.4}
+{"color": 6, "event": "TURN_ACQUIRE", "last_reason": "LINE_FOLLOW", "move": "R", "param_rev": 45, "reason": "CENTER_OFF_LINE_AFTER_TURN", "running": true, "t_ms": 166515}
+{"deg": 50.0, "event": "REALIGN", "last_reason": "LINE_FOLLOW", "param_rev": 45, "reason": "SCAN_L", "running": true, "t_ms": 167555}
+{"bits": "010", "error": -4.29, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 94.3, "norm_r": 90.0, "param_rev": 45, "reason": "PID", "reflect_l": 74, "reflect_r": 72, "running": true, "t_ms": 167600, "trim": -0.01, "turn": -0.23}
+{"bits": "010", "error": -4.29, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 94.3, "norm_r": 90.0, "param_rev": 45, "reason": "PID", "reflect_l": 74, "reflect_r": 72, "running": true, "t_ms": 167918, "trim": -0.08, "turn": -0.43}
+{"bits": "000", "error": 8.57, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 81.4, "norm_r": 90.0, "param_rev": 45, "reason": "PID", "reflect_l": 65, "reflect_r": 72, "running": true, "t_ms": 168192, "trim": -0.1, "turn": 4.48}
+{"bits": "000", "error": 4.29, "event": "LINE_FOLLOW", "last_reason": "LINE_FOLLOW", "norm_l": 88.6, "norm_r": 92.9, "param_rev": 45, "reason": "PID", "reflect_l": 70, "reflect_r": 74, "running": true, "t_ms": 168465, "trim": -0.08, "turn": -1.56}
+{"bits": "111", "confirm_ms": 40, "event": "NODE_CANDIDATE", "last_reason": "NODE_CANDIDATE", "param_rev": 45, "reason": "PD_OFF_SLOW_STRAIGHT", "running": true, "speed": 7, "t_ms": 171274}

@@ -1,0 +1,52 @@
+{"event": "AUDIO_DIAG", "last_reason": "CAL_COLOR_NEXT", "param_rev": 0, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 10249}
+{"event": "SESSION_READY", "last_reason": "CAL_COLOR_NEXT", "param_rev": 0, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 10283}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 0, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 10294}
+{"event": "AUDIO_DIAG", "last_reason": "CAL_START", "param_rev": 0, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 10249}
+{"event": "SESSION_READY", "last_reason": "CAL_START", "param_rev": 0, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 10283}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_START", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 0, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 10294}
+{"action": "calibrate", "event": "DO_DEQUEUE", "last_reason": "CAL_START", "param_rev": 0, "reason": "PENDING_ACTION", "running": true, "t_ms": 23754}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_START", "param_rev": 0, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 23999}
+{"event": "AUDIO_DIAG", "last_reason": "CAL_OK", "param_rev": 6, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 10249}
+{"event": "SESSION_READY", "last_reason": "CAL_OK", "param_rev": 6, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 10283}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_OK", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 6, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 10294}
+{"action": "calibrate", "event": "DO_DEQUEUE", "last_reason": "CAL_OK", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 23754}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "CAL_OK", "param_rev": 6, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 23999}
+{"c_black": 12, "c_white": 100, "event": "CAL_OK", "l_black": 8, "l_white": 80, "last_reason": "CAL_OK", "param_rev": 6, "r_black": 9, "r_white": 78, "reason": "SWEEP_MIN_MAX", "running": true, "save_msg": "/home/robot/ev3final/config/ffrun1.json", "saved": true, "t_ms": 30138}
+{"event": "AUDIO_DIAG", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 10249}
+{"event": "SESSION_READY", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 10283}
+{"event": "CAL_COLOR_NEXT", "last_reason": "COLOR_READ", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 6, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 10294}
+{"action": "calibrate", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 23754}
+{"event": "CAL_START", "half_deg": 60, "last_reason": "COLOR_READ", "param_rev": 6, "reason": "DO_TRIGGER", "running": true, "speed": 6, "t_ms": 23999}
+{"c_black": 12, "c_white": 100, "event": "CAL_OK", "l_black": 8, "l_white": 80, "last_reason": "COLOR_READ", "param_rev": 6, "r_black": 9, "r_white": 78, "reason": "SWEEP_MIN_MAX", "running": true, "save_msg": "/home/robot/ev3final/config/ffrun1.json", "saved": true, "t_ms": 30138}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 48300}
+{"b": 154, "bright": 99.7, "color": 3, "event": "COLOR_READ", "g": 248, "last_reason": "COLOR_READ", "name": "green", "norm_c": 99.6, "param_rev": 6, "r": 196, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 48899}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 93642}
+{"b": 10, "bright": 13.5, "color": 1, "event": "COLOR_READ", "g": 45, "last_reason": "COLOR_READ", "name": "black", "norm_c": 1.7, "param_rev": 6, "r": 26, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 93951}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 107056}
+{"b": 8, "bright": 47.2, "color": 5, "event": "COLOR_READ", "g": 65, "last_reason": "COLOR_READ", "name": "red", "norm_c": 40.0, "param_rev": 6, "r": 210, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 107304}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 122085}
+{"b": 9, "bright": 23.2, "color": 1, "event": "COLOR_READ", "g": 100, "last_reason": "COLOR_READ", "name": "black", "norm_c": 12.7, "param_rev": 6, "r": 30, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 122430}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 136729}
+{"b": 16, "bright": 86.0, "color": 3, "event": "COLOR_READ", "g": 281, "last_reason": "COLOR_READ", "name": "green", "norm_c": 84.1, "param_rev": 6, "r": 219, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 137151}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 139405}
+{"b": 15, "bright": 85.8, "color": 3, "event": "COLOR_READ", "g": 281, "last_reason": "COLOR_READ", "name": "green", "norm_c": 83.9, "param_rev": 6, "r": 219, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 139766}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 142740}
+{"b": 16, "bright": 85.8, "color": 3, "event": "COLOR_READ", "g": 280, "last_reason": "COLOR_READ", "name": "green", "norm_c": 83.9, "param_rev": 6, "r": 219, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 143069}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 148514}
+{"b": 163, "bright": 106.0, "color": 3, "event": "COLOR_READ", "g": 266, "last_reason": "COLOR_READ", "name": "green", "norm_c": 100.0, "param_rev": 6, "r": 207, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 149044}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 149244}
+{"b": 162, "bright": 105.8, "color": 3, "event": "COLOR_READ", "g": 266, "last_reason": "COLOR_READ", "name": "green", "norm_c": 100.0, "param_rev": 6, "r": 207, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 149530}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 150280}
+{"b": 163, "bright": 106.0, "color": 3, "event": "COLOR_READ", "g": 266, "last_reason": "COLOR_READ", "name": "green", "norm_c": 100.0, "param_rev": 6, "r": 207, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 150636}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 150762}
+{"b": 163, "bright": 106.0, "color": 3, "event": "COLOR_READ", "g": 266, "last_reason": "COLOR_READ", "name": "green", "norm_c": 100.0, "param_rev": 6, "r": 207, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 150992}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 151264}
+{"b": 163, "bright": 106.0, "color": 3, "event": "COLOR_READ", "g": 266, "last_reason": "COLOR_READ", "name": "green", "norm_c": 100.0, "param_rev": 6, "r": 207, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 151607}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 151833}
+{"b": 163, "bright": 105.8, "color": 3, "event": "COLOR_READ", "g": 265, "last_reason": "COLOR_READ", "name": "green", "norm_c": 100.0, "param_rev": 6, "r": 207, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 152219}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 154604}
+{"b": 11, "bright": 16.0, "color": 1, "event": "COLOR_READ", "g": 54, "last_reason": "COLOR_READ", "name": "black", "norm_c": 4.5, "param_rev": 6, "r": 31, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 155024}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 156360}
+{"b": 11, "bright": 16.2, "color": 1, "event": "COLOR_READ", "g": 54, "last_reason": "COLOR_READ", "name": "black", "norm_c": 4.7, "param_rev": 6, "r": 32, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 156770}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 6, "reason": "PENDING_ACTION", "running": true, "t_ms": 157390}
+{"b": 11, "bright": 16.2, "color": 1, "event": "COLOR_READ", "g": 54, "last_reason": "COLOR_READ", "name": "black", "norm_c": 4.7, "param_rev": 6, "r": 32, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 157798}

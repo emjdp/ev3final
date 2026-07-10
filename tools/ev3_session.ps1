@@ -19,6 +19,7 @@
     ev3sess final_run8
     ev3sess final_run7 -Port 8765
     ev3sess -RobotHost robot@192.168.137.3 final_run8
+    ev3sess -n final_run8
     ev3sess -NoUpload final_run8
     ev3sess -DryRun final_run8    # 실제 실행 없이 명령만 출력
 #>
@@ -33,6 +34,7 @@ param(
   [int]$Port = 8765,
   [int]$LocalPort = 0,
   [int]$RemotePort = 0,
+  [Alias("n")]
   [switch]$NoUpload,
   [switch]$NoRobotctl,
   [switch]$DryRun

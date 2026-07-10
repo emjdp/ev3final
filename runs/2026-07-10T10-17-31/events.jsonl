@@ -1,0 +1,60 @@
+{"event": "AUDIO_DIAG", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 18681}
+{"event": "SESSION_READY", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 18707}
+{"event": "CAL_COLOR_NEXT", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 18712}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 28100}
+{"event": "AUDIO_DIAG", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 18681}
+{"event": "SESSION_READY", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 18707}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 18712}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 28100}
+{"b": 150, "event": "CAL_COLOR_OK", "g": 235, "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "place": "WHITE", "r": 190, "reason": "SAMPLED", "running": true, "step": "1/5", "sum": 575, "t_ms": 28711}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_BLACK_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLACK", "reason": "PLACE_AND_PRESS", "running": true, "step": "2/5", "t_ms": 28735}
+{"b": 150, "event": "CAL_COLOR_OK", "g": 235, "last_reason": "DO_DEQUEUE", "param_rev": 1, "place": "WHITE", "r": 190, "reason": "SAMPLED", "running": true, "step": "1/5", "sum": 575, "t_ms": 28711}
+{"event": "CAL_COLOR_NEXT", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_BLACK_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLACK", "reason": "PLACE_AND_PRESS", "running": true, "step": "2/5", "t_ms": 28735}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 53926}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 53926}
+{"b": 9, "bright": 15.5, "event": "CAL_COLOR_OK", "g": 51, "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "place": "BLACK", "r": 29, "reason": "SAMPLED", "running": true, "step": "2/5", "sum": 89, "t_ms": 54409}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_RED_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "RED", "reason": "PLACE_AND_PRESS", "running": true, "step": "3/5", "t_ms": 54414}
+{"b": 9, "bright": 15.5, "event": "CAL_COLOR_OK", "g": 51, "last_reason": "DO_DEQUEUE", "param_rev": 1, "place": "BLACK", "r": 29, "reason": "SAMPLED", "running": true, "step": "2/5", "sum": 89, "t_ms": 54409}
+{"event": "CAL_COLOR_NEXT", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_RED_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "RED", "reason": "PLACE_AND_PRESS", "running": true, "step": "3/5", "t_ms": 54414}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 76697}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 76697}
+{"b": 8, "bright": 48.9, "dom": 3.14, "event": "CAL_COLOR_OK", "g": 66, "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "place": "RED", "r": 207, "reason": "SAMPLED", "running": true, "step": "3/5", "sum": 281, "t_ms": 77094}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_GREEN_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "GREEN", "reason": "PLACE_AND_PRESS", "running": true, "step": "4/5", "t_ms": 77097}
+{"b": 8, "bright": 48.9, "dom": 3.14, "event": "CAL_COLOR_OK", "g": 66, "last_reason": "DO_DEQUEUE", "param_rev": 1, "place": "RED", "r": 207, "reason": "SAMPLED", "running": true, "step": "3/5", "sum": 281, "t_ms": 77094}
+{"event": "CAL_COLOR_NEXT", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_GREEN_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "GREEN", "reason": "PLACE_AND_PRESS", "running": true, "step": "4/5", "t_ms": 77097}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 97140}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 97140}
+{"b": 10, "bright": 28.0, "dom": 3.58, "event": "CAL_COLOR_OK", "g": 118, "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "place": "GREEN", "r": 33, "reason": "SAMPLED", "running": true, "step": "4/5", "sum": 161, "t_ms": 97714}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_YELLOW_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "YELLOW", "reason": "PLACE_AND_PRESS", "running": true, "step": "5/5", "t_ms": 97728}
+{"b": 10, "bright": 28.0, "dom": 3.58, "event": "CAL_COLOR_OK", "g": 118, "last_reason": "DO_DEQUEUE", "param_rev": 1, "place": "GREEN", "r": 33, "reason": "SAMPLED", "running": true, "step": "4/5", "sum": 161, "t_ms": 97714}
+{"event": "CAL_COLOR_NEXT", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_YELLOW_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "YELLOW", "reason": "PLACE_AND_PRESS", "running": true, "step": "5/5", "t_ms": 97728}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 113561}
+{"event": "AUDIO_DIAG", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 18681}
+{"event": "SESSION_READY", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 18707}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 18712}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 28100}
+{"b": 150, "event": "CAL_COLOR_OK", "g": 235, "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "place": "WHITE", "r": 190, "reason": "SAMPLED", "running": true, "step": "1/5", "sum": 575, "t_ms": 28711}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_BLACK_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLACK", "reason": "PLACE_AND_PRESS", "running": true, "step": "2/5", "t_ms": 28735}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 53926}
+{"b": 9, "bright": 15.5, "event": "CAL_COLOR_OK", "g": 51, "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "place": "BLACK", "r": 29, "reason": "SAMPLED", "running": true, "step": "2/5", "sum": 89, "t_ms": 54409}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_RED_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "RED", "reason": "PLACE_AND_PRESS", "running": true, "step": "3/5", "t_ms": 54414}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 76697}
+{"b": 8, "bright": 48.9, "dom": 3.14, "event": "CAL_COLOR_OK", "g": 66, "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "place": "RED", "r": 207, "reason": "SAMPLED", "running": true, "step": "3/5", "sum": 281, "t_ms": 77094}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_GREEN_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "GREEN", "reason": "PLACE_AND_PRESS", "running": true, "step": "4/5", "t_ms": 77097}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 97140}
+{"b": 10, "bright": 28.0, "dom": 3.58, "event": "CAL_COLOR_OK", "g": 118, "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "place": "GREEN", "r": 33, "reason": "SAMPLED", "running": true, "step": "4/5", "sum": 161, "t_ms": 97714}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_YELLOW_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "YELLOW", "reason": "PLACE_AND_PRESS", "running": true, "step": "5/5", "t_ms": 97728}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 113561}
+{"b": 16, "bright": 89.2, "dom": 13.81, "event": "CAL_COLOR_FAIL", "g": 276, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_YELLOW_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "YELLOW", "r": 221, "reason": "LOOKS_GREEN", "running": true, "sum": 513, "t_ms": 113995}
+{"b": 16, "bright": 89.2, "dom": 13.81, "event": "CAL_COLOR_FAIL", "g": 276, "last_reason": "DO_DEQUEUE", "msg": "STILL_WAITING_YELLOW_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "YELLOW", "r": 221, "reason": "LOOKS_GREEN", "running": true, "sum": 513, "t_ms": 113995}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 119926}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 119926}
+{"b": 16, "bright": 90.6, "dom": 14.0, "event": "CAL_COLOR_FAIL", "g": 281, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_YELLOW_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "YELLOW", "r": 224, "reason": "LOOKS_GREEN", "running": true, "sum": 521, "t_ms": 120716}
+{"b": 16, "bright": 90.6, "dom": 14.0, "event": "CAL_COLOR_FAIL", "g": 281, "last_reason": "DO_DEQUEUE", "msg": "STILL_WAITING_YELLOW_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "YELLOW", "r": 224, "reason": "LOOKS_GREEN", "running": true, "sum": 521, "t_ms": 120716}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 129359}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 129359}
+{"b": 16, "bright": 89.0, "dom": 13.62, "event": "CAL_COLOR_FAIL", "g": 278, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_YELLOW_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "YELLOW", "r": 218, "reason": "LOOKS_GREEN", "running": true, "sum": 512, "t_ms": 129816}
+{"b": 16, "bright": 89.0, "dom": 13.62, "event": "CAL_COLOR_FAIL", "g": 278, "last_reason": "DO_DEQUEUE", "msg": "STILL_WAITING_YELLOW_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "YELLOW", "r": 218, "reason": "LOOKS_GREEN", "running": true, "sum": 512, "t_ms": 129816}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 132330}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 132330}
+{"b": 16, "bright": 88.9, "dom": 13.56, "event": "CAL_COLOR_FAIL", "g": 278, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_YELLOW_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "YELLOW", "r": 217, "reason": "LOOKS_GREEN", "running": true, "sum": 511, "t_ms": 132977}

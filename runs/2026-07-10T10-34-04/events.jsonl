@@ -1,0 +1,161 @@
+{"event": "AUDIO_DIAG", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 31421}
+{"event": "SESSION_READY", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 31451}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 31461}
+{"event": "AUDIO_DIAG", "last_reason": "CAL_COLOR", "param_rev": 1, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 31421}
+{"event": "SESSION_READY", "last_reason": "CAL_COLOR", "param_rev": 1, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 31451}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 31461}
+{"action": "cal_color_restart", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 55260}
+{"event": "CAL_COLOR", "last_reason": "CAL_COLOR", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "next": "WHITE", "param_rev": 1, "reason": "RESTART", "running": true, "step": "1/5", "t_ms": 55295}
+{"event": "AUDIO_DIAG", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 31421}
+{"event": "SESSION_READY", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 31451}
+{"event": "CAL_COLOR_NEXT", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 31461}
+{"action": "cal_color_restart", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 55260}
+{"event": "CAL_COLOR", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "next": "WHITE", "param_rev": 1, "reason": "RESTART", "running": true, "step": "1/5", "t_ms": 55295}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 63375}
+{"action": "cal_color_restart", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 55260}
+{"event": "CAL_COLOR", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "next": "WHITE", "param_rev": 1, "reason": "RESTART", "running": true, "step": "1/5", "t_ms": 55295}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 63375}
+{"b": 156, "event": "CAL_COLOR_OK", "g": 250, "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "place": "WHITE", "r": 199, "reason": "SAMPLED", "running": true, "step": "1/5", "sum": 605, "t_ms": 63882}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_BLACK_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLACK", "reason": "PLACE_AND_PRESS", "running": true, "step": "2/5", "t_ms": 63888}
+{"b": 156, "event": "CAL_COLOR_OK", "g": 250, "last_reason": "DO_DEQUEUE", "param_rev": 1, "place": "WHITE", "r": 199, "reason": "SAMPLED", "running": true, "step": "1/5", "sum": 605, "t_ms": 63882}
+{"event": "CAL_COLOR_NEXT", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_BLACK_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLACK", "reason": "PLACE_AND_PRESS", "running": true, "step": "2/5", "t_ms": 63888}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 76730}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 76730}
+{"b": 10, "bright": 12.7, "event": "CAL_COLOR_OK", "g": 42, "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "place": "BLACK", "r": 25, "reason": "SAMPLED", "running": true, "step": "2/5", "sum": 77, "t_ms": 77039}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_RED_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "RED", "reason": "PLACE_AND_PRESS", "running": true, "step": "3/5", "t_ms": 77041}
+{"b": 10, "bright": 12.7, "event": "CAL_COLOR_OK", "g": 42, "last_reason": "DO_DEQUEUE", "param_rev": 1, "place": "BLACK", "r": 25, "reason": "SAMPLED", "running": true, "step": "2/5", "sum": 77, "t_ms": 77039}
+{"event": "CAL_COLOR_NEXT", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_RED_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "RED", "reason": "PLACE_AND_PRESS", "running": true, "step": "3/5", "t_ms": 77041}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 89794}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 89794}
+{"b": 7, "bright": 44.1, "dom": 3.06, "event": "CAL_COLOR_OK", "g": 64, "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "place": "RED", "r": 196, "reason": "SAMPLED", "running": true, "step": "3/5", "sum": 267, "t_ms": 90300}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_GREEN_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "GREEN", "reason": "PLACE_AND_PRESS", "running": true, "step": "4/5", "t_ms": 90315}
+{"b": 7, "bright": 44.1, "dom": 3.06, "event": "CAL_COLOR_OK", "g": 64, "last_reason": "DO_DEQUEUE", "param_rev": 1, "place": "RED", "r": 196, "reason": "SAMPLED", "running": true, "step": "3/5", "sum": 267, "t_ms": 90300}
+{"event": "CAL_COLOR_NEXT", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_GREEN_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "GREEN", "reason": "PLACE_AND_PRESS", "running": true, "step": "4/5", "t_ms": 90315}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 102425}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 102425}
+{"b": 10, "bright": 23.8, "dom": 3.19, "event": "CAL_COLOR_OK", "g": 102, "last_reason": "CAL_COLOR_NEXT", "param_rev": 1, "place": "GREEN", "r": 32, "reason": "SAMPLED", "running": true, "step": "4/5", "sum": 144, "t_ms": 102999}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_NEXT", "msg": "PUT_CENTER_ON_BLUE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLUE", "reason": "PLACE_AND_PRESS", "running": true, "step": "5/5", "t_ms": 103004}
+{"b": 10, "bright": 23.8, "dom": 3.19, "event": "CAL_COLOR_OK", "g": 102, "last_reason": "DO_DEQUEUE", "param_rev": 1, "place": "GREEN", "r": 32, "reason": "SAMPLED", "running": true, "step": "4/5", "sum": 144, "t_ms": 102999}
+{"event": "CAL_COLOR_NEXT", "last_reason": "DO_DEQUEUE", "msg": "PUT_CENTER_ON_BLUE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLUE", "reason": "PLACE_AND_PRESS", "running": true, "step": "5/5", "t_ms": 103004}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 113486}
+{"event": "AUDIO_DIAG", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "AUDIO_DISABLED", "running": true, "t_ms": 31421}
+{"event": "SESSION_READY", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "STARTUP", "running": true, "session": 1, "t_ms": 31451}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "WHITE", "reason": "PLACE_AND_PRESS", "running": true, "step": "1/5", "t_ms": 31461}
+{"action": "cal_color_restart", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 55260}
+{"event": "CAL_COLOR", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_WHITE_THEN_PRESS_CAL_COLOR", "next": "WHITE", "param_rev": 1, "reason": "RESTART", "running": true, "step": "1/5", "t_ms": 55295}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 63375}
+{"b": 156, "event": "CAL_COLOR_OK", "g": 250, "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "place": "WHITE", "r": 199, "reason": "SAMPLED", "running": true, "step": "1/5", "sum": 605, "t_ms": 63882}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_BLACK_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLACK", "reason": "PLACE_AND_PRESS", "running": true, "step": "2/5", "t_ms": 63888}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 76730}
+{"b": 10, "bright": 12.7, "event": "CAL_COLOR_OK", "g": 42, "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "place": "BLACK", "r": 25, "reason": "SAMPLED", "running": true, "step": "2/5", "sum": 77, "t_ms": 77039}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_RED_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "RED", "reason": "PLACE_AND_PRESS", "running": true, "step": "3/5", "t_ms": 77041}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 89794}
+{"b": 7, "bright": 44.1, "dom": 3.06, "event": "CAL_COLOR_OK", "g": 64, "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "place": "RED", "r": 196, "reason": "SAMPLED", "running": true, "step": "3/5", "sum": 267, "t_ms": 90300}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_GREEN_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "GREEN", "reason": "PLACE_AND_PRESS", "running": true, "step": "4/5", "t_ms": 90315}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 102425}
+{"b": 10, "bright": 23.8, "dom": 3.19, "event": "CAL_COLOR_OK", "g": 102, "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "place": "GREEN", "r": 32, "reason": "SAMPLED", "running": true, "step": "4/5", "sum": 144, "t_ms": 102999}
+{"event": "CAL_COLOR_NEXT", "last_reason": "CAL_COLOR_FAIL", "msg": "PUT_CENTER_ON_BLUE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLUE", "reason": "PLACE_AND_PRESS", "running": true, "step": "5/5", "t_ms": 103004}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 113486}
+{"b": 117, "bright": 49.6, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 144, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 39, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 300, "t_ms": 113909}
+{"b": 117, "bright": 49.6, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 144, "last_reason": "DO_DEQUEUE", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 39, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 300, "t_ms": 113909}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 118360}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 118360}
+{"b": 118, "bright": 50.2, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 304, "t_ms": 118733}
+{"b": 118, "bright": 50.2, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "DO_DEQUEUE", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 304, "t_ms": 118733}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 124635}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 124635}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 125309}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "DO_DEQUEUE", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 125309}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 126088}
+{"b": 118, "bright": 50.2, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "DO_DEQUEUE", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 304, "t_ms": 126766}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 126897}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "DO_DEQUEUE", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 127969}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 128092}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 126088}
+{"b": 118, "bright": 50.2, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 304, "t_ms": 126766}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 126897}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 127969}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 128092}
+{"b": 118, "bright": 50.2, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 304, "t_ms": 129130}
+{"b": 118, "bright": 50.2, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "DO_DEQUEUE", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 304, "t_ms": 129130}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 129301}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "DO_DEQUEUE", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 130367}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "DO_DEQUEUE", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 130590}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 129301}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 130367}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "CAL_COLOR_FAIL", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 130590}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "CAL_COLOR_FAIL", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 131166}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 63375}
+{"b": 156, "event": "CAL_COLOR_OK", "g": 250, "last_reason": "COLOR_READ", "param_rev": 1, "place": "WHITE", "r": 199, "reason": "SAMPLED", "running": true, "step": "1/5", "sum": 605, "t_ms": 63882}
+{"event": "CAL_COLOR_NEXT", "last_reason": "COLOR_READ", "msg": "PUT_CENTER_ON_BLACK_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLACK", "reason": "PLACE_AND_PRESS", "running": true, "step": "2/5", "t_ms": 63888}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 76730}
+{"b": 10, "bright": 12.7, "event": "CAL_COLOR_OK", "g": 42, "last_reason": "COLOR_READ", "param_rev": 1, "place": "BLACK", "r": 25, "reason": "SAMPLED", "running": true, "step": "2/5", "sum": 77, "t_ms": 77039}
+{"event": "CAL_COLOR_NEXT", "last_reason": "COLOR_READ", "msg": "PUT_CENTER_ON_RED_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "RED", "reason": "PLACE_AND_PRESS", "running": true, "step": "3/5", "t_ms": 77041}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 89794}
+{"b": 7, "bright": 44.1, "dom": 3.06, "event": "CAL_COLOR_OK", "g": 64, "last_reason": "COLOR_READ", "param_rev": 1, "place": "RED", "r": 196, "reason": "SAMPLED", "running": true, "step": "3/5", "sum": 267, "t_ms": 90300}
+{"event": "CAL_COLOR_NEXT", "last_reason": "COLOR_READ", "msg": "PUT_CENTER_ON_GREEN_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "GREEN", "reason": "PLACE_AND_PRESS", "running": true, "step": "4/5", "t_ms": 90315}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 102425}
+{"b": 10, "bright": 23.8, "dom": 3.19, "event": "CAL_COLOR_OK", "g": 102, "last_reason": "COLOR_READ", "param_rev": 1, "place": "GREEN", "r": 32, "reason": "SAMPLED", "running": true, "step": "4/5", "sum": 144, "t_ms": 102999}
+{"event": "CAL_COLOR_NEXT", "last_reason": "COLOR_READ", "msg": "PUT_CENTER_ON_BLUE_THEN_PRESS_CAL_COLOR", "param_rev": 1, "place": "BLUE", "reason": "PLACE_AND_PRESS", "running": true, "step": "5/5", "t_ms": 103004}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 113486}
+{"b": 117, "bright": 49.6, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 144, "last_reason": "COLOR_READ", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 39, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 300, "t_ms": 113909}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 118360}
+{"b": 118, "bright": 50.2, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "COLOR_READ", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 304, "t_ms": 118733}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 124635}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "COLOR_READ", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 125309}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 126088}
+{"b": 118, "bright": 50.2, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "COLOR_READ", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 304, "t_ms": 126766}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 126897}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "COLOR_READ", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 127969}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 128092}
+{"b": 118, "bright": 50.2, "dom": 0.81, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "COLOR_READ", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 304, "t_ms": 129130}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 129301}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "COLOR_READ", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 130367}
+{"action": "cal_color", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 130590}
+{"b": 119, "bright": 50.4, "dom": 0.82, "event": "CAL_COLOR_FAIL", "g": 146, "last_reason": "COLOR_READ", "msg": "STILL_WAITING_BLUE_FIX_POSITION_AND_PRESS_AGAIN", "param_rev": 1, "place": "BLUE", "r": 40, "reason": "NOT_BLUE_ENOUGH", "running": true, "sum": 305, "t_ms": 131166}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 213740}
+{"b": 118, "bright": 50.5, "color": 0, "event": "COLOR_READ", "g": 145, "last_reason": "COLOR_READ", "name": "none", "norm_c": 43.8, "param_rev": 1, "r": 40, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 214033}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 216295}
+{"b": 118, "bright": 50.7, "color": 0, "event": "COLOR_READ", "g": 146, "last_reason": "COLOR_READ", "name": "none", "norm_c": 43.9, "param_rev": 1, "r": 40, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 216609}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 217134}
+{"b": 118, "bright": 50.5, "color": 0, "event": "COLOR_READ", "g": 145, "last_reason": "COLOR_READ", "name": "none", "norm_c": 43.8, "param_rev": 1, "r": 40, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 217614}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 217889}
+{"b": 118, "bright": 50.5, "color": 0, "event": "COLOR_READ", "g": 145, "last_reason": "COLOR_READ", "name": "none", "norm_c": 43.8, "param_rev": 1, "r": 40, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 218146}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 218481}
+{"b": 118, "bright": 50.5, "color": 0, "event": "COLOR_READ", "g": 145, "last_reason": "COLOR_READ", "name": "none", "norm_c": 43.8, "param_rev": 1, "r": 40, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 218964}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 219221}
+{"b": 118, "bright": 50.5, "color": 0, "event": "COLOR_READ", "g": 145, "last_reason": "COLOR_READ", "name": "none", "norm_c": 43.8, "param_rev": 1, "r": 40, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 219841}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 220175}
+{"b": 118, "bright": 50.5, "color": 0, "event": "COLOR_READ", "g": 145, "last_reason": "COLOR_READ", "name": "none", "norm_c": 43.8, "param_rev": 1, "r": 40, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 220739}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 220935}
+{"b": 118, "bright": 50.5, "color": 0, "event": "COLOR_READ", "g": 145, "last_reason": "COLOR_READ", "name": "none", "norm_c": 43.8, "param_rev": 1, "r": 40, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 221375}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 231729}
+{"b": 153, "bright": 95.3, "color": 6, "event": "COLOR_READ", "g": 230, "last_reason": "COLOR_READ", "name": "white", "norm_c": 94.7, "param_rev": 1, "r": 189, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 232071}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 238074}
+{"b": 10, "bright": 10.0, "color": 1, "event": "COLOR_READ", "g": 31, "last_reason": "COLOR_READ", "name": "black", "norm_c": 0.0, "param_rev": 1, "r": 19, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 238313}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 243548}
+{"b": 67, "bright": 50.2, "color": 0, "event": "COLOR_READ", "g": 127, "last_reason": "COLOR_READ", "name": "none", "norm_c": 43.4, "param_rev": 1, "r": 107, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 243941}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 250406}
+{"b": 136, "bright": 87.0, "color": 6, "event": "COLOR_READ", "g": 212, "last_reason": "COLOR_READ", "name": "white", "norm_c": 85.2, "param_rev": 1, "r": 174, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 250788}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 261731}
+{"b": 39, "bright": 35.5, "color": 3, "event": "COLOR_READ", "g": 97, "last_reason": "COLOR_READ", "name": "green", "norm_c": 26.7, "param_rev": 1, "r": 77, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 262084}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 301886}
+{"b": 149, "bright": 94.7, "color": 6, "event": "COLOR_READ", "g": 231, "last_reason": "COLOR_READ", "name": "white", "norm_c": 93.9, "param_rev": 1, "r": 188, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 302518}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 302851}
+{"b": 149, "bright": 94.8, "color": 6, "event": "COLOR_READ", "g": 232, "last_reason": "COLOR_READ", "name": "white", "norm_c": 94.1, "param_rev": 1, "r": 188, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 303275}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 306759}
+{"b": 10, "bright": 9.8, "color": 1, "event": "COLOR_READ", "g": 30, "last_reason": "COLOR_READ", "name": "black", "norm_c": 0.0, "param_rev": 1, "r": 19, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 307141}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 313696}
+{"b": 143, "bright": 89.8, "color": 6, "event": "COLOR_READ", "g": 216, "last_reason": "COLOR_READ", "name": "white", "norm_c": 88.4, "param_rev": 1, "r": 180, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 314132}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 319866}
+{"b": 10, "bright": 11.5, "color": 1, "event": "COLOR_READ", "g": 36, "last_reason": "COLOR_READ", "name": "black", "norm_c": 0.0, "param_rev": 1, "r": 23, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 320641}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 328347}
+{"b": 89, "bright": 62.3, "color": 6, "event": "COLOR_READ", "g": 156, "last_reason": "COLOR_READ", "name": "white", "norm_c": 57.2, "param_rev": 1, "r": 129, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 328713}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 335770}
+{"b": 145, "bright": 91.7, "color": 6, "event": "COLOR_READ", "g": 223, "last_reason": "COLOR_READ", "name": "white", "norm_c": 90.5, "param_rev": 1, "r": 182, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 336147}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 343328}
+{"b": 17, "bright": 17.3, "color": 1, "event": "COLOR_READ", "g": 50, "last_reason": "COLOR_READ", "name": "black", "norm_c": 6.1, "param_rev": 1, "r": 37, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 343577}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 623409}
+{"b": 123, "bright": 52.5, "color": 0, "event": "COLOR_READ", "g": 152, "last_reason": "COLOR_READ", "name": "none", "norm_c": 46.0, "param_rev": 1, "r": 40, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 623829}
+{"action": "read_rgb", "event": "DO_DEQUEUE", "last_reason": "COLOR_READ", "param_rev": 1, "reason": "PENDING_ACTION", "running": true, "t_ms": 625765}
+{"b": 123, "bright": 52.5, "color": 0, "event": "COLOR_READ", "g": 152, "last_reason": "COLOR_READ", "name": "none", "norm_c": 46.0, "param_rev": 1, "r": 40, "reason": "DO_TRIGGER", "running": true, "samples": 5, "t_ms": 626230}

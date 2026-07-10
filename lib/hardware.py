@@ -113,6 +113,7 @@ class Ev3Hardware(object):
         self._audio_queue = []
         self._audio_cv = threading.Condition()
         self._audio_thread = None
+        self._audio_volume_ready = False
         # final_run4: LCD 를 백그라운드 갱신 스레드와 이벤트 핸들러가 함께 그리므로
         # PIL 이미지 동시 접근을 직렬화한다.
         self._display_lock = threading.Lock()
@@ -455,10 +456,23 @@ class Ev3Hardware(object):
     def _play_wav_direct(self, path):
         """Play wav through aplay without ev3dev2.Sound.set_volume().
 
-        On this EV3, `amixer set PCM 100%` can collapse the PCM mixer value.
-        aplay preserves the operator-set mixer volume from alsamixer.
+        On this EV3 the PCM mixer can be left at 0%, which makes aplay
+        succeed silently. Restore max wav volume before the first clip.
         """
+        self._ensure_wav_volume()
         subprocess.call(("/usr/bin/aplay", "-q", path))
+
+    def _ensure_wav_volume(self):
+        if self._audio_volume_ready:
+            return
+        try:
+            with open(os.devnull, "w") as devnull:
+                subprocess.call(("/usr/bin/amixer", "cset", "numid=2", "256"),
+                                stdout=devnull, stderr=devnull)
+        except Exception as exc:
+            self._audio_error = repr(exc)
+            self._audio_fail_count += 1
+        self._audio_volume_ready = True
 
     def _audio_worker(self):
         while True:
