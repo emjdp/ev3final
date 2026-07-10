@@ -221,7 +221,13 @@ class TuningServer(object):
             if not name:
                 raise ValueError("action manifest entry requires name")
             label = item.get("label") or name
-            normalized.append({"name": str(name), "label": str(label)})
+            entry = {"name": str(name), "label": str(label)}
+            # 스테이지가 지정한 대시보드 핫키(단일 문자, 선택). 없으면
+            # 대시보드가 순서 기반으로 배정한다(기존 동작 그대로).
+            key = item.get("key")
+            if key:
+                entry["key"] = str(key)[:1]
+            normalized.append(entry)
         return normalized
 
     def _action_names(self):

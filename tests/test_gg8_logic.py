@@ -111,12 +111,31 @@ class OnDoDispatchCase(unittest.TestCase):
 
 
 class ActionManifestCase(unittest.TestCase):
-    """이동 명령 4종이 액션 목록 맨 앞 = 대시보드 핫키 [1]~[4] 보장."""
+    """알파벳 핫키 규약 — 이동 j/k/l/u, 예약키와 무충돌, 전부 유일."""
 
-    def test_move_actions_first(self):
-        names = [a["name"] for a in ACTIONS]
-        self.assertEqual(names[:4], ["left", "straight", "right", "uturn"])
-        self.assertEqual(names[4], "clear")
+    # 대시보드 자체 기능 키(tools/dashboard.py handle_key) — 액션에 못 쓴다.
+    DASHBOARD_RESERVED = {"q", "s", "r", "a", "c", "g", "S", "R",
+                          " ", ".", "+", "-", "="}
+
+    def test_move_action_keys(self):
+        keys = dict((a["name"], a.get("key")) for a in ACTIONS)
+        self.assertEqual(keys["left"], "j")
+        self.assertEqual(keys["straight"], "k")
+        self.assertEqual(keys["right"], "l")
+        self.assertEqual(keys["uturn"], "u")
+        self.assertEqual(keys["clear"], "x")
+        self.assertEqual(keys["go"], "t")
+
+    def test_all_actions_have_unique_keys(self):
+        keys = [a.get("key") for a in ACTIONS]
+        self.assertTrue(all(keys))
+        self.assertEqual(len(keys), len(set(keys)))
+
+    def test_keys_avoid_dashboard_reserved(self):
+        for a in ACTIONS:
+            self.assertNotIn(a["key"], self.DASHBOARD_RESERVED,
+                             "action {} key {} clashes with dashboard"
+                             .format(a["name"], a["key"]))
 
     def test_move_actions_map(self):
         self.assertEqual(MOVE_ACTIONS,

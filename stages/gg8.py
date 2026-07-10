@@ -29,17 +29,17 @@
       기다린다(await_cmd 모드 — 텔레메트리로 상황(bits/색/출구) 방송).
     - 그리퍼 열기/닫기, 전/후 nudge(배달 위치 잡기)도 대시보드 액션.
 
-대시보드 키(액션 등록 순서 = 핫키 순서):
-  [1] left   [2] straight   [3] right   [4] uturn   [5] clear cmd
-  [6] grip open  [7] grip close  [8] nudge fwd  [9] nudge back  [0] GO(출발)
-  [d] calibrate  [f] read reflect  [h] read color  (reset 은 [r] 공용 키)
+대시보드 키(알파벳 핫키 — 액션 manifest 의 key 필드로 명시 지정):
+  [j] left   [k] straight   [l] right   [u] uturn   [x] clear cmd
+  [o] grip open  [p] grip close  [f] nudge fwd  [b] nudge back  [t] GO(출발)
+  [d] calibrate  [e] read reflect  [h] read color  [z] reset([r] 공용 키도 됨)
   이동 명령/GO 는 네트워크 스레드에서 즉시 반영(블로킹 없음) — 나머지는
   제어 루프가 안전한 시점에 처리한다.
 
 명령 큐 규약(CommandBox):
   - 1칸, 마지막 입력이 이전 입력을 덮는다(잘못 눌렀으면 다시 누르면 됨).
-  - clear 로 비울 수 있다. 현재 큐는 매 텔레메트리 프레임 pending_cmd 로
-    방송된다(대시보드 상단에 표시).
+  - clear([x])로 비울 수 있다. 현재 큐는 매 텔레메트리 프레임 pending_cmd
+    로 방송된다(대시보드 상단에 표시).
   - 소비 시점: 커브/분기 확정 후 / 마커 색 확정 후 / 막다른길 확정 후 —
     모든 정지 지점이 명령 하나를 소비한다(유실 복구만 소비하지 않는다).
   - straight 명령은 회전 없이 그대로 직진 재개(램프부터).
@@ -238,21 +238,24 @@ SEED_SOURCES = (
 # 이동 명령 액션 → move 문자. 등록 순서가 대시보드 핫키(1..0,d,f,h) 순서다.
 MOVE_ACTIONS = {"left": "L", "straight": "S", "right": "R", "uturn": "U"}
 
+# 알파벳 핫키(key) — 숫자는 대시보드에서 다른 키와 헷갈려 폐기.
+# 이동은 j/k/l/u: j·l 이 키보드 물리 배치상 좌·우, k 가 가운데(직진),
+# u 는 유턴. 대시보드 예약키(q/s/r/a/c/g/S/R/space)와 겹치지 않는다.
 ACTIONS = [
-    {"name": "left", "label": "CMD Left"},
-    {"name": "straight", "label": "CMD Straight"},
-    {"name": "right", "label": "CMD Right"},
-    {"name": "uturn", "label": "CMD U-Turn"},
-    {"name": "clear", "label": "CMD Clear"},
-    {"name": "grip_open", "label": "Grip Open"},
-    {"name": "grip_close", "label": "Grip Close"},
-    {"name": "nudge_fwd", "label": "Nudge Fwd (goal mm)"},
-    {"name": "nudge_back", "label": "Nudge Back (goal mm)"},
-    {"name": "go", "label": "GO (start)"},
-    {"name": "calibrate", "label": "Calibrate L/R on line (sweep)"},
-    {"name": "read_reflect", "label": "Read L/R Reflect (raw+norm)"},
-    {"name": "read_color", "label": "Read Center Color"},
-    {"name": "reset", "label": "Reset to Start"},
+    {"name": "left", "label": "CMD Left", "key": "j"},
+    {"name": "straight", "label": "CMD Straight", "key": "k"},
+    {"name": "right", "label": "CMD Right", "key": "l"},
+    {"name": "uturn", "label": "CMD U-Turn", "key": "u"},
+    {"name": "clear", "label": "CMD Clear", "key": "x"},
+    {"name": "grip_open", "label": "Grip Open", "key": "o"},
+    {"name": "grip_close", "label": "Grip Close", "key": "p"},
+    {"name": "nudge_fwd", "label": "Nudge Fwd (goal mm)", "key": "f"},
+    {"name": "nudge_back", "label": "Nudge Back (goal mm)", "key": "b"},
+    {"name": "go", "label": "GO (start)", "key": "t"},
+    {"name": "calibrate", "label": "Calibrate L/R on line (sweep)", "key": "d"},
+    {"name": "read_reflect", "label": "Read L/R Reflect (raw+norm)", "key": "e"},
+    {"name": "read_color", "label": "Read Center Color", "key": "h"},
+    {"name": "reset", "label": "Reset to Start", "key": "z"},
 ]
 
 
@@ -1302,11 +1305,11 @@ def run():
     if seeded:
         log.log("PARAM_SEED", "CARRYOVER", source=seed_path,
                 names=",".join(seeded))
-    print("gg8 ready — MANUAL DECISION MODE. dashboard keys: [1]L [2]S [3]R "
-          "[4]U [5]clear [6]grip-open [7]grip-close [8]fwd [9]back [0]GO. "
+    print("gg8 ready — MANUAL DECISION MODE. dashboard keys: [j]L [k]S [l]R "
+          "[u]U [x]clear [o]grip-open [p]grip-close [f]fwd [b]back [t]GO. "
           "robot soft-stops at EVERY curve/junction/marker/dead-end and "
           "waits; queue a move anytime to run it on arrival. start: CENTER "
-          "button or [0]. (Ctrl-C or robotctl stop to quit)")
+          "button or [t]. (Ctrl-C or robotctl stop to quit)")
     try:
         runner.run_sessions()
     except KeyboardInterrupt:

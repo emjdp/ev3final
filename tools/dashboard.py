@@ -19,6 +19,9 @@ DEFAULT_PORT = 8765
 DEFAULT_TIMEOUT = 1.5
 PARAM_VALUE_STALE_SECONDS = 10.0
 ACTION_KEYS = list("1234567890") + list("dfhjklmnprtuuvwxyz")
+# 대시보드 자체 기능에 물린 키 — 액션 명시 핫키(key 필드)로 쓸 수 없다.
+RESERVED_KEYS = {"q", "s", "r", "a", "c", "g", "S", "R", "G", "Q",
+                 " ", ".", "+", "-", "="}
 META_KEYS = {
     "stage",
     "latest",
@@ -464,7 +467,13 @@ def _extract_actions(describe: dict[str, Any]) -> list[ActionBinding]:
         name = item.get("name")
         if not name:
             continue
-        key = _choose_action_key(item, used, len(bindings))
+        # 스테이지가 지정한 핫키(key 필드) 우선 — 대시보드 예약키/중복이면
+        # 종전처럼 순서 기반 배정으로 폴백한다.
+        explicit = str(item.get("key") or "")[:1]
+        if explicit and explicit not in used and explicit not in RESERVED_KEYS:
+            key = explicit
+        else:
+            key = _choose_action_key(item, used, len(bindings))
         used.add(key)
         bindings.append(ActionBinding(key=key, name=str(name), label=str(item.get("label") or name)))
     return bindings
@@ -589,10 +598,10 @@ def _command_banner(frame: dict[str, Any]) -> str:
         color_txt = "" if color in (None, "-", "") else f" color={color}"
         return (
             f">>> AWAITING COMMAND ({kind}{color_txt}) exits={exits}"
-            f"{pending_txt}  -- press [1]L [2]S [3]R [4]U <<<"
+            f"{pending_txt}  -- press [j]L [k]S [l]R [u]U <<<"
         )
     if pending_txt:
-        return f"cmd queue:{pending_txt} (consumed at next stop: curve/junction/marker, [5] to clear)"
+        return f"cmd queue:{pending_txt} (consumed at next stop: curve/junction/marker, [x] to clear)"
     return ""
 
 
