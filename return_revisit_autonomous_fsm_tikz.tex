@@ -1,0 +1,462 @@
+% =====================================================================
+% 설계 보고서 삽입용 FSM 다이어그램 모음
+%   - 각 페이지가 그림 1장 (standalone 다중 페이지)
+%   - 컴파일:  xelatex return_revisit_autonomous_fsm_tikz.tex
+%   - PNG 변환: pdftoppm -png -r 300 <pdf> report_figs/fig
+%   - 배치 규칙: 세로 사다리형 주 흐름 + 직교(ㄱ자) 연결선,
+%     되돌아가는 간선은 좌/우 바깥 레인 하나로만 모은다.
+% =====================================================================
+\documentclass[tikz,border=8pt]{standalone}
+\usepackage{iftex}
+\usepackage{kotex}
+\ifXeTeX
+  \setmainhangulfont{NanumGothic}
+  \setsanshangulfont{NanumGothic}
+\fi
+\usetikzlibrary{arrows.meta, positioning, calc, fit, backgrounds, shapes.geometric}
+
+\tikzset{
+  >={Latex[length=2.8mm, width=2.2mm]},
+  title/.style={font=\bfseries\Large, align=center},
+  subtitle/.style={font=\small, align=center, text=black!60},
+  tag/.style={font=\scriptsize\bfseries, text=violet!70!black, align=center},
+  box/.style={draw=black!70, rounded corners=3pt, align=center, font=\small,
+              minimum height=11mm, inner sep=4.5pt, text width=33mm},
+  phase/.style={box, fill=blue!8},
+  state/.style={box, fill=cyan!9},
+  action/.style={box, fill=green!9},
+  sense/.style={box, fill=yellow!17},
+  recovery/.style={box, draw=red!60!black, fill=red!8},
+  planner/.style={box, draw=violet!60!black, fill=violet!9},
+  term/.style={box, fill=black!8},
+  data/.style={box, fill=black!5, font=\scriptsize},
+  q/.style={diamond, draw=black!70, fill=orange!18, aspect=2.1, align=center,
+            font=\small, inner sep=1pt, text width=21mm},
+  note/.style={draw=black!35, rounded corners=2pt, fill=black!3, align=left,
+               font=\scriptsize, inner sep=5pt},
+  ev/.style={font=\scriptsize, fill=white, align=center, inner sep=1.6pt},
+  yes/.style={ev, font=\scriptsize\bfseries, text=green!40!black},
+  no/.style={ev, font=\scriptsize\bfseries, text=red!45!black},
+  arr/.style={->, thick, draw=black!75, rounded corners=3mm},
+  rarr/.style={arr, draw=red!65!black},
+  parr/.style={arr, draw=violet!70!black},
+  barr/.style={arr, dashed, draw=red!60!black},
+  group/.style={draw=black!25, rounded corners=6pt, fill=black!2, inner sep=7pt},
+  glabel/.style={font=\scriptsize\bfseries, text=black!55, anchor=south west}
+}
+
+\begin{document}
+
+% ---------------------------------------------------------------------
+% 그림 1. 전체 미션 흐름 개요  (보고서 3장 도입 + 3.1절)
+% ---------------------------------------------------------------------
+\begin{tikzpicture}
+  \node[title]    at (6.9, 3.6) {미지 지도 자율 탐색·최소 재방문 복귀 — 전체 흐름};
+  \node[subtitle] at (6.9, 2.95) {탐색은 좌\(\rightarrow\)우\(\rightarrow\)직 우선, 복귀는 초록 도착 시점의 지도만으로 전 노드 재방문 최소 경로};
+  \node[tag]      at (6.9, 2.5) {[보고서 3장 도입부·3.1 시작 및 초기화]};
+
+  % 1행: 탐색 페이즈 (좌 -> 우)
+  \node[phase]  (boot)    at (0,0)    {초기화\\버튼 클릭 시 시작\\무작위 숫자(1--4)\\표시·재생·스톱워치};
+  \node[action] (start)   at (4.6,0)  {출발선 이탈\\노랑 재감지 방지 직진\\그리퍼는 대기 상태};
+  \node[state]  (explore) at (9.2,0)  {탐색 주행\\PID 라인 추종\\분기 탐색: 좌\(\rightarrow\)우\(\rightarrow\)직};
+  \node[sense]  (green)   at (13.8,0) {초록 도착\\정지·다수결 색 확정\\OUT 시간 기록};
+
+  % 2행: 복귀 페이즈 (우 -> 좌)
+  \node[action]  (deliver) at (13.8,-3.6) {배달 처리\\내려놓기 \(\rightarrow\) 1초 대기\\\(180^\circ\) 회전};
+  \node[planner] (plan)    at (9.2,-3.6)  {복귀 route 생성\\트리\(\rightarrow\)그래프·BFS 트렁크\\\(|route| = 2E-T\)};
+  \node[state]   (homerun) at (4.6,-3.6)  {HOME 복귀 주행\\도착마다 route 스텝\\검증 후 소비};
+  \node[term]    (done)    at (0,-3.6)    {완주\\노랑 확정·그립 해제\\빨강 재방문 수 확인};
+
+  \draw[arr]  (boot)    -- (start);
+  \draw[arr]  (start)   -- (explore);
+  \draw[arr]  (explore) -- (green);
+  \draw[arr]  (green)   -- (deliver);
+  \draw[parr] (deliver) -- (plan);
+  \draw[parr] (plan)    -- (homerun);
+  \draw[arr]  (homerun) -- (done);
+
+  % 탐색 중 반복 이벤트 (자기 루프)
+  \draw[arr] (explore.35) -- ++(0,0.55) -| (explore.145);
+  \node[ev] at (9.2,1.5) {빨강: ``red N'' 음성·시간 기록·유턴 \(\cdot\) 막다른길: U턴 후 계속};
+
+  % 복귀 중 오작동 복구 (자기 루프)
+  \draw[barr] (homerun.215) -- ++(0,-0.55) -| (homerun.325);
+  \node[ev] at (4.6,-5.15) {불일치: 즉석 좌\(\rightarrow\)우\(\rightarrow\)직 폴백·마커 재동기화 (그림 6)};
+
+  \begin{scope}[on background layer]
+    \node[group, fit=(boot)(green)] (g1) {};
+    \node[group, fit=(done)(deliver), inner sep=10pt] (g2) {};
+  \end{scope}
+  \node[glabel] at (g1.north west) {탐색 페이즈};
+  \node[glabel] at (g2.north west) {복귀 페이즈};
+\end{tikzpicture}
+
+\newpage
+
+% ---------------------------------------------------------------------
+% 그림 2. 라인 트레이싱 주행 루프  (보고서 3.2절)
+% ---------------------------------------------------------------------
+\begin{tikzpicture}
+  \node[title]    at (8.2, 2.6) {주행 루프 — 센서 판정 사다리와 유실 복구};
+  \node[subtitle] at (8.2, 1.95) {매 프레임 우선순위대로 판정하고, 처리 후에는 항상 센서 샘플로 복귀한다};
+  \node[tag]      at (8.2, 1.5) {[보고서 3.2 라인 트레이싱 및 분기점 주행]};
+
+  % 판정 사다리 (왼쪽 열) --------------------------------------------
+  \node[sense] (sample)  at (0,0)     {센서 샘플\\좌/우 반사광·중앙 색(RGB)\\초음파 거리};
+  \node[q] (markerQ)     at (0,-2.9)  {마커색 감지?};
+  \node[q] (grabQ)       at (0,-5.8)  {물체 근접이고\\그립 비었음?};
+  \node[q] (lostQ)       at (0,-8.7)  {bits = 000\\(라인 유실)?};
+  \node[q] (nodeQ)       at (0,-11.6) {노드 후보?};
+  \node[q] (guardQ)      at (0,-14.5) {가로선 접근?};
+  \node[action] (pid)    at (0,-17.4) {PID 라인 추종\\정규화 오차 계산\\I windup 가드·D 필터};
+
+  \draw[arr] (sample)  -- (markerQ);
+  \draw[arr] (markerQ) -- node[no]  {아니오} (grabQ);
+  \draw[arr] (grabQ)   -- node[no]  {아니오} (lostQ);
+  \draw[arr] (lostQ)   -- node[no]  {아니오} (nodeQ);
+  \draw[arr] (nodeQ)   -- node[no]  {아니오} (guardQ);
+  \draw[arr] (guardQ)  -- node[no]  {아니오} (pid);
+
+  % 각 판정의 처리 (오른쪽 열들) --------------------------------------
+  \node[action] (markerAct)  at (5.4,-2.9)  {정지 \(\rightarrow\) 다수결 색 확정\\실패: 즉시 주행 재개\\성공: 마커 처리\\(그림 4)};
+  \node[action] (grabAct)    at (5.4,-5.8)  {경보음·정지\\그립 close(들어올림)\\PID 상태 리셋};
+  \node[recovery] (lostFilter) at (5.4,-8.7)  {유실 필터\\코너 위빙 무시\\000 지속 시 정지\\복수 샘플 재판정};
+  \node[recovery] (handleLost) at (10.8,-8.7) {handle\_lost\\후진하며 라인 탐색\\발견 시 재정렬};
+  \node[recovery] (dead)       at (16.2,-8.7) {막다른길 처리\\HOME: 스텝 소비\\탐색: U턴·팔 DONE};
+  \node[action] (confirm)    at (5.4,-11.6)  {confirm\_node\\PID off·저속 진입\\정지 재판정};
+  \node[action] (handleNode) at (10.8,-11.6) {handle\_node\\고정 전진·출구 계산\\커브 통과 또는\\분기 결정(그림 3)};
+  \node[action] (guardAct)   at (5.4,-14.5)  {NODE\_GUARD\\PID 잠시 중지\\저속 직진으로 자세 유지};
+  \node[action] (adaptive)   at (5.4,-17.4)  {속도 보정\\재출발 가속 램프\\커브 자동 감속\\조향 비례 감속};
+
+  \draw[arr]  (markerQ) -- node[yes] {예} (markerAct);
+  \draw[arr]  (grabQ)   -- node[yes] {예} (grabAct);
+  \draw[rarr] (lostQ)   -- node[yes] {예} (lostFilter);
+  \draw[rarr] (lostFilter) -- node[ev] {유실 확정} (handleLost);
+  \draw[barr] (handleLost) -- node[ev] {실패·연속 한도} (dead);
+  \draw[arr]  (nodeQ)   -- node[yes] {예} (confirm);
+  \draw[arr]  (confirm) -- node[ev] {확정} (handleNode);
+  \draw[arr]  (guardQ)  -- node[yes] {예} (guardAct);
+  \draw[arr]  (pid)     -- (adaptive);
+
+  % 오른쪽 바깥 복귀 레인 (모두 센서 샘플로 되돌아간다) ----------------
+  \def\lane{19.4}
+  \draw[arr] (markerAct.east)  -- node[ev, pos=0.12, above] {처리 후} (\lane,-2.9)  -- (\lane,0) -- (sample.east);
+  \draw[arr] (grabAct.east)    -- node[ev, pos=0.12, above] {운반 재개} (\lane,-5.8)  -- (\lane,0) -- (sample.east);
+  \draw[arr] (dead.east)       -- node[ev, pos=0.3, above] {새 구간} (\lane,-8.7)  -- (\lane,0) -- (sample.east);
+  \draw[arr] (guardAct.east)   -- (\lane,-14.5) -- (\lane,0) -- (sample.east);
+  \draw[arr] (adaptive.east)   -- node[ev, pos=0.1, above] {drive(L,R)} (\lane,-17.4) -- (\lane,0) -- (sample.east);
+  % 사이 corridor 를 쓰는 복귀선 (모두 수평/수직 직교 구간만 사용)
+  \draw[arr] (lostFilter.north) -- (5.4,-7.1) -- node[ev, pos=0.03, above right] {일시적/오탐: 무시}
+             (\lane,-7.1) -- (\lane,0) -- (sample.east);
+  \draw[arr] (handleLost.south) -- (10.8,-10.15) -- node[ev, pos=0.06, above right] {복구 성공: PID 리셋}
+             (\lane,-10.15) -- (\lane,0) -- (sample.east);
+  \draw[arr] (confirm.north) -- (5.4,-10.5) -- node[ev, pos=0.04, above right] {미확정: 짧은 debounce 후 재개}
+             (9.0,-10.5) -- (9.0,-10.15) -- (\lane,-10.15) -- (\lane,0) -- (sample.east);
+  \draw[arr] (handleNode.south) -- (10.8,-13.15) -- node[ev, pos=0.06, above right] {turn 후 새 구간}
+             (\lane,-13.15) -- (\lane,0) -- (sample.east);
+
+  \node[note, text width=100mm] at (11.6,-16.4)
+    {\textbf{유실 판정 세부}\quad
+     \(|last\_turn|\) 가 크면 코너 위빙으로 보고 유실 누적을 리셋한다.
+     000 이 lost\_persist\_ms 이상 지속될 때만 정지 재판정하며,
+     복구 성공 시 lost\_streak 를 세어 연속 한도를 넘으면 막다른길로 처리한다.};
+\end{tikzpicture}
+
+\newpage
+
+% ---------------------------------------------------------------------
+% 그림 3. Explorer 분기 선택 FSM  (보고서 3.2절)
+% ---------------------------------------------------------------------
+\begin{tikzpicture}
+  \node[title]    at (2.7, 4.9) {Explorer — 분기점 경로 선택 FSM};
+  \node[subtitle] at (2.7, 4.25) {전역 지도는 모른다고 가정하고, 만난 분기와 팔 끝만 트리로 기록한다};
+  \node[tag]      at (2.7, 3.8) {[보고서 3.2 분기점 경로 선택 알고리즘]};
+
+  \node[state]  (first)   at (-5.4,2.5) {TO\_FIRST\\첫 분기 전\\직선·커브는 통과};
+  \node[action] (newroot) at (0,2.5)    {첫 분기 등록\\node id 생성\\parent = home 방향 저장};
+  \node[state]  (select)  at (0,0)      {SELECT\_NEXT\\현재 work 노드에서\\다음 팔 선택};
+  \node[q]      (openQ)   at (0,-2.9)   {OPEN 팔 있음?};
+  \node[state]  (probe)   at (0,-5.8)   {PROBE\\미탐색 팔 진입\\probe\_arm 저장};
+  \node[q]      (endQ)    at (0,-8.7)   {팔 끝 종류?};
+  \node[action] (newnode) at (0,-11.6)  {새 분기 등록\\자식 node 생성\\부모/자식 간선 연결};
+  \node[q]      (remainQ) at (0,-14.5)  {이전 work에\\OPEN 팔 남음?};
+
+  \node[action] (leaf)       at (-5.4,-8.7)  {리프 기록\\마커/막다른길 도달\\팔 상태 DONE};
+  \node[state]  (returnwork) at (-5.4,-14.5) {RETURN\_TO\_WORK\\유턴하여 work로 복귀};
+  \node[action] (pendPush)   at (5.4,-14.5)  {보류 저장\\pending.push(새 분기)\\LIFO — 나중에 방문};
+
+  \node[q]     (pendq)     at (5.4,-2.9)  {pending 있음?};
+  \node[state] (gotop)     at (10.8,-2.9) {GOTO\_PENDING\\보류 자식으로 이동\\(LIFO pop)};
+  \node[q]     (parentq)   at (5.4,-5.8)  {parent 있음?};
+  \node[state] (backtrack) at (10.8,-5.8) {BACKTRACK\\부모 체인으로 복귀};
+  \node[planner] (mapdone) at (5.4,-8.7)  {EXPLORE\_DONE\\전 구간 탐색 완료\\완성 지도로 복귀 계획};
+
+  % 주 흐름
+  \draw[arr] (first)   -- node[ev] {분기 도착} (newroot);
+  \draw[arr] (newroot) -- (select);
+  \draw[arr] (select)  -- (openQ);
+  \draw[arr] (openQ)   -- node[yes, align=center] {예\\좌\(\rightarrow\)우\(\rightarrow\)직} (probe);
+  \draw[arr] (probe)   -- (endQ);
+  \draw[arr] (endQ)    -- (leaf);
+  \draw[arr] (endQ)    -- node[ev] {junction} (newnode);
+  \draw[arr] (newnode) -- (remainQ);
+  \draw[arr] (leaf)    -- (returnwork);
+  \draw[arr] (remainQ) -- node[yes] {예} (pendPush);
+
+  % 보류 저장 후 유턴 복귀 (하단 corridor)
+  \draw[arr] (pendPush.south) -- (5.4,-16.4) -- node[ev] {유턴하여 work 복귀}
+             (-5.4,-16.4) -- (returnwork.south);
+  % 새 분기를 work로 전환 (안쪽 레인)
+  \draw[arr] (remainQ.west) -- (-2.9,-14.5)
+             -- node[ev, pos=0.78, rotate=90] {아니오: 새 분기를 work로 전환} (-2.9,0) -- (select.west);
+  % work 도착 (바깥 왼쪽 레인)
+  \draw[arr] (returnwork.west) -- (-8.6,-14.5)
+             -- node[ev, pos=0.5, rotate=90] {work 도착} (-8.6,0) -- (select.west);
+
+  % 팔 소진 시 (오른쪽)
+  \draw[arr] (openQ)   -- node[no]  {아니오} (pendq);
+  \draw[arr] (pendq)   -- node[yes] {예} (gotop);
+  \draw[arr] (pendq)   -- node[no]  {아니오} (parentq);
+  \draw[arr] (parentq) -- node[yes] {예} (backtrack);
+  \draw[parr] (parentq) -- node[no] {아니오} (mapdone);
+
+  % 보류 자식/부모 도착 (바깥 오른쪽 레인)
+  \draw[arr] (gotop.east)     -- node[ev, pos=0.25, above] {보류 자식 도착} (14.2,-2.9) -- (14.2,0) -- (select.east);
+  \draw[arr] (backtrack.east) -- node[ev, pos=0.25, above] {부모 도착} (14.2,-5.8) -- (14.2,0) -- (select.east);
+
+  \node[note, text width=88mm] at (9.4,-12.5)
+    {\textbf{팔 상태}\\
+     OPEN: 아직 모르는 방향 — 복귀 그래프에 넣지 않는다.\\
+     DONE: 마커/막다른길로 끝난 리프 — 복귀 때 재방문 대상.\\
+     자식 id: 새 분기로 이어진 팔 — 부모/자식 간선으로 저장.};
+\end{tikzpicture}
+
+\newpage
+
+% ---------------------------------------------------------------------
+% 그림 4. 마커 방문·물체 운반 처리  (보고서 3.3·3.4절)
+% ---------------------------------------------------------------------
+\begin{tikzpicture}
+  \node[title]    at (2.7, 2.7) {마커(노드) 방문 처리와 물체 운반};
+  \node[subtitle] at (2.7, 2.05) {마커는 반드시 정지 후 다수결로 확정하고, 물체는 감지 즉시 집어 초록까지 운반한다};
+  \node[tag]      at (2.7, 1.6) {[보고서 3.3 노드 방문·시간 측정 / 3.4 물체 감지·운반·회전]};
+
+  % --- 왼쪽: 3.3 마커 방문 -------------------------------------------
+  \node[sense]  (mtrig) at (0,0)    {마커 후보 감지\\중앙 컬러 센서\\후보 색 연속 프레임};
+  \node[action] (mconf) at (0,-2.9) {정지 \(\rightarrow\) 복수 재판독\\다수결 색 확정\\(가짜 마커 방지)};
+  \node[q]      (mq)    at (0,-5.8) {확정 색?};
+
+  \node[action] (red) at (-5.4,-5.8) {빨강 = 노드 방문\\``red N'' 음성 출력\\도달 시간 기록 후 유턴};
+  \node[action] (grn) at (0,-8.9)   {초록 = 목적지\\good\_job·OUT 시간 기록\\배달 처리(그림 1)};
+  \node[term]   (yel) at (5.4,-5.8) {노랑 = 최종 도착\\초록 후에만 유효\\BACK 시간·완주 처리};
+
+  \draw[arr] (mtrig) -- (mconf);
+  \draw[arr] (mconf) -- (mq);
+  \draw[arr] (mq) -- node[ev, above] {빨강} (red);
+  \draw[arr] (mq) -- node[ev, pos=0.45, right] {초록} (grn);
+  \draw[arr] (mq) -- node[ev, above] {노랑} (yel);
+  \draw[arr] (mconf.east) -- (3.2,-2.9) -- node[ev, pos=0.5, rotate=90] {미확정: 즉시 주행 재개}
+             (3.2,0) -- (mtrig.east);
+
+  % --- 오른쪽: 3.4 물체 운반 ------------------------------------------
+  \node[sense]  (otrig)   at (10.8,0)    {초음파 물체 감지\\grab\_dist 이내 근접\\그립 비어 있음};
+  \node[action] (oalarm)  at (10.8,-2.9) {경보음 발생\\부드러운 정지};
+  \node[action] (ograb)   at (10.8,-5.8) {그리퍼 close\\물체 3cm 이상 리프트\\grabbed = true};
+  \node[state]  (oresume) at (10.8,-8.9) {PID 리셋 후 운반 주행\\초록에서 내려놓기\\\(\rightarrow\) 1초 대기 \(\rightarrow 180^\circ\) 회전};
+
+  \draw[arr] (otrig)  -- (oalarm);
+  \draw[arr] (oalarm) -- (ograb);
+  \draw[arr] (ograb)  -- (oresume);
+
+  \begin{scope}[on background layer]
+    \node[group, fit=(mtrig)(red)(yel)(grn)] (gm) {};
+    \node[group, fit=(otrig)(oresume)] (go) {};
+  \end{scope}
+  \node[glabel] at (gm.north west) {3.3 노드 방문};
+  \node[glabel] at (go.north west) {3.4 물체 감지·운반};
+\end{tikzpicture}
+
+\newpage
+
+% ---------------------------------------------------------------------
+% 그림 5. 복귀 route 생성 알고리즘  (보고서 5장 — 노드 방문 누락 방지)
+% ---------------------------------------------------------------------
+\begin{tikzpicture}
+  \node[title]    at (5.0, 2.4) {복귀 route 생성 — 최소거리 전 노드 재방문};
+  \node[subtitle] at (5.0, 1.75) {초록 도착 순간까지 만든 트리만 사용하며, 미탐색 OPEN 팔은 모르는 길이므로 제외한다};
+  \node[tag]      at (5.0, 1.3) {[보고서 5. 노드 방문 누락 방지 로직]};
+
+  % 1행: 그래프 준비 파이프라인 (좌 -> 우)
+  \node[data]    (tree)  at (0,0)    {Explorer 트리\\nodes[id].arms\\arm\_ends[(id,dir)]};
+  \node[planner] (graph) at (5.2,0)  {explorer\_to\_graph\\DONE 끝 \(\rightarrow\) leaf 승격\\root parent = home};
+  \node[planner] (bfs)   at (10.4,0) {shortest\_path\\초록 leaf \(\rightarrow\) home\\BFS 트렁크 산출};
+
+  % 2행: 트렁크 순회 루프 (좌 -> 우, 하단 corridor 로 복귀)
+  \node[q]       (trunkQ)    at (0,-3.5)    {트렁크 노드\\남음?};
+  \node[action]  (skip)      at (5.2,-3.5)  {skip 집합 구성\\home 진행 방향\\직전 트렁크 방향};
+  \node[action]  (branch)    at (10.4,-3.5) {가지 왕복 방문\\skip 제외, heading 기준\\좌\(\rightarrow\)우\(\rightarrow\)직 순서};
+  \node[action]  (trunkstep) at (15.6,-3.5) {트렁크 한 스텝 진행\\route += (trunk\_dir, next)\\heading 갱신};
+  \node[planner] (result)    at (-5.6,-3.5) {복귀 route 완성\\모든 리프·노드 방문\\home에서 종료};
+
+  \draw[parr] (tree)  -- (graph);
+  \draw[parr] (graph) -- (bfs);
+  \draw[parr] (bfs.south) -- (10.4,-1.7) -- (0,-1.7) -- (trunkQ.north);
+  \draw[parr] (trunkQ) -- node[yes] {예} (skip);
+  \draw[parr] (skip)   -- (branch);
+  \draw[parr] (branch) -- (trunkstep);
+  \draw[parr] (trunkstep.south) -- (15.6,-5.9)
+              -- node[ev, pos=0.5, above] {다음 트렁크 노드} (0,-5.9) -- (trunkQ.south);
+  \draw[parr] (trunkQ) -- node[no, align=center] {아니오\\(home 도착)} (result);
+
+  \node[note, text width=126mm] at (5.0,-7.7)
+    {\textbf{거리 공식과 누락 방지 근거}\quad
+     가지 방문은 route += (dir, child) \(\cdots\) (back, node) 왕복 스텝으로 쌓인다.
+     트리 간선 수를 \(E\), 초록\(\rightarrow\)home 트렁크 간선 수를 \(T\)라 하면
+     트렁크 간선은 1회, 나머지 가지 간선은 왕복 2회 지나므로 \(|route| = 2E - T\).
+     구축된 지도의 모든 리프(빨강 포함)를 빠짐없이 지나면서 이동 스텝 수가 최소가 된다.};
+\end{tikzpicture}
+
+\newpage
+
+% ---------------------------------------------------------------------
+% 그림 6. HOME 복귀 실행·오작동 복구 FSM  (보고서 5장)
+% ---------------------------------------------------------------------
+\begin{tikzpicture}
+  \node[title]    at (3.6, 2.6) {HOME 모드 — route 소비와 오작동 복구 FSM};
+  \node[subtitle] at (3.6, 1.95) {복귀 중 노드/마커/막다른길 도착마다 계획 스텝 하나를 검증하고 소비한다};
+  \node[tag]      at (3.6, 1.5) {[보고서 5. 노드 방문 누락 방지 로직 — 실행·복구]};
+
+  % 주 사다리 (가운데 열)
+  \node[state] (arrive)  at (0,0)      {도착 이벤트\\kind = 노드·마커·막다른길\\+ 가능 출구(avail)};
+  \node[q] (yellowQ)     at (0,-3.0)   {노랑\\(초록 후)?};
+  \node[q] (fbQ)         at (0,-6.0)   {폴백 모드?};
+  \node[q] (routeQ)      at (0,-9.0)   {route 스텝\\남음?};
+  \node[q] (matchQ)      at (0,-12.0)  {예상 kind와\\실제 일치?};
+
+  \node[term]   (finish)  at (-5.6,-3.0)  {HOME\_REACHED\\빨강 재방문 수 확인\\스톱워치 정지·종료};
+  \node[action] (consume) at (-5.6,-12.0) {스텝 소비\\dest·prev 갱신 후\\로컬 라벨 기준\\상대 회전 계산};
+  \node[q]      (moveQ)   at (-5.6,-15.0) {계산된 move가\\가능 출구?};
+  \node[action] (go)      at (-5.6,-18.0) {계획 주행 계속\\turn(move) 후\\라인 추종 재개};
+
+  \node[q]      (curveQ)     at (5.6,-12.0)  {리프 기대 중\\출구 1개 junction?};
+  \node[action] (curvepass)  at (11.2,-12.0) {커브로 간주\\스텝 소비하지 않고\\팔 방향으로 통과};
+  \node[recovery] (fallback) at (5.6,-15.0)  {RETURN\_FALLBACK\\불일치·move 불가·소진\\자동 주행은 계속};
+  \node[q]      (resyncQ)    at (5.6,-18.0)  {확정 마커가\\빨강/초록?};
+  \node[action] (resync)     at (11.2,-18.0) {RETURN\_RESYNC\\남은 route에서\\같은 리프 탐색 후\\route\_pos 점프·재개};
+  \node[action] (instant)    at (5.6,-21.0)  {즉석 복귀 탐색\\가능한 팔 좌\(\rightarrow\)우\(\rightarrow\)직\\없으면 U턴 — 멈추지 않음};
+
+  % 주 사다리 연결
+  \draw[arr] (arrive)  -- (yellowQ);
+  \draw[arr] (yellowQ) -- node[yes] {예} (finish);
+  \draw[arr] (yellowQ) -- node[no]  {아니오} (fbQ);
+  \draw[arr] (fbQ)     -- node[no]  {아니오} (routeQ);
+  \draw[arr] (routeQ)  -- node[yes] {예} (matchQ);
+  \draw[arr] (matchQ)  -- node[yes] {예} (consume);
+  \draw[arr] (consume) -- (moveQ);
+  \draw[arr] (moveQ)   -- node[yes] {예} (go);
+
+  % 성공 경로 복귀 (왼쪽 바깥 레인)
+  \draw[arr] (go.west) -- (-9.2,-18.0)
+             -- node[ev, pos=0.5, rotate=90] {다음 도착까지 주행} (-9.2,0) -- (arrive.west);
+
+  % 폴백 진입 경로들
+  \draw[barr] (fbQ.east) -- node[yes, pos=0.35, above] {예} (2.8,-6.0) -- (2.8,-13.9) -- (fallback.170);
+  \draw[barr] (routeQ.east) -- node[no, pos=0.4, above] {소진} (2.8,-9.0) -- (2.8,-13.9) -- (fallback.170);
+  \draw[arr]  (matchQ) -- node[no] {아니오} (curveQ);
+  \draw[barr] (curveQ) -- node[no, pos=0.4, right] {아니오} (fallback);
+  \draw[barr] (moveQ.south) -- (-5.6,-16.6) -- node[no, pos=0.03, above right] {아니오}
+              (fallback.250 |- 0,-16.6) -- (fallback.250);
+
+  % 커브 간주 통과
+  \draw[arr] (curveQ) -- node[yes, align=center] {예\\(한도 이내)} (curvepass);
+  \draw[arr] (curvepass.east) -- node[ev, pos=0.3, above] {다음 도착 대기} (14.6,-12.0) -- (14.6,0) -- (arrive.east);
+
+  % 폴백 처리
+  \draw[barr] (fallback) -- (resyncQ);
+  \draw[arr]  (resyncQ) -- node[yes, align=center] {예\\같은 리프 발견} (resync);
+  \draw[arr]  (resync.east) -- (14.6,-18.0) -- (14.6,0) -- (arrive.east);
+  \draw[barr] (resyncQ) -- node[no] {아니오} (instant);
+  \draw[barr] (instant.east) -- node[ev, pos=0.2, above] {멈추지 않고 계속} (14.6,-21.0) -- (14.6,0) -- (arrive.east);
+\end{tikzpicture}
+
+\newpage
+
+% ---------------------------------------------------------------------
+% 그림 7. 모션 프리미티브와 엣지 획득  (보고서 5장 — 운반 안정성·최단 시간)
+% ---------------------------------------------------------------------
+\begin{tikzpicture}
+  \node[title]    at (7.2, 4.9) {부드러운 모션 프리미티브와 회전 후 엣지 획득};
+  \node[subtitle] at (7.2, 4.25) {회전·후진·스캔·직진이 같은 시작/종료 규약을 쓰고, 재출발 전 항상 라인 엣지 위에 정렬한다};
+  \node[tag]      at (7.2, 3.8) {[보고서 5. 물체 운반 안정성·최단 소요 시간 확보]};
+
+  % 1행: 프리미티브 공통 규약
+  \node[action] (begin) at (0,0)    {\_begin\_motion\\coast로 홀드 해제\\엔코더 리셋·램프 설정};
+  \node[q]      (primQ) at (4.8,0)  {프리미티브\\종류?};
+  \node[action] (turn)     at (9.6,2.3)  {turn L/R/U\\목표 엔코더 각까지 pivot\\heading 갱신};
+  \node[action] (straight) at (9.6,0)    {straight / backup\\목표 mm 또는 라인 발견까지\\엔코더 기반 이동};
+  \node[action] (scan)     at (9.6,-2.3) {pivot scan\\라인·edge band 발견까지\\소각 피벗};
+  \node[action] (endm)  at (14.4,0) {\_end\_motion\\정지·ramp=0\\PID 조향 응답 보존};
+
+  \draw[arr] (begin) -- (primQ);
+  \draw[arr] (primQ.north) -- (4.8,2.3) -- (turn.west);
+  \draw[arr] (primQ) -- (straight);
+  \draw[arr] (primQ.south) -- (4.8,-2.3) -- (scan.west);
+  \draw[arr] (turn.east) -| (endm.north);
+  \draw[arr] (straight) -- (endm);
+  \draw[arr] (scan.east) -| (endm.south);
+
+  % 2행: 엣지 획득 (우 -> 좌)
+  \node[planner] (acq)    at (14.4,-5.3) {acquire\_edge\\PID 재개 전 중앙 센서를\\선택된 라인 엣지 위로};
+  \node[q]       (bandQ)  at (9.6,-5.3)  {이미 edge band\\\(\pm\)tol 안?};
+  \node[q]       (whiteQ) at (4.8,-5.3)  {흰 바닥?};
+  \node[recovery](realign) at (0,-5.3)   {realign\_to\_line\\어두운 쪽 먼저 스캔\\실패 시 반대쪽·원위치};
+
+  % 3행: 엣지 탐색 (좌 -> 우)
+  \node[action] (exitSel) at (0,-8.3)   {edge\_exit\_dir 선택\\steer\_sign 쪽 엣지 유지\\밝은 경계면 방향 반전};
+  \node[q]      (foundQ)  at (4.8,-8.3) {edge band\\발견?};
+  \node[action] (ok)      at (9.6,-8.3) {ON\_EDGE\\reset\_steer 후 출발\\\(\rightarrow\) 라인 추종 재개};
+  \node[recovery] (fail)  at (4.8,-11.0) {BAND\_NOT\_FOUND\\멈추지 않음\\검정 위 PID 또는\\유실 복구가 이어받음};
+
+  \draw[arr]  (endm)   -- node[ev, align=center] {회전·노드 통과\\복구 후} (acq);
+  \draw[arr]  (acq)    -- (bandQ);
+  \draw[arr]  (bandQ)  -- node[no] {아니오} (whiteQ);
+  \draw[rarr] (whiteQ) -- node[yes] {예} (realign);
+  \draw[arr]  (realign) -- (exitSel);
+  \draw[arr]  (whiteQ.south) -- ++(0,-0.7) -| node[ev, pos=0.25, above] {아니오} (exitSel.north);
+  \draw[arr]  (exitSel) -- (foundQ);
+  \draw[arr]  (foundQ) -- node[yes] {예} (ok);
+  \draw[arr]  (bandQ.south) -- ++(0,-0.6) -| node[yes, pos=0.22, above] {예} (ok.north);
+  \draw[barr] (foundQ) -- node[no] {아니오} (fail);
+\end{tikzpicture}
+
+\newpage
+
+% ---------------------------------------------------------------------
+% 그림 8. 핵심 의사코드 요약
+% ---------------------------------------------------------------------
+\begin{tikzpicture}
+  \node[title] (t) at (0,0) {핵심 의사코드 요약};
+  \node[note, below=6mm of t, text width=150mm] {
+    \textbf{탐색 (그림 2·3)}\\
+    while not done:\\
+    \quad sample sensors; if marker confirmed: handle marker and continue\\
+    \quad if bits == 000 for lost\_persist\_ms: stop, recheck, backup, realign or mark dead-end\\
+    \quad if node candidate: slow confirm, advance fixed distance, compute exits\\
+    \quad if exits == 1: follow forced curve\\
+    \quad else: Explorer decides next move with priority L\(\rightarrow\)R\(\rightarrow\)S, pending LIFO, parent backtrack\\[1.5mm]
+    \textbf{초록 도착 (그림 1·4)}\\
+    \quad close current probe arm as green; deliver object; convert tree to graph; plan route to home\\[1.5mm]
+    \textbf{복귀 계획 (그림 5)}\\
+    \quad trunk = BFS(start, home)\\
+    \quad for each trunk node: visit all off-trunk branches round-trip by L\(\rightarrow\)R\(\rightarrow\)S, then append trunk step\\
+    \quad route length = \(2E-T\)\\[1.5mm]
+    \textbf{복귀 실행 (그림 6)}\\
+    \quad on each arrival: compare actual kind with expected route node kind\\
+    \quad if match: consume step and compute next move from graph-local labels\\
+    \quad if one-arm junction while expecting leaf: assume curve once, do not consume step\\
+    \quad if mismatch: fallback to immediate L\(\rightarrow\)R\(\rightarrow\)S; confirmed red/green marker can resync to remaining route\\
+    \quad yellow in HOME ends run after checking all red revisits.
+  };
+\end{tikzpicture}
+
+\end{document}

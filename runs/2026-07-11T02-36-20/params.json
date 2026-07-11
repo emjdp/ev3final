@@ -1,0 +1,383 @@
+{
+  "changes": [
+    {
+      "name": "accel_ramp_ms",
+      "new": 700,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "base_speed",
+      "new": 15,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "cal_l_black",
+      "new": 0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "cal_l_white",
+      "new": 100,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "cal_r_black",
+      "new": 0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "cal_r_white",
+      "new": 100,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "corner_gain",
+      "new": 0.5,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "curve_auto",
+      "new": 0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "deadband",
+      "new": 3.0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "diag_step_mm",
+      "new": 40,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "goal_advance_mm",
+      "new": 100,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "grab_dist_cm",
+      "new": 6.0,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "grip_speed",
+      "new": 50,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "ki",
+      "new": 0.06,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "kp",
+      "new": 0.17,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "left_th_node",
+      "new": 35,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "left_th_steer",
+      "new": 66,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "lost_persist_ms",
+      "new": 200,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "node_advance_mm",
+      "new": 60,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "node_confirm_ms",
+      "new": 40,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "right_th_node",
+      "new": 30,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "right_th_steer",
+      "new": 63,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "turn_180_factor",
+      "new": 0.71,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "turn_90_factor",
+      "new": 0.65,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "turn_ramp_ms",
+      "new": 250,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "turn_speed",
+      "new": 8,
+      "old": null,
+      "rev": 1,
+      "source": "watcher:get",
+      "t_ms": 8058
+    },
+    {
+      "name": "kp",
+      "new": 0.16,
+      "old": 0.17,
+      "rev": 2,
+      "source": "watcher:get",
+      "t_ms": 178913
+    },
+    {
+      "name": "kp",
+      "new": 0.15,
+      "old": 0.16,
+      "rev": 4,
+      "source": "watcher:get",
+      "t_ms": 180327
+    },
+    {
+      "name": "kp",
+      "new": 0.14,
+      "old": 0.15,
+      "rev": 6,
+      "source": "watcher:get",
+      "t_ms": 181545
+    },
+    {
+      "name": "kp",
+      "new": 0.13,
+      "old": 0.14,
+      "rev": 7,
+      "source": "watcher:get",
+      "t_ms": 182402
+    },
+    {
+      "name": "kp",
+      "new": 0.12,
+      "old": 0.13,
+      "rev": 9,
+      "source": "watcher:get",
+      "t_ms": 184135
+    },
+    {
+      "name": "kp",
+      "new": 0.11,
+      "old": 0.12,
+      "rev": 10,
+      "source": "watcher:get",
+      "t_ms": 184884
+    },
+    {
+      "name": "kp",
+      "new": 0.1,
+      "old": 0.11,
+      "rev": 11,
+      "source": "watcher:get",
+      "t_ms": 185716
+    },
+    {
+      "name": "kp",
+      "new": 0.09,
+      "old": 0.1,
+      "rev": 12,
+      "source": "watcher:get",
+      "t_ms": 186635
+    },
+    {
+      "name": "kp",
+      "new": 0.08,
+      "old": 0.09,
+      "rev": 13,
+      "source": "watcher:get",
+      "t_ms": 188658
+    },
+    {
+      "name": "kp",
+      "new": 0.07,
+      "old": 0.08,
+      "rev": 14,
+      "source": "watcher:get",
+      "t_ms": 189376
+    },
+    {
+      "name": "ki",
+      "new": 0.05,
+      "old": 0.06,
+      "rev": 15,
+      "source": "watcher:get",
+      "t_ms": 191505
+    },
+    {
+      "name": "ki",
+      "new": 0.04,
+      "old": 0.05,
+      "rev": 17,
+      "source": "watcher:get",
+      "t_ms": 193194
+    },
+    {
+      "name": "ki",
+      "new": 0.03,
+      "old": 0.04,
+      "rev": 18,
+      "source": "watcher:get",
+      "t_ms": 193952
+    },
+    {
+      "name": "ki",
+      "new": 0.02,
+      "old": 0.03,
+      "rev": 19,
+      "source": "watcher:get",
+      "t_ms": 194939
+    },
+    {
+      "name": "ki",
+      "new": 0.01,
+      "old": 0.02,
+      "rev": 20,
+      "source": "watcher:get",
+      "t_ms": 196139
+    },
+    {
+      "name": "deadband",
+      "new": 2.5,
+      "old": 3.0,
+      "rev": 21,
+      "source": "watcher:get",
+      "t_ms": 197599
+    },
+    {
+      "name": "deadband",
+      "new": 2.0,
+      "old": 2.5,
+      "rev": 22,
+      "source": "watcher:get",
+      "t_ms": 198631
+    },
+    {
+      "name": "deadband",
+      "new": 1.5,
+      "old": 2.0,
+      "rev": 24,
+      "source": "watcher:get",
+      "t_ms": 201235
+    },
+    {
+      "name": "deadband",
+      "new": 1.0,
+      "old": 1.5,
+      "rev": 25,
+      "source": "watcher:get",
+      "t_ms": 202405
+    },
+    {
+      "name": "turn_speed",
+      "new": 9,
+      "old": 8,
+      "rev": 26,
+      "source": "watcher:get",
+      "t_ms": 203908
+    },
+    {
+      "name": "turn_speed",
+      "new": 10,
+      "old": 9,
+      "rev": 27,
+      "source": "watcher:get",
+      "t_ms": 205018
+    }
+  ],
+  "initial": {},
+  "stage": "aplus",
+  "started": "2026-07-11T02-36-20"
+}

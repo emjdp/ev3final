@@ -2,3 +2,10 @@ __pycache__/
 *.py[cod]
 .vscode/browse.vc.db*
 fxck.py
+
+# Local-only experiment files
+stages/aplus.py
+stages/gg8.py
+tests/test_aplus_logic.py
+tests/test_gg8_logic.py
+tools/aplus_pad.py
